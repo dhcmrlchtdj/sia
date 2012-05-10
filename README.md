@@ -1,3 +1,8 @@
 # sia tsei
 
-写字
+'sia tsei' means 'write' in Fuzhou dialect.
+
+------
+
+`src` markdown file.
+
