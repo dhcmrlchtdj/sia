@@ -1,18 +1,19 @@
 # sia tsei
 
-i start this project because i want to write down my notes in somewhere.
+I created this project because I decided write down my notes on github.
 
 'sia tsei' means 'write' in Fuzhou dialect and 'pieh' means 'pen'.
 
 ------
 
-`src` store markdown source files.
-`posts` store published html files.
-`layout` store static file and template.
-`pieh` is the app used to convert markdown to html
-then pass the html to template to generate the post.
++ `src` store markdown source files.
++ `static` store static file include css and javascript.
++ `template` store the template.
++ `post` store published html files.
++ `pieh` store the app to update all posts.
 
 ------
 
-it will be a long time to develop 'pieh'.i may finish it one day.
+It will be a long time to develop 'pieh'.
+I may finish it one day.
 

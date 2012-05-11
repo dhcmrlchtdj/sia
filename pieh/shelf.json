@@ -1,0 +1,19 @@
+var page = {
+    'index.html': {'title': 'Home', 'update': ''},
+    'about.html': {'title': 'About', 'update': ''},
+    'category.html': {'title': 'Category', 'update': ''},
+    'tag.html': {'title': 'Tag', 'update': ''}
+    'link.html': {'title': 'Link', 'update': ''}
+}
+
+var article = [
+    {
+        'src': 'name',
+        'post': 'post',
+        'category': [],
+        'tag': [],
+        'update': 'time'
+    },
+]
+
+

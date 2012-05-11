@@ -9,19 +9,17 @@
     <script src="http://yandex.st/highlightjs/6.2/highlight.min.js"></script>
     {% end %}
 
-    <link rel="stylesheet" href="../layout/css/default.css" />
+    <link rel="stylesheet" href="../static/css/default.css" />
   </head>
   <body>
     <header>
-      <h1>写字</h1>
     </header>
 
     <nav>
     </nav>
 
-    <article>
-      {{ post }}
-    </article>
+    {% block content %}
+    {% end %}
 
     <footer>
     </footer>
