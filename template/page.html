@@ -7,15 +7,23 @@
   </head>
   <body>
     <header>
+      <h1>写字</h1>
     </header>
 
     <nav>
+      <ul>
+        {% for page in pages %}
+        <li><a href="./{{ page['file'] }}"
+          title="{{ page['title'] }}">{{ page['title'] }}</a></li>
+        {% end %}
+      </ul>
     </nav>
 
     {% block content %}
     {% end %}
 
     <footer>
+      <p>{{ datetime }}</p>
     </footer>
   </body>
 </html>

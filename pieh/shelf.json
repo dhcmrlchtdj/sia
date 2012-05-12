@@ -1,19 +1,19 @@
-var page = {
+var pages = {
     'index.html': {'title': 'Home', 'update': ''},
-    'about.html': {'title': 'About', 'update': ''},
     'category.html': {'title': 'Category', 'update': ''},
     'tag.html': {'title': 'Tag', 'update': ''}
-    'link.html': {'title': 'Link', 'update': ''}
+    'about.html': {'title': 'About', 'update': ''},
 }
 
-var article = [
+var posts = [
     {
-        'src': 'name',
+        'src': 'markdown',
         'post': 'post',
+        'title': 'title',
+        'publish': 'time',
         'category': [],
         'tag': [],
-        'update': 'time'
+        'update': 'time',
     },
 ]
-
 
