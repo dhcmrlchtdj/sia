@@ -1,15 +1,15 @@
-{% extend page.html %}
+{% extends 'page.html' %}
 
 {% block content %}
-<section class="post">
+<section id="posts">
 
-  {% for y in posts %}
-  <section class="year">
-    <h2>y['year']</h2>
+  {% for archive in posts %}
+  <section class="archive">
+    <h2 id="{{ archive['year'] }}">{{ archive['year'] }}</h2>
 
-    {% for post in y['posts'] %}
+    {% for post in archive['posts'] %}
     <div class="post">
-      <p>{{ post['publish'] }}</p>
+      <span>{{ post['publish'] }}</span>
       <h3><a href="{{ post['file'] }}"
           title="{{ post['title'] }}">{{ post['title'] }}</a></h3>
     </div>

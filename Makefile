@@ -1,8 +1,3 @@
-.PHONY: update
-
-update:
+index.html: pieh/pieh.py
 	python2 pieh/pieh.py
-
-#clean_html:
-	#-rm -rvf *.html post/*
 

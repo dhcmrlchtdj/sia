@@ -1,8 +1,11 @@
 # sia tsei
 
-I created this project because I decided write down my notes on github.
+I created this project because I decided to write down my notes on github.
 
 'sia tsei' means 'write' in Fuzhou dialect and 'pieh' means 'pen'.
+
+It will be a long time to develop 'pieh'.
+I may finish it one day.
 
 ------
 
@@ -14,6 +17,6 @@ I created this project because I decided write down my notes on github.
 
 ------
 
-It will be a long time to develop 'pieh'.
-I may finish it one day.
+pieh is depended on tornado.template now.
+I will write a tempalte myself oneday.
 

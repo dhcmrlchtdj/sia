@@ -20,16 +20,6 @@ body {
   width: 100%;
 }
 
-
-
-
-
-
-
-
-
-
-
 header {
   width: 100%;
 }
@@ -42,7 +32,7 @@ header h1 {
 }
 
 nav {
-  background: rgba(255, 255, 255, .1);
+  background: rgba(255, 255, 255, .05);
   border-radius: 4px;
 }
 
@@ -62,7 +52,7 @@ nav li a {
 }
 
 nav li a:hover {
-  background: rgba(255, 0, 0, .7);
+  background: rgba(255, 0, 0, .8);
   border-radius: 4px;
   color: rgba(8, 8, 8, .8);
 }
@@ -82,7 +72,7 @@ div.post span {
   float: left;
   width: 25%;
   display: inline-block;
-  color: rgba(255, 255, 255, .75);
+  color: rgba(255, 255, 255, .7);
 }
 
 div.post a {
@@ -92,7 +82,7 @@ div.post a {
 }
 
 div.post a:hover {
-  color: rgba(255, 0, 0, .8);
+  color: rgba(255, 0, 0, 1);
 }
 
 footer {
@@ -100,7 +90,6 @@ footer {
   padding-right: 10%;
   color: rgba(100, 100, 100, 1);
 }
-
 
 /******/
 
@@ -119,7 +108,7 @@ footer {
   }
 
   nav li {
-    border-top: 1px solid rgba(255, 255, 255, .2);
+    border-top: 1px solid rgba(255, 255, 255, .1);
     width: 100%;
     text-align: right;
   }
@@ -139,10 +128,6 @@ footer {
     padding-right: 20%;
   }
 }
-
-
-
-
 
 /* landscape or smaller than 960px*/
 @media
@@ -166,16 +151,12 @@ only screen and (max-width: 960px) {
   }
 }
 
-
-
-
-
 /* portrait or smaller than 480px */
 @media
 only screen and (orientation: portrait) and (min-device-pixel-ratio: 1.5),
 only screen and (max-width: 480px) {
   body {
-    min-width: 200px;
+    min-width: 180px;
   }
 
   nav {
@@ -183,7 +164,7 @@ only screen and (max-width: 480px) {
   }
 
   nav li {
-    border-top: 1px solid rgba(255, 255, 255, .2);
+    border-top: 1px solid rgba(255, 255, 255, .1);
     width: 100%;
     float: left;
     text-align: center;
