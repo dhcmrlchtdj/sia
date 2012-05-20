@@ -14,9 +14,9 @@ I will write a tempalte myself oneday.
 
 ------
 
-+ `src` store markdown source files.
-+ `static` store static file include css and javascript.
-+ `template` store the template.
-+ `post` store published html files.
-+ `pieh` store the app to update all posts.
++ `src` markdown source files.
++ `static` static file include css and javascript.
++ `template` templates.
++ `post` published html files.
++ `pieh` the app to update all posts.
 

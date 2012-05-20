@@ -1,11 +1,17 @@
 # js里的高度
 
-最近在写一个带iframe的页面，要求根据iframe内容调整高度，也就是说自适应。
+最近在写一个带iframe的静态页面，
+要求根据iframe内容调整高度，也就是说自适应。
 
 接着就对js绝望了，不仅仅是ie，每个浏览器都是按着自己的一套来解释。
-
-结论就是，应该合理使用jquery，yui等现成的框架类库，
+可见合理使用jquery，yui等框架类库还是很有必要的，
 浏览器的兼容性问题根本就是前端的地狱。
+
+chrome还有个奇怪的bug，在本地打开静态页面，调试js的时候，
+无法访问iframe的内容（同样在本地），说是跨域了。
+怀疑是file://的问题，不支持这种协议么。
+上网搜了下，有人在本地把服务器架起来，然后访问localhost，
+chrome真是让人无语了。
 
 ------
 
@@ -16,7 +22,10 @@
 + <http://www.quirksmode.org/mobile/viewports.html>
 + <http://www.quirksmode.org/dom/w3c_cssom.html>
 
+看完之后，整理出的就是这些下面这些内容了。
+
 ------
+
 ```javascript
 // 1. window
 
@@ -48,11 +57,9 @@ screen.height
 ```
 感觉比较实用的只有`innerHeight`和`pageYOffset`。
 
-------
-
 ```javascript
 // 2. element
-// 列举几个相关属性，2.1 - 2.5 都是只读属性
+// 几个相关属性，其中2.1 - 2.5都是只读属性
 // 下面用e表示element
 
 // 2.1 相对父元素（offsetParent）的位置
@@ -98,7 +105,7 @@ e.scrollLeft
 因为不同浏览器在处理上有差异，
 使用的时候最好在多个浏览器上进行测试。
 
-我自己写的自适应的代码蛮贴出来好了
+下面是我自己这次写的自适应高度的代码
 
 ```javascript
 function setHeight() {
@@ -110,9 +117,7 @@ function setHeight() {
 }
 ```
 
-------
-
-下面这个算附加的吧
+下面是获取鼠标点击位置，以后可能用的上吧。
 
 ```javascript
 // 3. mouse event
@@ -144,6 +149,23 @@ x.scrollIntoView();
 
 ------
 
-最后来黑一下chrome，在本地调试js的时候，老说访问iframe（同样在本地）跨域了，
-完全没法子，这根本就是bug吧？
+翻了下《professional javascript》，原来还和怪异模式（quirk mode）有关系。
+书上的代码也简写了下，放下面了。用来获取浏览器窗口的高度。
+
+```javascript
+var _height = window.innerHeight;
+
+if (typeof _height !== 'number')
+    _height = (document.compatMode === 'CSS1Compat') ?
+        document.documentElement.clientHeight : document.body.clientHeight;
+```
+
+上面的代码本身不难，关键是知道
+在标准模式下，`document.compatMode`的值为`CSS1Compat`。
+在标准模式下，ie6通过`document.documentElement.clientHeight`获取页面高度。
+在怪异模式下，ie6通过`document.body.clientHeight`获取页面高度。
+
+所以说埋头看书根本写不出优秀的js代码，写js必须了解浏览器差异。
+我感觉一个方法就是去看jquery，yui的实现，看他们是怎么处理浏览器差异的。
+一开始先看yui吧，整体的结构更加清晰，不至于一下子就昏了头。
 
