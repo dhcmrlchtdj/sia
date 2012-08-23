@@ -1,12 +1,14 @@
-# python操作文件
+python操作文件
+==============
 
 主要是两个东西`os`和`os.path`。
 
 参考资料
-+ <http://docs.python.org/library/os.html#os-file-dir>
-+ <http://docs.python.org/library/os.path.html>
 
-```python
+-   <http://docs.python.org/library/os.html#os-file-dir>
+-   <http://docs.python.org/library/os.path.html>
+
+~~~~ {.python}
 
 # pwd
 os.getcwd()
@@ -30,11 +32,9 @@ shutil.rmtree(path) # 删除目录
 # rename
 os.rename(src, dst) # 重命名文件
 
-
 # path
 os.path.abspath(file)
 os.path.basename(path)
 os.path.dirname(path)
 os.path.join(path, path, ...)
-```
-
+~~~~
