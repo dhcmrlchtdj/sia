@@ -2,6 +2,12 @@
 # -*- coding: utf-8 -*-
 
 
+#archive data
+import sqlite3
+
+#config file
+import config
+
 def main():
     # TODO
     # 查找本地文件
@@ -13,8 +19,7 @@ def main():
     # 丢失文件 删除
 
     # 生成html
-
-    print('test');
+    print(config.path);
 
 if __name__ == '__main__':
     main()
