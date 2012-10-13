@@ -2,18 +2,6 @@
 
 import os.path
 
-##################################################
-version = {}
-version['version'] = '0.1.1'
-version['major'] = 0
-version['minor'] = 1
-version['micro'] = 1
-##################################################
-
-
-# 数据库文件
-SQLITE_FILE = 'contents.db'
-
 # 源文件存放文件夹
 # ~/source => /home/user/source
 # source => application_path/source
@@ -22,6 +10,8 @@ SOURCE_DIR = '_source'
 # 主题
 THEME = 'default'
 
+# 数据库文件
+SQLITE_FILE = 'contents.db'
 
 ##################################################
 path = {}
@@ -36,5 +26,13 @@ if SOURCE_DIR.startswith(('/', '~')):
     path['source'] = os.path.expanduser(SOURCE_DIR)
 else:
     path['source'] = os.path.join(path['application'], SOURCE_DIR)
+##################################################
+
+##################################################
+version = {}
+version['version'] = '0.1.1'
+version['major'] = 0
+version['minor'] = 1
+version['micro'] = 1
 ##################################################
 

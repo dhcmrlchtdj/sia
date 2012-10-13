@@ -1,25 +1,73 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sqlite3
+import os
 import os.path
+import sqlite3
+import filecmp
+import hashlib
 
 import config
 
-def main():
-    # TODO
-    # 查找本地文件
-    # 查找记录文件
-    # 对比文件记录
+# TODO
+# 新文件/修改文件 新建
+# 旧文件 不变
+# 丢失文件 删除
 
-    # 新文件/修改文件 新建
-    # 旧文件 不变
-    # 丢失文件 删除
+# 生成html
 
-    # 生成html
-    Database.prepare_database()
+class Application():
+    def _parser_filename(self, filename):
+        name = filename.rsplit('.', 1)[0]
+        return tuple(name.split('_', 1))
+
+    def _check_status(self, source):
+        """return
+        1 => equal
+        0 => not equal
+        -1 => file not found
+        """
+        date, title = self._parser_filename(source)
+        post_file = os.path.join(config.path['post'], date, title)
+        source_file = os.path.join(config.path['source'], source)
+        if os.path.exists(post_file):
+            if filecmp.cmp(source_file, post_file):
+                return 1
+            else:
+                return 0
+        else:
+            return -1
+
+    def _update_post(self, source):
+        pass
+
+    def _generate_post(self, source):
+        pass
+
+    def _generate_page(self, page):
+        pass
+
+    def generate_pages(self):
+        pass
+
+    def generate_posts(self):
+        source_list = os.listdir(config.path['source'])
+        for source in source_list:
+            status = self._check_status(source)
+            if status == 1:
+                continue
+            elif status == 0:
+                self._update_post(source)
+            else:
+                self._generate_post(source)
+
+    def main(self):
+        self.generate_posts()
+
 
 class Database():
+    """数据库读写操作"""
+
     db = config.path['sqlite']
 
     @classmethod
@@ -47,19 +95,16 @@ class Database():
                 update_time TEXT NOT NULL -- 页面更新时间
             );
             CREATE TABLE Posts (
-                id INTEGER PRIMARY KEY, -- id
-                sha1 TEXT NOT NULL, -- 源文件sha1
-                source TEXT NOT NULL, -- 源文件文件名
-                post TEXT NOT NULL, -- 生成文件地址
-                title TEXT NOT NULL, -- 文章标题
-                author TEXT NOT NULL, -- 文章作者
-                publish_time TEXT NOT NULL, -- 发布时间
-                update_time TEXT NOT NULL, -- 更新时间
-                category TEXT NOT NULL, -- 分类
-                tag TEXT NOT NULL -- 标签
+                sha TEXT NOT NULL,
+                -- 文章的唯一标识
+                key TEXT NOT NULL,
+                -- 源文件 目标文件 标题 作者 发布时间 更新时间 分类 标签
+                -- source post title author publish update callable tag
+                value TEXT NOT NULL
+                -- 值
             );
             ''')
 
 
 if __name__ == '__main__':
-    main()
+    Application().main()
