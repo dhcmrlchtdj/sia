@@ -3,77 +3,94 @@
 
 import os
 import os.path
-import sqlite3
+import csv
 import filecmp
-import hashlib
+import tempfile
 
 import markdown2
 import config
 
-# TODO
-# 新文件/修改文件 新建
-# 旧文件 不变
-# 丢失文件 删除
 
-# 生成html
+#完成initial
+#生成page
 
 class Application():
     def main(self):
         self.initial()
         self.generate_posts()
+        self.remove_old_posts()
+        self.generate_pages()
+        self.finish()
 
     def initial(self):
-        """创建各种文件夹"""
+        """创建缺失的文件夹"""
+        self.csv = Content()
+
+    def finish(self):
+        """保存记录 并 关闭打开的文件"""
+        self.csv.save()
+        self.csv.close()
+
+    def generate_pages(self):
+        """删除旧文件 生成新文件"""
+        # 生成index about category tag link
         pass
 
     def generate_posts(self):
         source_list = os.listdir(config.path['source'])
         for source in source_list:
             status = self._check_status(source)
-            if status == 1:
-                continue
-            elif status == 0:
+            if status == 1: # 已存在
+                self.csv.temp_add_source(source)
+            elif status == 0: # 修改
                 self._update_post(source)
-            else:
+            else: # 新文件
                 self._insert_post(source)
 
+    def remove_old_posts(self):
+        for post in self.csv.csv_remaining:
+            self._delete_post(post)
+
     def _insert_post(self, filename):
-        date, title = self._parser_filename(filename)
+        """添加新文章"""
+        date, title = Filename.parser_filename(filename)
         directory = os.path.join(config.path['post'], date)
         if not os.exists(directory):
             os.mkdir(directory)
-        source_file = self._source_path(filename)
-        post_file = self._post_path(filename, date, title)
+        source_file = Filename.source_file_path(filename)
+        post_file = Filename.post_file_path(filename, date, title)
         with open(post_file, 'w') as post:
             post.write(markdown2.markdown_path(source_file))
-        # TODO
-        # 数据库存储信息
+        # 添加记录
+        self.csv.temp_add_source(filename, date, title)
 
-    def _update_post(self, source): pass
-    def _delete_post(self, source): pass
+    def _update_post(self, filename):
+        """修改文章（覆盖）"""
+        source_file = Filename.source_file_path(filename)
+        post_file = Filename.post_file_path(filename)
+        with open(post_file, 'w') as post:
+            post.write(markdown2.markdown_path(source_file))
+        # 添加记录
+        self.csv.temp_add_source(filename)
 
-    def _source_path(self, filename):
-        return os.path.join(config.path['source'], filename)
-
-    def _post_path(self, filename, date=None, title=None):
-        if not (date and title):
-            date, title = self._parser_filename(filename)
-        return os.path.join(config.path['post'], date, title)
-
-    def _parser_filename(self, filename):
-        """return (date, title)"""
-        name = filename.rsplit('.', 1)[0]
-        return tuple(name.split('_', 1))
-
+    def _delete_post(self, post):
+        """删除旧文章
+        post == 'date/title'
+        """
+        post_file = os.path.join(config.path['post'], post)
+        os.remove(post_file)
+        directory = os.path.dirname(post_file)
+        if not os.listdir(directory):
+            os.removedirs(directory)
 
     def _check_status(self, filename):
-        """return
+        """input date_title.md
         1 => equal
         0 => not equal
         -1 => post not found
         """
-        source_file = self._source_path(filename)
-        post_file = self._post_path(filename)
+        source_file = Filename.source_file_path(filename)
+        post_file = Filename.post_file_path(filename)
         if os.path.exists(post_file):
             if filecmp.cmp(source_file, post_file):
                 return 1
@@ -82,49 +99,56 @@ class Application():
         else:
             return -1
 
-    def _new_page(self, page): pass
-    def generate_pages(self): pass
 
-
-class Database():
-    """数据库读写操作"""
-
-    db = config.path['sqlite']
+class Filename():
+    @classmethod
+    def parser_filename(cls, filename):
+        """date_title.md => (date, title)"""
+        name = filename.rsplit('.', 1)[0]
+        return tuple(name.split('_', 1))
 
     @classmethod
-    def prepare_database(cls):
-        if os.path.exists(cls.db):
-            conn = sqlite3.connect(cls.db)
-            query = conn.execute('''
-                SELECT count(*) FROM sqlite_master
-                WHERE tbl_name in ("Posts", "Pages")
-                ''')
-            if query.fetchone()[0] == 2:
-                return
-        cls.initial_database()
+    def source_file_path(cls, filename):
+        """date_title.md => source_path/date_title.md"""
+        return os.path.join(config.path['source'], filename)
 
     @classmethod
-    def initial_database(cls):
-        conn = sqlite3.connect(cls.db)
-        conn.executescript('''
-            DROP TABLE IF EXISTS Pages;
-            DROP TABLE IF EXISTS Posts;
-            CREATE TABLE Pages (
-                id INTEGER PRIMARY KEY, --id
-                sha1 TEXT NOT NULL, -- 页面sha1
-                name TEXT NOT NULL, -- 页面名
-                update_time TEXT NOT NULL -- 页面更新时间
-            );
-            CREATE TABLE Posts (
-                sha TEXT NOT NULL,
-                -- 文章的唯一标识
-                key TEXT NOT NULL,
-                -- 源文件 目标文件 标题 作者分类 标签 发布时间 更新时间
-                -- source post title author category tag publish update
-                value TEXT NOT NULL
-                -- 值
-            );
-            ''')
+    def post_file_path(cls, filename, date=None, title=None):
+        """date_title.md => post_path/date/title"""
+        if not (date and title):
+            date, title = cls.parser_filename(filename)
+        return os.path.join(config.path['post'], date, title)
+
+
+class Content():
+    def __init__(self):
+        self.tempfile = tempfile.TemporaryFile('w+', newline='', encodeing='utf-8')
+        self.csvfile = open(config.path['contents'], 'w+', newline='', encodeing='utf-8')
+        self.old_record = [i for i in l for l in list(csv.reader(self.csvfile))]
+        self.new_record = csv.writer(self.tempfile)
+
+    def temp_add(self, post):
+        self.new_record.writerow(post)
+        if self.old_record.index(post):
+            self.old_record.remove(post)
+
+    def temp_add_source(self, source_name, date=None, title=None):
+        if not (date and title):
+            date, title = Filename.parser_filename(source_name)
+        self.temp_add(os.path.join(date, title))
+
+    @property
+    def csv_remaining(self):
+        return self.old_record
+
+    def save(self):
+        self.csvfile.seek(0)
+        self.tempfile.seek(0)
+        self.csvfile.write(self.tempfile.read())
+
+    def close(self):
+        self.csvfile.close()
+        self.tempfile.close()
 
 
 if __name__ == '__main__':
