@@ -3,8 +3,8 @@
 
 import os
 import os.path
-import csv
 import filecmp
+import csv
 import tempfile
 
 import markdown2
@@ -124,12 +124,12 @@ class Content():
     def __init__(self):
         self.tempfile = tempfile.TemporaryFile('w+', newline='', encodeing='utf-8')
         self.csvfile = open(config.path['contents'], 'w+', newline='', encodeing='utf-8')
-        self.old_record = [i for i in l for l in list(csv.reader(self.csvfile))]
+        self.old_record = [value for csv_row in csv.reader(self.csvfile) for value in csv_row]
         self.new_record = csv.writer(self.tempfile)
 
     def temp_add(self, post):
         self.new_record.writerow(post)
-        if self.old_record.index(post):
+        if post in self.old_record:
             self.old_record.remove(post)
 
     def temp_add_source(self, source_name, date=None, title=None):
