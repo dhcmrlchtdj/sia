@@ -11,8 +11,8 @@ import markdown2
 import config
 
 
-#完成initial
-#生成page
+# 生成page
+# 将markdown生成的html插入template
 
 class Application():
     def main(self):
@@ -23,7 +23,14 @@ class Application():
         self.finish()
 
     def initial(self):
-        """创建缺失的文件夹"""
+        """创建缺失的文件夹 读取数据"""
+        cp = config.path
+        if not os.path.exists(cp['source']):
+            os.mkdir(cp['source'])
+        if not os.path.exists(cp['post']):
+            os.mkdir(cp['post'])
+
+        # 读入csv文件
         self.csv = Content()
 
     def finish(self):
@@ -41,7 +48,7 @@ class Application():
         for source in source_list:
             status = self._check_status(source)
             if status == 1: # 已存在
-                self.csv.temp_add_source(source)
+                self.csv.add(source)
             elif status == 0: # 修改
                 self._update_post(source)
             else: # 新文件
@@ -62,7 +69,7 @@ class Application():
         with open(post_file, 'w') as post:
             post.write(markdown2.markdown_path(source_file))
         # 添加记录
-        self.csv.temp_add_source(filename, date, title)
+        self.csv.add(filename, date, title)
 
     def _update_post(self, filename):
         """修改文章（覆盖）"""
@@ -71,7 +78,7 @@ class Application():
         with open(post_file, 'w') as post:
             post.write(markdown2.markdown_path(source_file))
         # 添加记录
-        self.csv.temp_add_source(filename)
+        self.csv.add(filename)
 
     def _delete_post(self, post):
         """删除旧文章
@@ -122,24 +129,24 @@ class Filename():
 
 class Content():
     def __init__(self):
-        self.tempfile = tempfile.TemporaryFile('w+', newline='', encodeing='utf-8')
-        self.csvfile = open(config.path['contents'], 'w+', newline='', encodeing='utf-8')
-        self.old_record = [value for csv_row in csv.reader(self.csvfile) for value in csv_row]
+        kwargs = {'mode': 'w+', 'newline': '', 'encodeing': 'utf-8'}
+        self.tempfile = tempfile.TemporaryFile(**kwargs)
+        self.csvfile = open(config.path['contents'], **kwargs)
+        self.old_record = [value for row in csv.reader(self.csvfile)
+                           for value in row]
         self.new_record = csv.writer(self.tempfile)
-
-    def temp_add(self, post):
-        self.new_record.writerow(post)
-        if post in self.old_record:
-            self.old_record.remove(post)
-
-    def temp_add_source(self, source_name, date=None, title=None):
-        if not (date and title):
-            date, title = Filename.parser_filename(source_name)
-        self.temp_add(os.path.join(date, title))
 
     @property
     def csv_remaining(self):
         return self.old_record
+
+    def add(self, source_name, date=None, title=None):
+        if not (date and title):
+            date, title = Filename.parser_filename(source_name)
+        post = os.path.join(date, title)
+        self.new_record.writerow(post)
+        if post in self.old_record:
+            self.old_record.remove(post)
 
     def save(self):
         self.csvfile.seek(0)

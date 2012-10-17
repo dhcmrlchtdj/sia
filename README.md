@@ -11,3 +11,7 @@
 + `_source`: markdown source files.
 + `post`: published html files.
 + `theme`: theme dictionary.
+
+------
+
+Thanks to `markdown2` && `tornado.template`.
