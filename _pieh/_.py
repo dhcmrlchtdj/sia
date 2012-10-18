@@ -66,8 +66,13 @@ class Application():
             os.mkdir(directory)
         source_file = Filename.source_file_path(filename)
         post_file = Filename.post_file_path(filename, date, title)
-        with open(post_file, 'w') as post:
-            post.write(markdown2.markdown_path(source_file))
+        with open(source_path) as source:
+            for line in source.readline():
+                if line == '-->': break
+                if line.startswith('Category'): pass
+                if line.startswith('Tag'): pass
+            with open(post_file, 'w') as post:
+                post.write(markdown2.markdown_path(source.read()))
         # 添加记录
         self.csv.add(filename, date, title)
 

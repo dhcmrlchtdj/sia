@@ -1,3 +1,7 @@
+<!--
+Category:
+Tag: tips python
+-->
 如何把一个 `[ [a], [b], [c] ]` 转化为 `[a, b, c]`。
 
 ```
