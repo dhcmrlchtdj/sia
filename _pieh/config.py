@@ -10,9 +10,6 @@ SOURCE_DIR = '_source'
 # 主题
 THEME = 'default'
 
-# 记录文件
-CSV = 'contents.csv'
-
 ##################################################
 path = {}
 path['pieh'] = os.path.dirname(os.path.abspath(__file__))
@@ -22,7 +19,7 @@ if SOURCE_DIR.startswith(('/', '~')):
 else:
     path['source'] = os.path.join(path['application'], SOURCE_DIR)
 path['post'] = os.path.join(path['application'], 'post')
-path['contents'] = os.path.join(path['pieh'], CSV)
+path['data'] = os.path.join(path['pieh'], 'posts_data.db')
 path['theme'] = os.path.join(path['application'], THEME)
 path['template'] = os.path.join(path['theme'], 'template')
 path['static'] = os.path.join(path['theme'], 'static')

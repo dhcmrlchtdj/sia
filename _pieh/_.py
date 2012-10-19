@@ -4,164 +4,193 @@
 import os
 import os.path
 import filecmp
-import csv
-import tempfile
+import sqlite3
 
 import markdown2
+
 import config
 
-
-# 生成page
-# 将markdown生成的html插入template
-
 class Application():
-    def main(self):
+    def run(self):
+        # 前期准备
+        # 创建缺失的目录，连接配置文件
         self.initial()
+        # 生成文章
         self.generate_posts()
-        self.remove_old_posts()
+        # 生成页面 index category tag link about resume
         self.generate_pages()
+        # 关闭打开的连接
         self.finish()
 
     def initial(self):
-        """创建缺失的文件夹 读取数据"""
-        cp = config.path
-        if not os.path.exists(cp['source']):
-            os.mkdir(cp['source'])
-        if not os.path.exists(cp['post']):
-            os.mkdir(cp['post'])
-
-        # 读入csv文件
-        self.csv = Content()
-
-    def finish(self):
-        """保存记录 并 关闭打开的文件"""
-        self.csv.save()
-        self.csv.close()
-
-    def generate_pages(self):
-        """删除旧文件 生成新文件"""
-        # 生成index about category tag link
-        pass
+        # 检查目录是否存在
+        self._check_dir(config.path['source'])
+        self._check_dir(config.path['post'])
+        # 读取原来保存的数据数据
+        self.data = Data(config.path['data'])
 
     def generate_posts(self):
-        source_list = os.listdir(config.path['source'])
+        source_list = os.listdir(config.path['source']) # 获取源文件列表
         for source in source_list:
-            status = self._check_status(source)
-            if status == 1: # 已存在
-                self.csv.add(source)
-            elif status == 0: # 修改
-                self._update_post(source)
-            else: # 新文件
-                self._insert_post(source)
+            post_data = Utils.parser_source(source) # 解析文件名
+            status = self._check_status(post_data) # 检查文章
+            if status == 0:
+                self._insert_post(post_data) # 新文章 新建
+            elif status == 1:
+                self._update_post(post_data) # 有修改 覆盖
+            else:
+                self._move_post(post_data) # 无修改 不变
+        self._delete_post() # 旧文章 删除
 
-    def remove_old_posts(self):
-        for post in self.csv.csv_remaining:
-            self._delete_post(post)
+    def generate_pages(self):
+        # 根据文章信息，生成index category tag页面
+        # 生成link页面
+        # 生成about页面
+        # 生成resume页面
+        pass
 
-    def _insert_post(self, filename):
-        """添加新文章"""
-        date, title = Filename.parser_filename(filename)
-        directory = os.path.join(config.path['post'], date)
-        if not os.exists(directory):
-            os.mkdir(directory)
-        source_file = Filename.source_file_path(filename)
-        post_file = Filename.post_file_path(filename, date, title)
-        with open(source_path) as source:
+    def finish(self):
+        self.data.close()
+
+    def _check_status(self, post_data):
+        """检查源文件情况
+        0 新文件，新建
+        1 有修改，覆盖
+        2 无修改，不变
+        """
+        if os.path.exists(post_data['post_path']):
+            if filecmp.cmp(post_data['source_path'], post_data['post_path']):
+                return 2
+            else:
+                return 1
+        else:
+            return 0
+
+    def _check_dir(self, path):
+        """检查目录是否存在，不存在就创建一个"""
+        if not os.path.exists(path):
+            os.mkdir(path)
+
+    def _insert_post(self, post_data):
+        # 生成文章
+        self._gen_post(post_data)
+        # 插入记录
+        self.data.insert_post(post_data)
+
+    def _update_post(self, post_data):
+        # 更新文章
+        self._gen_post(post_data)
+        # 更新记录
+        self.data.update_post(post_data)
+
+    def _move_post(self, post_data):
+        # 移动记录
+        self.data.move_post(post_data)
+
+    def _delete_post(self):
+        for row in self.data.query_old_post:
+            os.remove(row['post_path'])
+            if not os.listdir(row['post_dir']):
+                os.removedirs(row['post_dir'])
+
+    def _gen_post(self, post_data):
+        """生成页面 添加页面信息"""
+        category = ''
+        tag = ''
+        with open(post_data['source_path']) as source:
             for line in source.readline():
                 if line == '-->': break
-                if line.startswith('Category'): pass
-                if line.startswith('Tag'): pass
-            with open(post_file, 'w') as post:
-                post.write(markdown2.markdown_path(source.read()))
-        # 添加记录
-        self.csv.add(filename, date, title)
-
-    def _update_post(self, filename):
-        """修改文章（覆盖）"""
-        source_file = Filename.source_file_path(filename)
-        post_file = Filename.post_file_path(filename)
-        with open(post_file, 'w') as post:
-            post.write(markdown2.markdown_path(source_file))
-        # 添加记录
-        self.csv.add(filename)
-
-    def _delete_post(self, post):
-        """删除旧文章
-        post == 'date/title'
-        """
-        post_file = os.path.join(config.path['post'], post)
-        os.remove(post_file)
-        directory = os.path.dirname(post_file)
-        if not os.listdir(directory):
-            os.removedirs(directory)
-
-    def _check_status(self, filename):
-        """input date_title.md
-        1 => equal
-        0 => not equal
-        -1 => post not found
-        """
-        source_file = Filename.source_file_path(filename)
-        post_file = Filename.post_file_path(filename)
-        if os.path.exists(post_file):
-            if filecmp.cmp(source_file, post_file):
-                return 1
-            else:
-                return 0
-        else:
-            return -1
+                if line.startswith('Category: '):
+                    category = line.strip('Category: ')
+                if line.startswith('Tag: '):
+                    tag = line.strip('Tag: ')
+            self._check_dir(post_data['post_dir'])
+            with open(post_data['post_path'], 'w') as post:
+                post.write(markdown2.markdown(source.read()))
+        post_data['category'] = category
+        post_data['tag'] = tag
 
 
-class Filename():
+class Utils():
     @classmethod
     def parser_filename(cls, filename):
-        """date_title.md => (date, title)"""
+        """解析源文件文件名"""
+        # date_title.md -> (date, title)
         name = filename.rsplit('.', 1)[0]
-        return tuple(name.split('_', 1))
-
-    @classmethod
-    def source_file_path(cls, filename):
-        """date_title.md => source_path/date_title.md"""
-        return os.path.join(config.path['source'], filename)
-
-    @classmethod
-    def post_file_path(cls, filename, date=None, title=None):
-        """date_title.md => post_path/date/title"""
-        if not (date and title):
-            date, title = cls.parser_filename(filename)
-        return os.path.join(config.path['post'], date, title)
+        date_title = name.split('_', 1)
+        post_data = {
+            'source_name': filename,
+            'source_path': os.path.join(config.path['source'], filename),
+            'post_dir': os.path.join(config.path['post'], date_title[0]),
+            'post_name': date_title[1],
+        }
+        post_data['post_path'] = os.path.join(
+            post_data['post_dir'], post_data['post_name'])
+        return post_data
 
 
-class Content():
-    def __init__(self):
-        kwargs = {'mode': 'w+', 'newline': '', 'encodeing': 'utf-8'}
-        self.tempfile = tempfile.TemporaryFile(**kwargs)
-        self.csvfile = open(config.path['contents'], **kwargs)
-        self.old_record = [value for row in csv.reader(self.csvfile)
-                           for value in row]
-        self.new_record = csv.writer(self.tempfile)
+class Data():
+    # 记录文件的读写
+    def __init__(self, path):
+        self.conn = sqlite3.connect(path)
+        self.conn.isolation_level = None
+        self.conn.row_factory = sqlite3.Row
+        self.conn.executescript('''
+            CREATE TABLE IF NOT EXISTS posts (
+                source_name TEXT NOT NULL,
+                post_dir TEXT NOT NULL,
+                post_path TEXT NOT NULL,
+                category TEXT NOT NULL,
+                tag TEXT NOT NULL
+            );
 
-    @property
-    def csv_remaining(self):
-        return self.old_record
+            CREATE TABLE IF NOT EXISTS temporary (
+                source_name TEXT NOT NULL,
+                post_dir TEXT NOT NULL,
+                post_path TEXT NOT NULL,
+                category TEXT NOT NULL,
+                tag TEXT NOT NULL
+            );
+            ''')
 
-    def add(self, source_name, date=None, title=None):
-        if not (date and title):
-            date, title = Filename.parser_filename(source_name)
-        post = os.path.join(date, title)
-        self.new_record.writerow(post)
-        if post in self.old_record:
-            self.old_record.remove(post)
+    def _drop_table(self, table_name):
+        self.conn.execute('DROP TABLE IF EXISTS ?', (table_name,))
 
-    def save(self):
-        self.csvfile.seek(0)
-        self.tempfile.seek(0)
-        self.csvfile.write(self.tempfile.read())
+    def _raname_table(self, old_name, new_name):
+        self.conn.execute('ALTER TABLE ? RENAME TO ?', (old_name, new_name))
+
+    def insert_post(self, data):
+        self.conn.execute('''
+            INSERT INTO
+            temporary (source_name, post_dir, post_path, category, tag)
+            VALUES (?, ?, ?, ?, ?)''',
+            (data['source_name'], data['post_dir'], data['post_path'],
+             data['category'], data['tag']))
+
+    def update_post(self, data):
+        self.insert_post(data)
+        self.conn.execute('DELETE FROM posts WHERE source_name=?',
+                          (data['source_name'],))
+
+    def move_post(self, data):
+        cursor = self.conn.cursor
+        cursor.execute(
+            'SELECT category, tag FROM posts WHERE source_name=?',
+            (data['source_name'],))
+        r = cursor.fetchone()
+        data['category'] = r['category']
+        data['tag'] = r['tag']
+        cursor.execute('DELETE FROM posts WHERE source_name=?',
+                       (data['source_name'],))
+        cursor.close()
+        self.insert_post(data)
+
+    def query_old_post(self):
+        for row in self.conn.execute('SELECT post_path, post_dir FROM posts'):
+            yield row
 
     def close(self):
-        self.csvfile.close()
-        self.tempfile.close()
+        self._drop_table('posts')
+        self._rename_table('temporary', 'posts')
+        self.conn.close()
 
-
-if __name__ == '__main__':
-    Application().main()
