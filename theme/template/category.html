@@ -1,0 +1,19 @@
+{% extends 'page.html' %}
+
+{% blcok article %}
+<article id="posts">
+    {% for posts in archive %}
+    <section>
+    <h2>{{ posts['category'] }}</h2>
+    <ul>
+        {% for post in posts['post'] %}
+        <li class="post">
+        <time>{{ post['date'] }}</time>
+        <a href="{{ post['url'] }}" title="{{ post['title'] }}">{{ post['title'] }}</a>
+        </li>
+        {% end %}
+    </ul>
+    </section>
+    {% end %}
+</article>
+{% end %}

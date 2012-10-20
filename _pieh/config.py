@@ -2,34 +2,30 @@
 
 import os.path
 
-# 源文件存放文件夹
-# ~/source => /home/user/source
-# source => application_path/source
+# 源文件目录
+# '~/.../source' => '/home/username/.../source'
+# 'source' => 'application_path/source'
 SOURCE_DIR = '_source'
-
-# 主题
-THEME = 'default'
 
 ##################################################
 path = {}
+# 程序目录
 path['pieh'] = os.path.dirname(os.path.abspath(__file__))
 path['application'] = os.path.dirname(path['pieh'])
+
+# 源文件目录
 if SOURCE_DIR.startswith(('/', '~')):
     path['source'] = os.path.expanduser(SOURCE_DIR)
 else:
     path['source'] = os.path.join(path['application'], SOURCE_DIR)
+
+# 文章目录
 path['post'] = os.path.join(path['application'], 'post')
+
+# 数据库
 path['data'] = os.path.join(path['pieh'], 'posts_data.db')
-path['theme'] = os.path.join(path['application'], THEME)
-path['template'] = os.path.join(path['theme'], 'template')
-path['static'] = os.path.join(path['theme'], 'static')
-##################################################
 
+# 模板
+path['template'] = os.path.join(path['theme'], 'theme', 'template')
+path['static'] = os.path.join(path['theme'], 'theme', 'static')
 ##################################################
-version = {}
-version['version'] = '0.1.1'
-version['major'] = 0
-version['minor'] = 1
-version['micro'] = 1
-##################################################
-

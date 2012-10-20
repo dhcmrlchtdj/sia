@@ -13,19 +13,15 @@ import config
 
 class Application():
     def run(self):
-        # 创建缺失的目录，连接配置文件
-        self.initial()
-        # 生成文章
-        self.generate_posts()
-        # 生成页面 index category tag link about resume
-        self.generate_pages()
-        # 关闭打开的连接
-        self.finish()
+        self.initial() # 创建缺失的目录，连接配置文件
+        self.generate_posts() # 生成文章
+        self.generate_pages() # 生成页面 index category tag link about
+        self.finish() # 关闭打开的连接
 
     def initial(self):
         # 检查目录是否存在
-        self._check_dir(config.path['source'])
-        self._check_dir(config.path['post'])
+        self._mkdir(config.path['source'])
+        self._mkdir(config.path['post'])
         # 读取原来保存的数据数据
         self.data = Data(config.path['data'])
 
@@ -54,21 +50,17 @@ class Application():
         self.data.close()
 
     def _check_status(self, post_data):
-        """检查源文件情况
-        0 新文件，新建
-        1 有修改，覆盖
-        2 无修改，不变
-        """
+        """检查源文件情况"""
         if os.path.exists(post_data['post_path']):
             if filecmp.cmp(post_data['source_path'], post_data['post_path']):
-                return 2
+                return 2 # 无修改
             else:
-                return 1
+                return 1 # 覆盖
         else:
-            return 0
+            return 0 # 新建
 
-    def _check_dir(self, path):
-        """检查目录是否存在，不存在就创建一个"""
+    def _mkdir(self, path):
+        """检查目录是否存在，不存在就创建相应目录"""
         if not os.path.exists(path):
             os.mkdir(path)
 
@@ -93,25 +85,29 @@ class Application():
         """生成页面 添加页面信息"""
         category = ''
         tag = ''
+        title = ''
         with open(post_data['source_path']) as source:
             for line in source.readline():
                 if line == '-->': break
-                if line.startswith('Category: '):
+                if line.startswith('Title:'):
+                    title = line.strip('Title: ')
+                if line.startswith('Category:'):
                     category = line.strip('Category: ')
-                if line.startswith('Tag: '):
+                if line.startswith('Tag:'):
                     tag = line.strip('Tag: ')
-            self._check_dir(post_data['post_dir'])
+            self._mkdir(post_data['post_dir'])
             html = markdown2.markdown(source.read())
             # TODO 使用模板 生成页面
             with open(post_data['post_path'], 'w') as post:pass
+        post_data['title'] = title
         post_data['category'] = category
         post_data['tag'] = tag
 
     def _gen_index(self):
         # 读取信息
         for row in self.data.query_posts():
-            date = row['post_date']
-            title = row['post_name']
+            date = row['date']
+            title = row['title']
 
     def _gen_category(self):
         pass
@@ -134,8 +130,8 @@ class Utils():
             'source_name': filename,
             'source_path': os.path.join(config.path['source'], filename),
             'post_dir': os.path.join(config.path['post'], date_title[0]),
-            'post_date': date_title[0],
             'post_name': date_title[1],
+            'date': date_title[0],
         }
         post_data['post_path'] = os.path.join(
             post_data['post_dir'], post_data['post_name'])
@@ -143,26 +139,28 @@ class Utils():
 
 
 class Data():
-    # 记录文件的读写
+    """读写操作"""
     def __init__(self, path):
         self.conn = sqlite3.connect(path)
         self.conn.isolation_level = None
         self.conn.row_factory = sqlite3.Row
         self.conn.executescript('''
             CREATE TABLE IF NOT EXISTS posts (
-                source_name TEXT NOT NULL,
+                source_name TEXT NOT NULL PRIMARY KEY,
                 post_dir TEXT NOT NULL,
                 post_path TEXT NOT NULL,
-                post_date TEXT NOT NULL,
+                date TEXT NOT NULL,
+                title TEXT NOT NULL,
                 category TEXT NOT NULL,
                 tag TEXT NOT NULL
             );
 
             CREATE TABLE IF NOT EXISTS temporary (
-                source_name TEXT NOT NULL,
+                source_name TEXT NOT NULL PRIMARY KEY,
                 post_dir TEXT NOT NULL,
                 post_path TEXT NOT NULL,
-                post_date TEXT NOT NULL,
+                date TEXT NOT NULL,
+                title TEXT NOT NULL,
                 category TEXT NOT NULL,
                 tag TEXT NOT NULL
             );
@@ -182,10 +180,10 @@ class Data():
     def insert_post(self, data):
         self.conn.execute('''
             INSERT INTO temporary
-            (source_name, post_dir, post_path, post_date, category, tag)
+            (source_name, post_dir, post_path, date, title, category, tag)
             VALUES (?, ?, ?, ?, ?, ?)''',
             (data['source_name'], data['post_dir'], data['post_path'],
-             data['post_date'], data['category'], data['tag']))
+             data['date'], data['title'], data['category'], data['tag']))
 
     def update_post(self, data):
         self.insert_post(data)
@@ -195,9 +193,10 @@ class Data():
     def move_post(self, data):
         cursor = self.conn.cursor
         cursor.execute(
-            'SELECT category, tag FROM posts WHERE source_name=?',
+            'SELECT title, category, tag FROM posts WHERE source_name=?',
             (data['source_name'],))
         r = cursor.fetchone()
+        data['title'] = r['title']
         data['category'] = r['category']
         data['tag'] = r['tag']
         cursor.execute('DELETE FROM posts WHERE source_name=?',
@@ -208,7 +207,7 @@ class Data():
     def query_old_post(self):
         for row in self.conn.execute('SELECT post_path, post_dir FROM posts'):
             yield row
-    
+
     def query_posts(self):
-        for row in self.conn.execute('SELECT post_date, post_name FROM posts'):
+        for row in self.conn.execute('SELECT date, title FROM posts'):
             yield row
