@@ -26,5 +26,5 @@ path['post'] = os.path.join(path['app'], 'post')
 path['data'] = os.path.join(path['pieh'], 'posts_data.db')
 
 # 模板
-path['template'] = os.path.join(path['theme'], 'theme', 'template')
+path['template'] = os.path.join(path['app'], 'theme', 'template')
 ##################################################

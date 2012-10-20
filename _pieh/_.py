@@ -7,7 +7,7 @@ import filecmp
 import sqlite3
 
 import markdown2
-import tornado.template
+from tornado.template import Loader
 
 import config
 
@@ -24,14 +24,16 @@ class Application():
         self._mkdir(config.path['post'])
         # 读取原来保存的数据数据
         self.data = Data(config.path['data'])
-        # 建立模板
-        self.template = tornado.template.Loader(config.path['template'])
+        # 读取模板
+        self.template = Loader(config.path['template'], autoescape=None)
+        # 是否重建页面
+        self.rebuild_pages = False
 
     def generate_posts(self):
         self.post_t = self.template.load('post.html')
         source_list = os.listdir(config.path['source']) # 获取源文件列表
         for source in source_list:
-            post_data = Utils.parser_source(source) # 解析文件名
+            post_data = self._parser_filename(source) # 解析文件名
             status = self._check_status(post_data) # 检查文章
             if status == 0:
                 self._insert_post(post_data) # 新文章 新建
@@ -45,7 +47,7 @@ class Application():
         (index, category, tag) = self._get_post_data()
         self._gen_page('index.html', 'Index', index)
         self._gen_page('category.html', 'Category', category)
-        self._gen_page('Tag', 'Tag', tag)
+        self._gen_page('tag.html', 'Tag', tag)
 
     def finish(self):
         self.data.close()
@@ -65,22 +67,43 @@ class Application():
         if not os.path.exists(path):
             os.mkdir(path)
 
+    def _parser_filename(self, filename):
+        """解析源文件文件名"""
+        # date_title.md -> (date, title)
+        name = filename.rsplit('.', 1)[0]
+        date_title = name.split('_', 1)
+        post_data = {
+            'source_name': filename,
+            'source_path': os.path.join(config.path['source'], filename),
+            'post_dir': os.path.join(config.path['post'], date_title[0]),
+            'post_name': date_title[1],
+            'date': date_title[0],
+        }
+        post_data['post_path'] = os.path.join(
+            post_data['post_dir'], post_data['post_name'])
+        return post_data
+
     def _insert_post(self, post_data):
         self._gen_post(post_data) # 生成文章
         self.data.insert_post(post_data) # 插入记录
+        print('[post] "{}" built.'.format(post_data['source_name']))
 
     def _update_post(self, post_data):
         self._gen_post(post_data) # 更新文章
         self.data.update_post(post_data) # 更新记录
+        print('[post] "{}" updated.'.format(post_data['source_name']))
 
     def _move_post(self, post_data):
         self.data.move_post(post_data) # 移动记录
 
     def _delete_post(self):
-        for row in self.data.query_old_post:
-            os.remove(row['post_path']) # 删除文章
-            if not os.listdir(row['post_dir']):
-                os.removedirs(row['post_dir']) # 若为空目录则删除目录
+        for row in self.data.query_old_post():
+            if os.path.exists(row['post_path']):
+                os.remove(row['post_path']) # 删除文章
+                print('remove post {}.'.format(row['post_path']))
+                if not os.listdir(row['post_dir']):
+                    os.removedirs(row['post_dir']) # 若为空目录则删除目录
+                    print('remove dir {}.'.format(row['post_dir']))
 
     def _gen_post(self, post_data):
         """生成页面 添加页面信息"""
@@ -99,7 +122,8 @@ class Application():
             self._mkdir(post_data['post_dir'])
             html = markdown2.markdown(source.read())
             with open(post_data['post_path'], 'w') as post:
-                post.write(self.post_t.generate(title=title, html_code=html))
+                b = self.post_t.generate(title=title, html_code=html)
+                post.write(b.decode())
         post_data['title'] = title
         post_data['category'] = category
         post_data['tag'] = tag
@@ -108,7 +132,9 @@ class Application():
         path = os.path.join(config.path['app'], name)
         template = self.template.load(name)
         with open(path, 'w') as page:
-            page.write(template.generate(title=title, archive=data))
+            b = template.generate(title=title, archive=data)
+            page.write(b.decode())
+        print('[page] "{}" built'.format(name))
 
     def _get_post_data(self):
         index = {}
@@ -130,25 +156,6 @@ class Application():
         return (index, category, tag)
 
 
-class Utils():
-    @classmethod
-    def parser_filename(cls, filename):
-        """解析源文件文件名"""
-        # date_title.md -> (date, title)
-        name = filename.rsplit('.', 1)[0]
-        date_title = name.split('_', 1)
-        post_data = {
-            'source_name': filename,
-            'source_path': os.path.join(config.path['source'], filename),
-            'post_dir': os.path.join(config.path['post'], date_title[0]),
-            'post_name': date_title[1],
-            'date': date_title[0],
-        }
-        post_data['post_path'] = os.path.join(
-            post_data['post_dir'], post_data['post_name'])
-        return post_data
-
-
 class Data():
     """读写操作"""
     def __init__(self, path):
@@ -157,9 +164,10 @@ class Data():
         self.conn.row_factory = sqlite3.Row
         self.conn.executescript('''
             CREATE TABLE IF NOT EXISTS posts (
-                source_name TEXT NOT NULL PRIMARY KEY,
+                source_name TEXT NOT NULL PRIMARY KEY ON CONFLICT REPLACE,
                 post_dir TEXT NOT NULL,
                 post_path TEXT NOT NULL,
+                url TEXT NOT NULL,
                 date TEXT NOT NULL,
                 title TEXT NOT NULL,
                 category TEXT NOT NULL,
@@ -167,9 +175,10 @@ class Data():
             );
 
             CREATE TABLE IF NOT EXISTS temporary (
-                source_name TEXT NOT NULL PRIMARY KEY,
+                source_name TEXT NOT NULL PRIMARY KEY ON CONFLICT REPLACE,
                 post_dir TEXT NOT NULL,
                 post_path TEXT NOT NULL,
+                url TEXT NOT NULL,
                 date TEXT NOT NULL,
                 title TEXT NOT NULL,
                 category TEXT NOT NULL,
@@ -183,16 +192,17 @@ class Data():
         self.conn.close()
 
     def _drop_table(self, table_name):
-        self.conn.execute('DROP TABLE IF EXISTS ?', (table_name,))
+        self.conn.execute('DROP TABLE IF EXISTS {}'.format(table_name))
 
-    def _raname_table(self, old_name, new_name):
-        self.conn.execute('ALTER TABLE ? RENAME TO ?', (old_name, new_name))
+    def _rename_table(self, old_name, new_name):
+        self.conn.execute(
+            'ALTER TABLE {} RENAME TO {}'.format(old_name, new_name))
 
     def insert_post(self, data):
         self.conn.execute('''
             INSERT INTO temporary
             (source_name, post_dir, post_path, url, date, title, category, tag)
-            VALUES (?, ?, ?, ?, ?, ?, ?)''',
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)''',
             (data['source_name'], data['post_dir'], data['post_path'],
              os.path.join('.', 'post', data['date'], data['title']),
              data['date'], data['title'], data['category'], data['tag']))
@@ -229,7 +239,7 @@ class Data():
                 date,
                 title,
                 url
-            FROM posts'''):
+            FROM temporary'''):
             yield row
 
 if __name__ == '__main__':
