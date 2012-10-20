@@ -7,12 +7,12 @@ import filecmp
 import sqlite3
 
 import markdown2
+import tornado.template
 
 import config
 
 class Application():
     def run(self):
-        # 前期准备
         # 创建缺失的目录，连接配置文件
         self.initial()
         # 生成文章
@@ -43,11 +43,12 @@ class Application():
         self._delete_post() # 旧文章 删除
 
     def generate_pages(self):
-        # 根据文章信息，生成index category tag页面
-        # 生成link页面
-        # 生成about页面
-        # 生成resume页面
-        pass
+        pages = ['index', 'category', 'tag', 'link', 'about']
+        self._gen_index()
+        self._gen_category()
+        self._gen_tag()
+        self._gen_link()
+        self._gen_about()
 
     def finish(self):
         self.data.close()
@@ -72,26 +73,21 @@ class Application():
             os.mkdir(path)
 
     def _insert_post(self, post_data):
-        # 生成文章
-        self._gen_post(post_data)
-        # 插入记录
-        self.data.insert_post(post_data)
+        self._gen_post(post_data) # 生成文章
+        self.data.insert_post(post_data) # 插入记录
 
     def _update_post(self, post_data):
-        # 更新文章
-        self._gen_post(post_data)
-        # 更新记录
-        self.data.update_post(post_data)
+        self._gen_post(post_data) # 更新文章
+        self.data.update_post(post_data) # 更新记录
 
     def _move_post(self, post_data):
-        # 移动记录
-        self.data.move_post(post_data)
+        self.data.move_post(post_data) # 移动记录
 
     def _delete_post(self):
         for row in self.data.query_old_post:
-            os.remove(row['post_path'])
+            os.remove(row['post_path']) # 删除文章
             if not os.listdir(row['post_dir']):
-                os.removedirs(row['post_dir'])
+                os.removedirs(row['post_dir']) # 若为空目录则删除目录
 
     def _gen_post(self, post_data):
         """生成页面 添加页面信息"""
@@ -105,10 +101,26 @@ class Application():
                 if line.startswith('Tag: '):
                     tag = line.strip('Tag: ')
             self._check_dir(post_data['post_dir'])
-            with open(post_data['post_path'], 'w') as post:
-                post.write(markdown2.markdown(source.read()))
+            html = markdown2.markdown(source.read())
+            # TODO 使用模板 生成页面
+            with open(post_data['post_path'], 'w') as post:pass
         post_data['category'] = category
         post_data['tag'] = tag
+
+    def _gen_index(self):
+        # 读取信息
+        for row in self.data.query_posts():
+            date = row['post_date']
+            title = row['post_name']
+
+    def _gen_category(self):
+        pass
+    def _gen_tag(self):
+        pass
+    def _gen_link(self):
+        pass
+    def _gen_about(self):
+        pass
 
 
 class Utils():
@@ -122,6 +134,7 @@ class Utils():
             'source_name': filename,
             'source_path': os.path.join(config.path['source'], filename),
             'post_dir': os.path.join(config.path['post'], date_title[0]),
+            'post_date': date_title[0],
             'post_name': date_title[1],
         }
         post_data['post_path'] = os.path.join(
@@ -140,6 +153,7 @@ class Data():
                 source_name TEXT NOT NULL,
                 post_dir TEXT NOT NULL,
                 post_path TEXT NOT NULL,
+                post_date TEXT NOT NULL,
                 category TEXT NOT NULL,
                 tag TEXT NOT NULL
             );
@@ -148,10 +162,16 @@ class Data():
                 source_name TEXT NOT NULL,
                 post_dir TEXT NOT NULL,
                 post_path TEXT NOT NULL,
+                post_date TEXT NOT NULL,
                 category TEXT NOT NULL,
                 tag TEXT NOT NULL
             );
             ''')
+
+    def close(self):
+        self._drop_table('posts')
+        self._rename_table('temporary', 'posts')
+        self.conn.close()
 
     def _drop_table(self, table_name):
         self.conn.execute('DROP TABLE IF EXISTS ?', (table_name,))
@@ -161,11 +181,11 @@ class Data():
 
     def insert_post(self, data):
         self.conn.execute('''
-            INSERT INTO
-            temporary (source_name, post_dir, post_path, category, tag)
-            VALUES (?, ?, ?, ?, ?)''',
+            INSERT INTO temporary
+            (source_name, post_dir, post_path, post_date, category, tag)
+            VALUES (?, ?, ?, ?, ?, ?)''',
             (data['source_name'], data['post_dir'], data['post_path'],
-             data['category'], data['tag']))
+             data['post_date'], data['category'], data['tag']))
 
     def update_post(self, data):
         self.insert_post(data)
@@ -188,9 +208,7 @@ class Data():
     def query_old_post(self):
         for row in self.conn.execute('SELECT post_path, post_dir FROM posts'):
             yield row
-
-    def close(self):
-        self._drop_table('posts')
-        self._rename_table('temporary', 'posts')
-        self.conn.close()
-
+    
+    def query_posts(self):
+        for row in self.conn.execute('SELECT post_date, post_name FROM posts'):
+            yield row
