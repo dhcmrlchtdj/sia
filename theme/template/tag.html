@@ -2,18 +2,18 @@
 
 {% blcok article %}
 <article id="posts">
-    {% for posts in archive %}
-    <section>
-    <h2>{{ posts['tag'] }}</h2>
+  {% for tag, posts in archive %}
+  <section>
+    <h2 id="{{ tag }}">{{ tag }}</h2>
     <ul>
-        {% for post in posts['post'] %}
-        <li class="post">
+      {% for post in posts %}
+      <li class="post">
         <time>{{ post['date'] }}</time>
         <a href="{{ post['url'] }}" title="{{ post['title'] }}">{{ post['title'] }}</a>
-        </li>
-        {% end %}
+      </li>
+      {% end %}
     </ul>
-    </section>
-    {% end %}
+  </section>
+  {% end %}
 </article>
 {% end %}

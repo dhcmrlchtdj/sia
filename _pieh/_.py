@@ -24,8 +24,11 @@ class Application():
         self._mkdir(config.path['post'])
         # 读取原来保存的数据数据
         self.data = Data(config.path['data'])
+        # 建立模板
+        self.template = tornado.template.Loader(config.path['template'])
 
     def generate_posts(self):
+        self.post_t = self.template.load('post.html')
         source_list = os.listdir(config.path['source']) # 获取源文件列表
         for source in source_list:
             post_data = Utils.parser_source(source) # 解析文件名
@@ -39,12 +42,10 @@ class Application():
         self._delete_post() # 旧文章 删除
 
     def generate_pages(self):
-        pages = ['index', 'category', 'tag', 'link', 'about']
-        self._gen_index()
-        self._gen_category()
-        self._gen_tag()
-        self._gen_link()
-        self._gen_about()
+        (index, category, tag) = self._get_post_data()
+        self._gen_page('index.html', 'Index', index)
+        self._gen_page('category.html', 'Category', category)
+        self._gen_page('Tag', 'Tag', tag)
 
     def finish(self):
         self.data.close()
@@ -97,26 +98,36 @@ class Application():
                     tag = line.strip('Tag: ')
             self._mkdir(post_data['post_dir'])
             html = markdown2.markdown(source.read())
-            # TODO 使用模板 生成页面
-            with open(post_data['post_path'], 'w') as post:pass
+            with open(post_data['post_path'], 'w') as post:
+                post.write(self.post_t.generate(title=title, html_code=html))
         post_data['title'] = title
         post_data['category'] = category
         post_data['tag'] = tag
 
-    def _gen_index(self):
-        # 读取信息
-        for row in self.data.query_posts():
-            date = row['date']
-            title = row['title']
+    def _gen_page(self, name, title, data):
+        path = os.path.join(config.path['app'], name)
+        template = self.template.load(name)
+        with open(path, 'w') as page:
+            page.write(template.generate(title=title, archive=data))
 
-    def _gen_category(self):
-        pass
-    def _gen_tag(self):
-        pass
-    def _gen_link(self):
-        pass
-    def _gen_about(self):
-        pass
+    def _get_post_data(self):
+        index = {}
+        category = {}
+        tag = {}
+        for row in self.data.query_posts():
+            post = {
+                'date': row['date'],
+                'title': row['title'],
+                'url': row['url'],
+            }
+            ilist = index.setdefault(row['year'], [])
+            ilist.append(post)
+            clist = category.setdefault(row['category'], [])
+            clist.append(post)
+            for t in row['tag'].split():
+                tlist = tag.setdefault(t, [])
+                tlist.append(post)
+        return (index, category, tag)
 
 
 class Utils():
@@ -180,9 +191,10 @@ class Data():
     def insert_post(self, data):
         self.conn.execute('''
             INSERT INTO temporary
-            (source_name, post_dir, post_path, date, title, category, tag)
-            VALUES (?, ?, ?, ?, ?, ?)''',
+            (source_name, post_dir, post_path, url, date, title, category, tag)
+            VALUES (?, ?, ?, ?, ?, ?, ?)''',
             (data['source_name'], data['post_dir'], data['post_path'],
+             os.path.join('.', 'post', data['date'], data['title']),
              data['date'], data['title'], data['category'], data['tag']))
 
     def update_post(self, data):
@@ -209,5 +221,16 @@ class Data():
             yield row
 
     def query_posts(self):
-        for row in self.conn.execute('SELECT date, title FROM posts'):
+        for row in self.conn.execute('''
+            SELECT
+                substr(date, 0, 4) AS year,
+                category,
+                tag,
+                date,
+                title,
+                url
+            FROM posts'''):
             yield row
+
+if __name__ == '__main__':
+    Application().run()

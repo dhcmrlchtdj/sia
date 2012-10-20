@@ -11,21 +11,20 @@ SOURCE_DIR = '_source'
 path = {}
 # 程序目录
 path['pieh'] = os.path.dirname(os.path.abspath(__file__))
-path['application'] = os.path.dirname(path['pieh'])
+path['app'] = os.path.dirname(path['pieh'])
 
 # 源文件目录
 if SOURCE_DIR.startswith(('/', '~')):
     path['source'] = os.path.expanduser(SOURCE_DIR)
 else:
-    path['source'] = os.path.join(path['application'], SOURCE_DIR)
+    path['source'] = os.path.join(path['app'], SOURCE_DIR)
 
 # 文章目录
-path['post'] = os.path.join(path['application'], 'post')
+path['post'] = os.path.join(path['app'], 'post')
 
 # 数据库
 path['data'] = os.path.join(path['pieh'], 'posts_data.db')
 
 # 模板
 path['template'] = os.path.join(path['theme'], 'theme', 'template')
-path['static'] = os.path.join(path['theme'], 'theme', 'static')
 ##################################################
