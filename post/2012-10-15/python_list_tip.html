@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="viewport" content="width=device-width">
-<title>python 单元测试笔记（坑）</title>
+<title>python 展开嵌套列表</title>
 <link rel="stylesheet" href="../../theme/static/css/common.css" />
 </head>
 <body>
@@ -21,7 +21,42 @@
 </ul>
 </nav>
 <article id="post">
-<p></p>
+<p>如何把一个 <code>[ [a], [b], [c] ]</code> 转化为 <code>[a, b, c]</code>。</p>
+
+<p>```python
+l = [[1,2,3], [4,5,6], [7], [8,9]]</p>
+
+<h1>method 0</h1>
+
+<p>[item for sublist in list for item in sublist]</p>
+
+<h1>method 1</h1>
+
+<p>sum(l, [])</p>
+
+<h1>method 2.11</h1>
+
+<p>reduce(lambda x,y: x+y, l)</p>
+
+<h1>method 2.12</h1>
+
+<p>reduce(lambda x,y: x.extend(y) or x, l)</p>
+
+<h1>method 2.2</h1>
+
+<p>import operator
+reduce(operator.add, l)</p>
+
+<h1>method 3.1</h1>
+
+<p>import itertools
+list(itertools.chain(*l))</p>
+
+<h1>method 3.2</h1>
+
+<p>import itertools
+list(itertools.chain.from_iterable(l))
+```</p>
 
 </article>
 </body>

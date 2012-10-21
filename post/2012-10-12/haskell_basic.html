@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width">
+<title>haskell学习笔记（坑）</title>
+<link rel="stylesheet" href="../../theme/static/css/common.css" />
+</head>
+<body>
+<header>
+<h1>涂鸦</h1>
+</header>
+<nav>
+<ul>
+<li><a href="../../index.html" title="index">INDEX</a></li>
+<li><a href="../../category.html" title="category">CATEGORY</a></li>
+<li><a href="../../tag.html" title="tag">TAG</a></li>
+<li><a href="../../link.html" title="link">LINK</a></li>
+<li><a href="../../about.html" title="about">ABOUT</a></li>
+</ul>
+</nav>
+<article id="post">
+<p>~~~</p>
+
+<h2>类型</h2>
+
+<p>Int Integer Float Double Bool Char
+Num 包括Int Integer Float Double
+Integral 包括 Int Integer
+Floating 包括 Float Double</p>
+
+<p>Num
+: 1</p>
+
+<p>Fractional
+: 1.0</p>
+
+<p>Bool
+: True</p>
+
+<p>Char
+: 'c'</p>
+
+<p>[Char]
+: "char"</p>
+
+<h3>查看类型</h3>
+
+<p>:t 'a'
+:t (==)</p>
+
+<h3>改变类型</h3>
+
+<p>改变为字符串
+show 3 == "3" /= '3'</p>
+
+<p>字符串变为其他类型
+read "3" :: Int
+read "3" :: Float
+read "3" + 2 == 5</p>
+
+<hr />
+
+<h2>操作符</h2>
+
+<pre><code>+ - * /
+&amp;&amp; || not
+== /=
+</code></pre>
+
+<hr />
+
+<h2>常见函数</h2>
+
+<pre><code>compare 'a' 'b' 返回LT EQ GT
+succ pred 增减1
+max 9 10
+min 9 10
+div 10 3 整除 等价于 10`div`3
+mod 10 3 取余
+odd 1 为奇数
+even 1 为偶数
+</code></pre>
+
+<hr />
+
+<h2>编写函数</h2>
+
+<p>函数名 参数 = 函数体
+doubleIt x = x+x</p>
+
+<hr />
+
+<h2>在命令行载入文件</h2>
+
+<p>:l filename</p>
+
+<hr />
+
+<h2>条件语句</h2>
+
+<p>if <condition> then <command> else <command></p>
+
+<hr />
+
+<h2>赋值</h2>
+
+<p>在hs文件中 x=1
+在命令行里 let x=1</p>
+
+<hr />
+
+<h2>列表</h2>
+
+<p>列表只能放相同类型的值</p>
+
+<p>字符串即为字符列表</p>
+
+<p>num = [1, 2, 3, 4]
+char = ['h', 'e', 'l', 'l', 'o'] == "hello"</p>
+
+<h3>列表操作符</h3>
+
+<p>++ 连接前后两个列表
+[1,2,3] ++ [4,5]
+['h','e','l','l','o'] ++ "world"</p>
+
+<p>: 在表头添加元素
+1:[2,3]
+'a':" cat"</p>
+
+<p>!! 按位置取元素
+"hello"!!0
+[1,2]!!1</p>
+
+<h3>列表操作函数</h3>
+
+<p>列表是否为空
+null "hello</p>
+
+<p>元素是否在列表中
+elem 'h' "hello" == 'h' <code>elem</code> "hello"</p>
+
+<p>获取列表长度
+length "hello" == 5</p>
+
+<p>反转列表
+reverse "hello" == "olleh"</p>
+
+<p>截取列表开头几个元素
+接受两个参数 长度和列表
+当长度为0 返回空列表
+长度超过列表 返回整个列表
+take 5 "hello world" == "hello"</p>
+
+<p>去掉列表开头几个元素
+接受两个参数 长度和列表
+当长度为0 返回整个列表
+长度超过列表 返回空列表
+drop 6 "hello world" == "world"</p>
+
+<p>head "hello" =='h' == "hello"!!0
+tail "hello" == "ello" == drop 1 "hello"
+init "hello" == "hell" == take ((length "hello" -1) "hello"
+last "hello" == "o" == "hello"!!(length "hello" -1)</p>
+
+<p>获取最大/小值
+maximum "hello"
+minimum "hello"</p>
+
+<p>取和/乘积 只用于数值
+sum [1,2]
+product [1,2]</p>
+
+<h3>生成列表</h3>
+
+<p>等差
+[1..] 无限
+[1..20]
+['a'..'z']
+[1,3..20] == [1,3,5,7,9,11,13,15,17,19]
+[20..1] == []
+[10,8..1] == [10,8,6,4,2]</p>
+
+<p>重复列表
+cycle "hello" --无限循环
+重复元素
+repeat 5 --无限循环
+replicate 3 5 == [5,5,5] --循环3次</p>
+
+<p>列表推导
+[ express | condition1, condition2 ]</p>
+
+<p>[x<em>2 | x &lt;- [1..10]]
+[if x&lt;10 then "hello" else "world" | x&lt;-[1..20], x>5, x&lt;14]
+[x</em>y | x&lt;-[1,2], y&lt;-[3,4,5]] == [3,4,5, 6,8,10]
+[ [x|x&lt;-xs, even x] | xs&lt;-xxs] --let xxs=[[1,2,3],[4,5,6],[7,8,9]]</p>
+
+<hr />
+
+<h2>元组</h2>
+
+<p>可以有不同类型的元素 长度固定
+(1, "hello", 'a')</p>
+
+<h3>二元组</h3>
+
+<h4>操作函数</h4>
+
+<p>取第一个元素
+fst (1,2) == 1</p>
+
+<p>取第二个元素
+snd (1,2) == 2</p>
+
+<p>将两个列表合成为一个列表 元素为二元组
+zip [1,2,3] ['A','B','C']
+当一个比另一个长时 取短的那个</p>
+
+<p>~~~</p>
+
+</article>
+</body>
+</html>

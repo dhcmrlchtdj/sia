@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width">
+<title>javascript 获取页面高度</title>
+<link rel="stylesheet" href="../../theme/static/css/common.css" />
+</head>
+<body>
+<header>
+<h1>涂鸦</h1>
+</header>
+<nav>
+<ul>
+<li><a href="../../index.html" title="index">INDEX</a></li>
+<li><a href="../../category.html" title="category">CATEGORY</a></li>
+<li><a href="../../tag.html" title="tag">TAG</a></li>
+<li><a href="../../link.html" title="link">LINK</a></li>
+<li><a href="../../about.html" title="about">ABOUT</a></li>
+</ul>
+</nav>
+<article id="post">
+<h1>js里的高度</h1>
+
+<p>最近在写一个带iframe的静态页面，
+要求根据iframe内容调整高度，也就是说自适应。</p>
+
+<p>接着就对js绝望了，不仅仅是ie，每个浏览器都是按着自己的一套来解释。
+可见合理使用jquery，yui等框架类库还是很有必要的，
+浏览器的兼容性问题根本就是前端的地狱。</p>
+
+<p>chrome还有个奇怪的bug，在本地打开静态页面，调试js的时候，
+无法访问iframe的内容（同样在本地），说是跨域了。
+怀疑是file://的问题，不支持这种协议么。
+上网搜了下，有人在本地把服务器架起来，然后访问localhost，
+chrome真是让人无语了。</p>
+
+<hr />
+
+<p>总结下关于js里面和宽度高度有关的属性。</p>
+
+<p>一样先是参考资料</p>
+
+<ul>
+<li><a href="http://www.quirksmode.org/mobile/viewports.html">http://www.quirksmode.org/mobile/viewports.html</a></li>
+<li><a href="http://www.quirksmode.org/dom/w3c_cssom.html">http://www.quirksmode.org/dom/w3c_cssom.html</a></li>
+</ul>
+
+<p>看完之后，整理出的就是这些下面这些内容了。</p>
+
+<hr />
+
+<p>```javascript
+// 1. window</p>
+
+<p>// ie678 不支持 1.1 - 1.4
+// opera 不支持 1.4</p>
+
+<p>// 1.1 浏览器显示的页面大小（浏览器大小 减去 浏览器面板大小）
+window.innerWidth
+window.innerHeight</p>
+
+<p>// 1.2 浏览器大小
+window.outerWidth
+window.outerHeight</p>
+
+<p>// 1.3 浏览器显示的页面 和 整个html页面 边界的距离
+window.pageXOffset
+window.pageYOffset</p>
+
+<p>// 1.4 浏览器 相对 显示器 的距离
+window.screenX
+window.screenY</p>
+
+<p>// 1.5 显示器的大小
+// screen === window.screen
+screen.availWidth
+screen.availHeight
+screen.width
+screen.height
+``<code>
+感觉比较实用的只有</code>innerHeight<code>和</code>pageYOffset`。</p>
+
+<p>```javascript
+// 2. element
+// 几个相关属性，其中2.1 - 2.5都是只读属性
+// 下面用e表示element</p>
+
+<p>// 2.1 相对父元素（offsetParent）的位置
+// ie67 下有问题
+e.offsetTop
+e.offsetLeft</p>
+
+<p>// 2.2 元素的宽/高度
+// 包括border在内，不含margin
+e.offsetWidth
+e.offsetHeight</p>
+
+<p>// 2.3 元素的宽/高度
+// 包括width和padding，不包括滚动条和border
+e.clientWidth
+e.clientHeight</p>
+
+<p>// 2.4 border-top和border-left的大小
+// 在文字是 右往左 的情况下，clientLeft会包括滚动条的宽度
+e.clientTop
+e.clientLeft</p>
+
+<p>// 2.5 元素的实际大小
+// 包括padding，无视boder，不含margin
+// 在有即使有滚动条，也是返回元素的实际大小
+// 没有滚动条就和clientWidth/clientHeight一样了
+// ie67 和 opera10.6以下 可能有问题
+e.scrollWidth
+e.scrollHeight</p>
+
+<p>// 2.6 元素可见部分 和 元素边界 的距离
+// scrollTop = scrollHeight - clientHeight
+// 没有滚动条时等于clientWidth/clientHeight
+// 可以赋值，相当于移动滚动条了
+e.scrollTop
+e.scrollLeft
+```</p>
+
+<p>上面一堆看着可能乱了点，要获取页面高度。
+首先是获取2个元素<code>document.documentElement</code>和<code>document.body</code>，
+前者表示整个html文档，后者是整个body元素。
+要获取页面高度也就是获取这两者的高度了，而且是必须两个都获取。
+因为不同浏览器在处理上有差异，
+使用的时候最好在多个浏览器上进行测试。</p>
+
+<p>下面是我自己这次写的自适应高度的代码</p>
+
+<p><code>javascript
+function setHeight() {
+    var iframe = document.getElementById('#iframe');
+    var iframe_doc = iframe.contentDocument || iframe.contentWindow.document;
+    var _height = Math.min(iframe_doc.documentElement.scrollHeight,
+        iframe_doc.body.scrollHeight);
+    iframe.height = _height;
+}
+</code></p>
+
+<p>下面是获取鼠标点击位置，以后可能用的上吧。</p>
+
+<p>```javascript
+// 3. mouse event
+// 鼠标点击的位置</p>
+
+<p>// 3.1 相对整个html
+// ie不支持
+event.pageX
+event.pageY</p>
+
+<p>// 3.2 相对浏览器窗口
+event.clientX
+event.clientY</p>
+
+<p>// 3.3 相对显示器
+event.screenX
+event.screenY</p>
+
+<p>// 3.4 相对元素本身
+// 各个浏览器实现都不一样？
+event.offsetX
+event.offsetY</p>
+
+<p>// 4
+// 4.1 在页面内移动
+x = document.querySelector(str);
+x.scrollIntoView();
+```</p>
+
+<hr />
+
+<p>翻了下《professional javascript》，原来还和怪异模式（quirk mode）有关系。
+书上的代码也简写了下，放下面了。用来获取浏览器窗口的高度。</p>
+
+<p>```javascript
+var _height = window.innerHeight;</p>
+
+<p>if (typeof _height !== 'number')
+    _height = (document.compatMode === 'CSS1Compat') ?
+        document.documentElement.clientHeight : document.body.clientHeight;
+```</p>
+
+<p>上面的代码本身不难，关键是知道
+在标准模式下，<code>document.compatMode</code>的值为<code>CSS1Compat</code>。
+在标准模式下，ie6通过<code>document.documentElement.clientHeight</code>获取页面高度。
+在怪异模式下，ie6通过<code>document.body.clientHeight</code>获取页面高度。</p>
+
+<p>所以说埋头看书根本写不出优秀的js代码，写js必须了解浏览器差异。
+我感觉一个方法就是去看jquery，yui的实现，看他们是怎么处理浏览器差异的。
+一开始先看yui吧，整体的结构更加清晰，不至于一下子就昏了头。</p>
+
+</article>
+</body>
+</html>

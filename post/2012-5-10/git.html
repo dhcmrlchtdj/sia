@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width">
+<title>git 备忘</title>
+<link rel="stylesheet" href="../../theme/static/css/common.css" />
+</head>
+<body>
+<header>
+<h1>涂鸦</h1>
+</header>
+<nav>
+<ul>
+<li><a href="../../index.html" title="index">INDEX</a></li>
+<li><a href="../../category.html" title="category">CATEGORY</a></li>
+<li><a href="../../tag.html" title="tag">TAG</a></li>
+<li><a href="../../link.html" title="link">LINK</a></li>
+<li><a href="../../about.html" title="about">ABOUT</a></li>
+</ul>
+</nav>
+<article id="post">
+<h1>git</h1>
+
+<p>记录碰到的git命令。</p>
+
+<hr />
+
+<h2>basic</h2>
+
+<p>首先是几个别名，可以使用命令设置
+<code>git config --global alias.short command</code>，
+我觉得手动修改<code>~/.gitconfig</code>更方便些。</p>
+
+<pre><code>[alias]
+    ad = add -A
+    st = status -bs
+    ci = commit
+    br = branch
+    co = checkout
+    df = diff HEAD --stat
+    logs = log --oneline --graph --decorate -10
+</code></pre>
+
+<p>然后是几个基本命令，<code>[...]</code>表示文件名之类的。</p>
+
+<p>~~~~ {.bash}
+git init
+git add .
+git ci -m ''
+git push origin
+git pull origin</p>
+
+<p>git mv [old<em>name] [new</em>name]
+git rm [file_name]</p>
+
+<p>######</p>
+
+<h1>列出远程服务器</h1>
+
+<p>git remote</p>
+
+<h1>添加删除远程服务器</h1>
+
+<p>git remote add [alias] [url]
+git remote rm [alias]</p>
+
+<p>######</p>
+
+<h1>列出branch</h1>
+
+<p>git br -a</p>
+
+<h1>新建branch</h1>
+
+<p>git br [branch_name]</p>
+
+<h1>删除branch</h1>
+
+<p>git br -d [branch_name]</p>
+
+<p>######</p>
+
+<h1>转到[name]分支，可以是branch，tag，hash</h1>
+
+<p>git co [name]</p>
+
+<h1>在当前branch基础上新建一个名为[name]的branch，再转到[name]</h1>
+
+<p>git co -b [name]</p>
+
+<p>######</p>
+
+<h1>列出tag</h1>
+
+<p>git tag</p>
+
+<h1>添加一个tag</h1>
+
+<p>git tag [tag_name]</p>
+
+<h1>为其他分支添加tag</h1>
+
+<h1>[branch_name]可以是branch，sha1</h1>
+
+<p>git tag [tag<em>name] [branch</em>name]</p>
+
+<h1>删除tag</h1>
+
+<p>git tag -d [tag_name]
+~~~~</p>
+
+<p>我自己常用的就这么几个了。 用到hash的时候，输入前4个字符就可以了。</p>
+
+<hr />
+
+<h2>intermediate</h2>
+
+<p>下面都是使用时碰到的问题</p>
+
+<p>~~~~ {.bash}</p>
+
+<h1>重置到之前的版本</h1>
+
+<p>git reset --hard [hash]</p>
+
+<p>######</p>
+
+<h1>删除远程服务器上的分支</h1>
+
+<p>git push origin --delete [branch_name]</p>
+
+<h1>git push origin :[branch_name]</h1>
+
+<h1>在远程服务器上新建一个分支</h1>
+
+<p>git push origin [local<em>branch]:[remote</em>branch]</p>
+
+<p>######</p>
+
+<h1>从某个branch复制文件，[branch_name]也可以是[hash]，HEAD</h1>
+
+<p>git co [branch<em>name] [file</em>name]</p>
+
+<p>######</p>
+
+<h1>修改上次的commit</h1>
+
+<h1>可以用来追加文件，修改注释</h1>
+
+<p>git ci --amend</p>
+
+<p>git ci -a</p>
+
+<h1>这个-a相当于执行git add，但是只会add修改的文件，不会add新增的文件</h1>
+
+<p>######</p>
+
+<h1>删除已删除的文件</h1>
+
+<h1>一般就是 git rm [file]</h1>
+
+<h1>如果直接删除了本地文件可以用</h1>
+
+<p>git add -u</p>
+
+<h1>删除已添加的文件</h1>
+
+<h1>add了一个文件，想删掉从stage状态删掉</h1>
+
+<h1>或者从branch里删除某个文件</h1>
+
+<h1>不会删除本地文件</h1>
+
+<p>git rm --cache [file_name]
+~~~~</p>
+
+<p>感觉上面整理的相对混乱，自己找起来都困难，准备找机会整理下。</p>
+
+<ul>
+<li>git add</li>
+</ul>
+
+<p>~~~~ {.bash}</p>
+
+<h1>添加新文件，保存修改，删除已删除的文件</h1>
+
+<h1>相当于 git add . &amp;&amp; git add -u</h1>
+
+<p>git add -A</p>
+
+<h1>保存修改，删除已删除的文件</h1>
+
+<h1>默认会加上 .</h1>
+
+<h1>也就是在当前目录执行</h1>
+
+<p>git add -u
+~~~~</p>
+
+<ul>
+<li>git stash</li>
+</ul>
+
+<p>~~~~ {.bash}</p>
+
+<h1>需要进入其他分支又不想提交的时候，可以使用stash命令</h1>
+
+<h1>其实还可以先提交，之后再用git commit --amend命令修改</h1>
+
+<h1>新建</h1>
+
+<p>git stash</p>
+
+<h1>想在新建时加个说明就</h1>
+
+<p>git stash save [<message>]</p>
+
+<h1>查看stash</h1>
+
+<h1>其实就是diff，也是按照diff的样式输出的</h1>
+
+<p>git stash show</p>
+
+<h1>列出所有stash</h1>
+
+<p>git stash list</p>
+
+<h1>恢复</h1>
+
+<h1>并从list里删除</h1>
+
+<p>git stash pop</p>
+
+<h1>不从list里删除</h1>
+
+<p>git stash apply</p>
+
+<h1>删除</h1>
+
+<h1>一个</h1>
+
+<p>git stash drop</p>
+
+<h1>全部</h1>
+
+<p>git stash clear</p>
+
+<h1>在stash的基础上新建分支</h1>
+
+<p>git stash branch <branchname></p>
+
+<h1>默认大都是对最后保存的stash，也就是stash{0}执行命令</h1>
+
+<h1>在命令后面加上stash@{\d}就是针对指定stash执行了</h1>
+
+<p>~~~~</p>
+
+</article>
+</body>
+</html>

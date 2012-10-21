@@ -11,8 +11,7 @@ import sqlite3
 import markdown2
 from tornado.template import Loader
 
-import config
-
+from config import path as PATH
 
 class Application():
     def clear(self):
@@ -20,13 +19,13 @@ class Application():
             if os.path.exists(path):
                 command(path)
                 print('delete {}.'.format(path))
-        _rm(config.path['post'], shutil.rmtree)
-        _rm(config.path['data'])
-        _rm(os.path.join(config.path['app'], 'index.html'))
-        _rm(os.path.join(config.path['app'], 'category.html'))
-        _rm(os.path.join(config.path['app'], 'tag.html'))
-        _rm(os.path.join(config.path['app'], 'link.html'))
-        _rm(os.path.join(config.path['app'], 'about.html'))
+        _rm(PATH['post'], shutil.rmtree)
+        _rm(PATH['data'])
+        _rm(os.path.join(PATH['app'], 'index.html'))
+        _rm(os.path.join(PATH['app'], 'category.html'))
+        _rm(os.path.join(PATH['app'], 'tag.html'))
+        _rm(os.path.join(PATH['app'], 'link.html'))
+        _rm(os.path.join(PATH['app'], 'about.html'))
         print('clean.')
 
     def build(self):
@@ -38,18 +37,18 @@ class Application():
 
     def initial(self):
         # 检查目录是否存在
-        self._mkdir(config.path['source'])
-        self._mkdir(config.path['post'])
+        self._mkdir(PATH['source'])
+        self._mkdir(PATH['post'])
         # 读取原来保存的数据数据
-        self.data = Data(config.path['data'])
+        self.data = Data(PATH['data'])
         # 读取模板
-        self.template = Loader(config.path['template'], autoescape=None)
+        self.template = Loader(PATH['template'], autoescape=None)
         # 是否重建页面
         self.rebuild_pages = False
 
     def generate_posts(self):
         self.post_t = self.template.load('post.html')
-        source_list = os.listdir(config.path['source'])  # 获取源文件列表
+        source_list = os.listdir(PATH['source'])  # 获取源文件列表
         for source in source_list:
             post_data = self._parser_filename(source)  # 解析文件名
             status = self._check_status(post_data)  # 检查文章
@@ -89,6 +88,7 @@ class Application():
         """检查目录是否存在，不存在就创建相应目录"""
         if not os.path.exists(path):
             os.mkdir(path)
+            print('mkdir {}.'.format(path))
 
     def _parser_filename(self, filename):
         """解析源文件文件名"""
@@ -97,9 +97,9 @@ class Application():
         date_title = name.split('_', 1)
         post_data = {
             'source_name': filename,
-            'source_path': os.path.join(config.path['source'], filename),
-            'post_dir': os.path.join(config.path['post'], date_title[0]),
-            'post_name': date_title[1],
+            'source_path': os.path.join(PATH['source'], filename),
+            'post_dir': os.path.join(PATH['post'], date_title[0]),
+            'post_name': date_title[1] + '.html',
             'date': date_title[0],
         }
         post_data['post_path'] = os.path.join(
@@ -135,7 +135,7 @@ class Application():
         tag = '无标签'
         with open(post_data['source_path']) as source:
             for line in source:
-                if line == '-->':
+                if line == '-->\n':
                     break
                 elif line.startswith('Title:'):
                     _tmp = line.replace('Title: ', '').replace('\n', '')
@@ -147,8 +147,8 @@ class Application():
                     _tmp = line.replace('Tag: ', '').replace('\n', '')
                     tag = _tmp or tag
             self._mkdir(post_data['post_dir'])
-            html = markdown2.markdown(source.read())
             with open(post_data['post_path'], 'w') as post:
+                html = markdown2.markdown(source.read())
                 b = self.post_t.generate(title=title, html_code=html)
                 post.write(b.decode())
         post_data['title'] = title
@@ -156,7 +156,7 @@ class Application():
         post_data['tag'] = tag
 
     def _gen_page(self, name, title, data):
-        path = os.path.join(config.path['app'], name)
+        path = os.path.join(PATH['app'], name)
         template = self.template.load(name)
         with open(path, 'w') as page:
             b = template.generate(title=title, archive=data)
