@@ -22,54 +22,41 @@
 </nav>
 <article id="post">
 <h1>python操作文件</h1>
-
 <p>主要是两个东西<code>os</code>和<code>os.path</code>。</p>
-
 <p>参考资料</p>
-
 <ul>
 <li><a href="http://docs.python.org/library/os.html#os-file-dir">http://docs.python.org/library/os.html#os-file-dir</a></li>
 <li><a href="http://docs.python.org/library/os.path.html">http://docs.python.org/library/os.path.html</a></li>
 </ul>
+<pre><code class="python">
+# pwd
+os.getcwd()
+os.getcwdu() # unicode
 
-<p>~~~~ {.python}</p>
+# cd
+os.chdir(path)
 
-<h1>pwd</h1>
+# ls
+os.listdir(path)
 
-<p>os.getcwd()
-os.getcwdu() # unicode</p>
+# mkdir
+os.mkdir(path)
+os.makedirs(path) # 递归地创建目录，更实用些
 
-<h1>cd</h1>
-
-<p>os.chdir(path)</p>
-
-<h1>ls</h1>
-
-<p>os.listdir(path)</p>
-
-<h1>mkdir</h1>
-
-<p>os.mkdir(path)
-os.makedirs(path) # 递归地创建目录，更实用些</p>
-
-<h1>rm</h1>
-
-<p>os.remove(path) # 只能删除文件
+# rm
+os.remove(path) # 只能删除文件
 os.rmdir(path) # 只能删除空目录
-shutil.rmtree(path) # 删除目录</p>
+shutil.rmtree(path) # 删除目录
 
-<h1>rename</h1>
+# rename
+os.rename(src, dst) # 重命名文件
 
-<p>os.rename(src, dst) # 重命名文件</p>
-
-<h1>path</h1>
-
-<p>os.path.abspath(file)
+# path
+os.path.abspath(file)
 os.path.basename(path)
 os.path.dirname(path)
 os.path.join(path, path, ...)
-~~~~</p>
-
+</code></pre>
 </article>
 </body>
 </html>

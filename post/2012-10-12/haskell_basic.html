@@ -21,205 +21,197 @@
 </ul>
 </nav>
 <article id="post">
-<p>~~~</p>
+<pre><code>## 类型
 
-<h2>类型</h2>
-
-<p>Int Integer Float Double Bool Char
+Int Integer Float Double Bool Char
 Num 包括Int Integer Float Double
 Integral 包括 Int Integer
-Floating 包括 Float Double</p>
+Floating 包括 Float Double
 
-<p>Num
-: 1</p>
+Num
+: 1
 
-<p>Fractional
-: 1.0</p>
+Fractional
+: 1.0
 
-<p>Bool
-: True</p>
+Bool
+: True
 
-<p>Char
-: 'c'</p>
+Char
+: 'c'
 
-<p>[Char]
-: "char"</p>
+[Char]
+: &quot;char&quot;
 
-<h3>查看类型</h3>
+### 查看类型
+:t 'a'
+:t (==)
 
-<p>:t 'a'
-:t (==)</p>
+### 改变类型
 
-<h3>改变类型</h3>
+改变为字符串
+show 3 == &quot;3&quot; /= '3'
 
-<p>改变为字符串
-show 3 == "3" /= '3'</p>
+字符串变为其他类型
+read &quot;3&quot; :: Int
+read &quot;3&quot; :: Float
+read &quot;3&quot; + 2 == 5
 
-<p>字符串变为其他类型
-read "3" :: Int
-read "3" :: Float
-read "3" + 2 == 5</p>
+--------------
 
-<hr />
+## 操作符
 
-<h2>操作符</h2>
+    + - * /
+    &amp;&amp; || not
+    == /=
 
-<pre><code>+ - * /
-&amp;&amp; || not
-== /=
-</code></pre>
+---------------------
 
-<hr />
+## 常见函数
 
-<h2>常见函数</h2>
+    compare 'a' 'b' 返回LT EQ GT
+    succ pred 增减1
+    max 9 10
+    min 9 10
+    div 10 3 整除 等价于 10`div`3
+    mod 10 3 取余
+    odd 1 为奇数
+    even 1 为偶数
 
-<pre><code>compare 'a' 'b' 返回LT EQ GT
-succ pred 增减1
-max 9 10
-min 9 10
-div 10 3 整除 等价于 10`div`3
-mod 10 3 取余
-odd 1 为奇数
-even 1 为偶数
-</code></pre>
+-----------------
 
-<hr />
+## 编写函数
 
-<h2>编写函数</h2>
+函数名 参数 = 函数体
+doubleIt x = x+x
 
-<p>函数名 参数 = 函数体
-doubleIt x = x+x</p>
+------------------
 
-<hr />
+## 在命令行载入文件
 
-<h2>在命令行载入文件</h2>
+:l filename
 
-<p>:l filename</p>
+---------------------
 
-<hr />
+## 条件语句
 
-<h2>条件语句</h2>
+if &lt;condition&gt; then &lt;command&gt; else &lt;command&gt;
 
-<p>if <condition> then <command> else <command></p>
+---------------------
 
-<hr />
+## 赋值
 
-<h2>赋值</h2>
+在hs文件中 x=1
+在命令行里 let x=1
 
-<p>在hs文件中 x=1
-在命令行里 let x=1</p>
+---------------------
 
-<hr />
+## 列表
 
-<h2>列表</h2>
+列表只能放相同类型的值
 
-<p>列表只能放相同类型的值</p>
+字符串即为字符列表
 
-<p>字符串即为字符列表</p>
+num = [1, 2, 3, 4]
+char = ['h', 'e', 'l', 'l', 'o'] == &quot;hello&quot;
 
-<p>num = [1, 2, 3, 4]
-char = ['h', 'e', 'l', 'l', 'o'] == "hello"</p>
+### 列表操作符
 
-<h3>列表操作符</h3>
-
-<p>++ 连接前后两个列表
+++ 连接前后两个列表
 [1,2,3] ++ [4,5]
-['h','e','l','l','o'] ++ "world"</p>
+['h','e','l','l','o'] ++ &quot;world&quot;
 
-<p>: 在表头添加元素
+: 在表头添加元素
 1:[2,3]
-'a':" cat"</p>
+'a':&quot; cat&quot;
 
-<p>!! 按位置取元素
-"hello"!!0
-[1,2]!!1</p>
+!! 按位置取元素
+&quot;hello&quot;!!0
+[1,2]!!1
 
-<h3>列表操作函数</h3>
+### 列表操作函数
 
-<p>列表是否为空
-null "hello</p>
+列表是否为空
+null &quot;hello
 
-<p>元素是否在列表中
-elem 'h' "hello" == 'h' <code>elem</code> "hello"</p>
+元素是否在列表中
+elem 'h' &quot;hello&quot; == 'h' `elem` &quot;hello&quot;
 
-<p>获取列表长度
-length "hello" == 5</p>
+获取列表长度
+length &quot;hello&quot; == 5
 
-<p>反转列表
-reverse "hello" == "olleh"</p>
+反转列表
+reverse &quot;hello&quot; == &quot;olleh&quot;
 
-<p>截取列表开头几个元素
+截取列表开头几个元素
 接受两个参数 长度和列表
 当长度为0 返回空列表
 长度超过列表 返回整个列表
-take 5 "hello world" == "hello"</p>
+take 5 &quot;hello world&quot; == &quot;hello&quot;
 
-<p>去掉列表开头几个元素
+去掉列表开头几个元素
 接受两个参数 长度和列表
 当长度为0 返回整个列表
 长度超过列表 返回空列表
-drop 6 "hello world" == "world"</p>
+drop 6 &quot;hello world&quot; == &quot;world&quot;
 
-<p>head "hello" =='h' == "hello"!!0
-tail "hello" == "ello" == drop 1 "hello"
-init "hello" == "hell" == take ((length "hello" -1) "hello"
-last "hello" == "o" == "hello"!!(length "hello" -1)</p>
+head &quot;hello&quot; =='h' == &quot;hello&quot;!!0
+tail &quot;hello&quot; == &quot;ello&quot; == drop 1 &quot;hello&quot;
+init &quot;hello&quot; == &quot;hell&quot; == take ((length &quot;hello&quot; -1) &quot;hello&quot;
+last &quot;hello&quot; == &quot;o&quot; == &quot;hello&quot;!!(length &quot;hello&quot; -1)
 
-<p>获取最大/小值
-maximum "hello"
-minimum "hello"</p>
+获取最大/小值
+maximum &quot;hello&quot;
+minimum &quot;hello&quot;
 
-<p>取和/乘积 只用于数值
+取和/乘积 只用于数值
 sum [1,2]
-product [1,2]</p>
+product [1,2]
 
-<h3>生成列表</h3>
-
-<p>等差
+### 生成列表
+等差
 [1..] 无限
 [1..20]
 ['a'..'z']
 [1,3..20] == [1,3,5,7,9,11,13,15,17,19]
 [20..1] == []
-[10,8..1] == [10,8,6,4,2]</p>
+[10,8..1] == [10,8,6,4,2]
 
-<p>重复列表
-cycle "hello" --无限循环
+重复列表
+cycle &quot;hello&quot; --无限循环
 重复元素
 repeat 5 --无限循环
-replicate 3 5 == [5,5,5] --循环3次</p>
+replicate 3 5 == [5,5,5] --循环3次
 
-<p>列表推导
-[ express | condition1, condition2 ]</p>
+列表推导
+[ express | condition1, condition2 ]
 
-<p>[x<em>2 | x &lt;- [1..10]]
-[if x&lt;10 then "hello" else "world" | x&lt;-[1..20], x>5, x&lt;14]
-[x</em>y | x&lt;-[1,2], y&lt;-[3,4,5]] == [3,4,5, 6,8,10]
-[ [x|x&lt;-xs, even x] | xs&lt;-xxs] --let xxs=[[1,2,3],[4,5,6],[7,8,9]]</p>
+[x*2 | x &lt;- [1..10]]
+[if x&lt;10 then &quot;hello&quot; else &quot;world&quot; | x&lt;-[1..20], x&gt;5, x&lt;14]
+[x*y | x&lt;-[1,2], y&lt;-[3,4,5]] == [3,4,5, 6,8,10]
+[ [x|x&lt;-xs, even x] | xs&lt;-xxs] --let xxs=[[1,2,3],[4,5,6],[7,8,9]]
 
-<hr />
+----------------------
 
-<h2>元组</h2>
+## 元组
 
-<p>可以有不同类型的元素 长度固定
-(1, "hello", 'a')</p>
+可以有不同类型的元素 长度固定
+(1, &quot;hello&quot;, 'a')
 
-<h3>二元组</h3>
+### 二元组
 
-<h4>操作函数</h4>
+#### 操作函数
+取第一个元素
+fst (1,2) == 1
 
-<p>取第一个元素
-fst (1,2) == 1</p>
+取第二个元素
+snd (1,2) == 2
 
-<p>取第二个元素
-snd (1,2) == 2</p>
-
-<p>将两个列表合成为一个列表 元素为二元组
+将两个列表合成为一个列表 元素为二元组
 zip [1,2,3] ['A','B','C']
-当一个比另一个长时 取短的那个</p>
+当一个比另一个长时 取短的那个
 
-<p>~~~</p>
-
+</code></pre>
 </article>
 </body>
 </html>

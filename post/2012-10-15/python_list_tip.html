@@ -22,42 +22,31 @@
 </nav>
 <article id="post">
 <p>如何把一个 <code>[ [a], [b], [c] ]</code> 转化为 <code>[a, b, c]</code>。</p>
+<pre><code class="python">l = [[1,2,3], [4,5,6], [7], [8,9]]
 
-<p>```python
-l = [[1,2,3], [4,5,6], [7], [8,9]]</p>
+# method 0
+[item for sublist in list for item in sublist]
 
-<h1>method 0</h1>
+# method 1
+sum(l, [])
 
-<p>[item for sublist in list for item in sublist]</p>
+# method 2.11
+reduce(lambda x,y: x+y, l)
+# method 2.12
+reduce(lambda x,y: x.extend(y) or x, l)
 
-<h1>method 1</h1>
+# method 2.2
+import operator
+reduce(operator.add, l)
 
-<p>sum(l, [])</p>
+# method 3.1
+import itertools
+list(itertools.chain(*l))
 
-<h1>method 2.11</h1>
-
-<p>reduce(lambda x,y: x+y, l)</p>
-
-<h1>method 2.12</h1>
-
-<p>reduce(lambda x,y: x.extend(y) or x, l)</p>
-
-<h1>method 2.2</h1>
-
-<p>import operator
-reduce(operator.add, l)</p>
-
-<h1>method 3.1</h1>
-
-<p>import itertools
-list(itertools.chain(*l))</p>
-
-<h1>method 3.2</h1>
-
-<p>import itertools
+# method 3.2
+import itertools
 list(itertools.chain.from_iterable(l))
-```</p>
-
+</code></pre>
 </article>
 </body>
 </html>

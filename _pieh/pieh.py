@@ -3,29 +3,31 @@
 
 import os
 import sys
-import os.path
+from os.path import join, exists
 import filecmp
 import shutil
 import sqlite3
 
-import markdown2
+import markdown
 from tornado.template import Loader
 
 from config import path as PATH
 
+
+#TODO 判断函数有误 需修改
 class Application():
     def clear(self):
         def _rm(path, command=os.remove):
-            if os.path.exists(path):
+            if exists(path):
                 command(path)
                 print('delete {}.'.format(path))
         _rm(PATH['post'], shutil.rmtree)
         _rm(PATH['data'])
-        _rm(os.path.join(PATH['app'], 'index.html'))
-        _rm(os.path.join(PATH['app'], 'category.html'))
-        _rm(os.path.join(PATH['app'], 'tag.html'))
-        _rm(os.path.join(PATH['app'], 'link.html'))
-        _rm(os.path.join(PATH['app'], 'about.html'))
+        _rm(join(PATH['app'], 'index.html'))
+        _rm(join(PATH['app'], 'category.html'))
+        _rm(join(PATH['app'], 'tag.html'))
+        _rm(join(PATH['app'], 'link.html'))
+        _rm(join(PATH['app'], 'about.html'))
         print('clean.')
 
     def build(self):
@@ -47,37 +49,95 @@ class Application():
         self.rebuild_pages = False
 
     def generate_posts(self):
+        def _parser_filename(filename):
+            """解析源文件文件名"""
+            # date_title.md -> (date, title)
+            name = filename.rsplit('.', 1)[0]
+            date_title = name.split('_', 1)
+            post_data = {
+                'source_name': filename,
+                'source_path': join(PATH['source'], filename),
+                'post_dir': join(PATH['post'], date_title[0]),
+                'post_name': date_title[1] + '.html',
+                'date': date_title[0],
+            }
+            post_data['post_path'] = join(post_data['post_dir'],
+                                          post_data['post_name'])
+            return post_data
+
         self.post_t = self.template.load('post.html')
         source_list = os.listdir(PATH['source'])  # 获取源文件列表
         for source in source_list:
-            post_data = self._parser_filename(source)  # 解析文件名
-            status = self._check_status(post_data)  # 检查文章
-            if status == 0:
-                self._insert_post(post_data)  # 新文章 新建
-            elif status == 1:
-                self._update_post(post_data)  # 有修改 覆盖
-            else:
-                self._move_post(post_data)  # 无修改 不变
-        self._delete_post()  # 旧文章 删除
+            post_data = _parser_filename(source)  # 解析文件名
+            status = self._check_status(
+                post_data['source_path'], post_data['post_path'])  # 检查文章
+            if status == 0:  # 新文章 新建
+                self._gen_post(post_data)  # 生成文章
+                self.data.insert_post(post_data)  # 插入记录
+                print('[post] "{}" built.'.format(post_data['source_name']))
+            elif status == 1:  # 有修改 覆盖
+                self._gen_post(post_data)  # 更新文章
+                self.data.update_post(post_data)  # 更新记录
+                print('[post] "{}" updated.'.format(post_data['source_name']))
+            else:  # 无修改 不变
+                self.data.move_post(post_data)  # 移动记录
+                self._move_post(post_data)
+        # 删除旧文章
+        for row in self.data.query_old_post():
+            if exists(row['post_path']):
+                os.remove(row['post_path'])  # 删除文章
+                print('remove post {}.'.format(row['post_path']))
+                if not os.listdir(row['post_dir']):
+                    os.removedirs(row['post_dir'])  # 若为空目录则删除目录
+                    print('remove dir {}.'.format(row['post_dir']))
 
     def generate_pages(self):
-        (index, category, tag) = self._get_post_data()
+        def _get_post_data(index, category, tag):
+            for row in self.data.query_posts():
+                post = {
+                    'date': row['date'],
+                    'title': row['title'],
+                    'url': row['url'],
+                }
+                ilist = index.setdefault(row['year'], [])
+                ilist.append(post)
+                clist = category.setdefault(row['category'], [])
+                clist.append(post)
+                for t in row['tag'].split():
+                    tlist = tag.setdefault(t, [])
+                    tlist.append(post)
+
+        index = {}
+        category = {}
+        tag = {}
+        _get_post_data(index, category, tag)
         self._gen_page('index.html', 'Index', index)
         self._gen_page('category.html', 'Category', category)
         self._gen_page('tag.html', 'Tag', tag)
 
+        def _gen_html(name):
+            path = join(PATH['app'], name)
+            if not exists(path):
+                return
+            with open(path) as f:
+                html = markdown.markdown(f.read(), ['fenced_code'])
+                return html
+
+        self._gen_page('link.html', 'Link', _gen_html('link.md'))
+        self._gen_page('about.html', 'Link', _gen_html('about.md'))
+
     def finish(self):
         self.data.close()
 
-    def _check_status(self, post_data):
+    def _check_status(self, old, new):
         """检查源文件情况
         0 需要新建
         1 需要更新
         2 无需修改
         """
         #TODO 判断函数有误 需修改
-        if os.path.exists(post_data['post_path']):
-            if filecmp.cmp(post_data['source_path'], post_data['post_path']):
+        if exists(new):
+            if filecmp.cmp(old, new):
                 return 2  # 无修改
             else:
                 return 1  # 覆盖
@@ -86,47 +146,9 @@ class Application():
 
     def _mkdir(self, path):
         """检查目录是否存在，不存在就创建相应目录"""
-        if not os.path.exists(path):
+        if not exists(path):
             os.mkdir(path)
             print('mkdir {}.'.format(path))
-
-    def _parser_filename(self, filename):
-        """解析源文件文件名"""
-        # date_title.md -> (date, title)
-        name = filename.rsplit('.', 1)[0]
-        date_title = name.split('_', 1)
-        post_data = {
-            'source_name': filename,
-            'source_path': os.path.join(PATH['source'], filename),
-            'post_dir': os.path.join(PATH['post'], date_title[0]),
-            'post_name': date_title[1] + '.html',
-            'date': date_title[0],
-        }
-        post_data['post_path'] = os.path.join(
-            post_data['post_dir'], post_data['post_name'])
-        return post_data
-
-    def _insert_post(self, post_data):
-        self._gen_post(post_data)  # 生成文章
-        self.data.insert_post(post_data)  # 插入记录
-        print('[post] "{}" built.'.format(post_data['source_name']))
-
-    def _update_post(self, post_data):
-        self._gen_post(post_data)  # 更新文章
-        self.data.update_post(post_data)  # 更新记录
-        print('[post] "{}" updated.'.format(post_data['source_name']))
-
-    def _move_post(self, post_data):
-        self.data.move_post(post_data)  # 移动记录
-
-    def _delete_post(self):
-        for row in self.data.query_old_post():
-            if os.path.exists(row['post_path']):
-                os.remove(row['post_path'])  # 删除文章
-                print('remove post {}.'.format(row['post_path']))
-                if not os.listdir(row['post_dir']):
-                    os.removedirs(row['post_dir'])  # 若为空目录则删除目录
-                    print('remove dir {}.'.format(row['post_dir']))
 
     def _gen_post(self, post_data):
         """生成页面 添加页面信息"""
@@ -148,7 +170,7 @@ class Application():
                     tag = _tmp or tag
             self._mkdir(post_data['post_dir'])
             with open(post_data['post_path'], 'w') as post:
-                html = markdown2.markdown(source.read())
+                html = markdown.markdown(source.read(), ['fenced_code'])
                 b = self.post_t.generate(title=title, html_code=html)
                 post.write(b.decode())
         post_data['title'] = title
@@ -156,31 +178,12 @@ class Application():
         post_data['tag'] = tag
 
     def _gen_page(self, name, title, data):
-        path = os.path.join(PATH['app'], name)
+        path = join(PATH['app'], name)
         template = self.template.load(name)
         with open(path, 'w') as page:
             b = template.generate(title=title, archive=data)
             page.write(b.decode())
         print('[page] "{}" built'.format(name))
-
-    def _get_post_data(self):
-        index = {}
-        category = {}
-        tag = {}
-        for row in self.data.query_posts():
-            post = {
-                'date': row['date'],
-                'title': row['title'],
-                'url': row['url'],
-            }
-            ilist = index.setdefault(row['year'], [])
-            ilist.append(post)
-            clist = category.setdefault(row['category'], [])
-            clist.append(post)
-            for t in row['tag'].split():
-                tlist = tag.setdefault(t, [])
-                tlist.append(post)
-        return (index, category, tag)
 
 
 class Data():
@@ -232,7 +235,7 @@ class Data():
             (source_name, post_dir, post_path, url, date, title, category, tag)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)''',
             (data['source_name'], data['post_dir'], data['post_path'],
-             os.path.join('.', 'post', data['date'], data['post_name']),
+             join('.', 'post', data['date'], data['post_name']),
              data['date'], data['title'], data['category'], data['tag']))
 
     def update_post(self, data):

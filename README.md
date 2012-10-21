@@ -7,11 +7,11 @@
 
 ------
 
-+ `_pieh`: application.
-+ `_source`: markdown source files.
-+ `post`: published html files.
-+ `theme`: theme dictionary.
+- `_pieh`: application.
+- `_source`: markdown source files.
+- `post`: published html files.
+- `theme`: theme dictionary.
 
 ------
 
-Thanks to `markdown2` && `tornado.template`.
+Thanks to `markdown` && `tornado.template`.
