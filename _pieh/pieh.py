@@ -1,9 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3.3
 # -*- coding: utf-8 -*-
 
 import os
+import sys
 import os.path
 import filecmp
+import shutil
 import sqlite3
 
 import markdown2
@@ -11,12 +13,28 @@ from tornado.template import Loader
 
 import config
 
+
 class Application():
-    def run(self):
-        self.initial() # 创建缺失的目录，连接配置文件
-        self.generate_posts() # 生成文章
-        self.generate_pages() # 生成页面 index category tag link about
-        self.finish() # 关闭打开的连接
+    def clear(self):
+        def _rm(path, command=os.remove):
+            if os.path.exists(path):
+                command(path)
+                print('delete {}.'.format(path))
+        _rm(config.path['post'], shutil.rmtree)
+        _rm(config.path['data'])
+        _rm(os.path.join(config.path['app'], 'index.html'))
+        _rm(os.path.join(config.path['app'], 'category.html'))
+        _rm(os.path.join(config.path['app'], 'tag.html'))
+        _rm(os.path.join(config.path['app'], 'link.html'))
+        _rm(os.path.join(config.path['app'], 'about.html'))
+        print('clean.')
+
+    def build(self):
+        self.initial()  # 创建缺失的目录，连接配置文件
+        self.generate_posts()  # 生成文章
+        self.generate_pages()  # 生成页面 index category tag link about
+        self.finish()  # 关闭打开的连接
+        print('build.')
 
     def initial(self):
         # 检查目录是否存在
@@ -31,17 +49,17 @@ class Application():
 
     def generate_posts(self):
         self.post_t = self.template.load('post.html')
-        source_list = os.listdir(config.path['source']) # 获取源文件列表
+        source_list = os.listdir(config.path['source'])  # 获取源文件列表
         for source in source_list:
-            post_data = self._parser_filename(source) # 解析文件名
-            status = self._check_status(post_data) # 检查文章
+            post_data = self._parser_filename(source)  # 解析文件名
+            status = self._check_status(post_data)  # 检查文章
             if status == 0:
-                self._insert_post(post_data) # 新文章 新建
+                self._insert_post(post_data)  # 新文章 新建
             elif status == 1:
-                self._update_post(post_data) # 有修改 覆盖
+                self._update_post(post_data)  # 有修改 覆盖
             else:
-                self._move_post(post_data) # 无修改 不变
-        self._delete_post() # 旧文章 删除
+                self._move_post(post_data)  # 无修改 不变
+        self._delete_post()  # 旧文章 删除
 
     def generate_pages(self):
         (index, category, tag) = self._get_post_data()
@@ -53,14 +71,19 @@ class Application():
         self.data.close()
 
     def _check_status(self, post_data):
-        """检查源文件情况"""
+        """检查源文件情况
+        0 需要新建
+        1 需要更新
+        2 无需修改
+        """
+        #TODO 判断函数有误 需修改
         if os.path.exists(post_data['post_path']):
             if filecmp.cmp(post_data['source_path'], post_data['post_path']):
-                return 2 # 无修改
+                return 2  # 无修改
             else:
-                return 1 # 覆盖
+                return 1  # 覆盖
         else:
-            return 0 # 新建
+            return 0  # 新建
 
     def _mkdir(self, path):
         """检查目录是否存在，不存在就创建相应目录"""
@@ -84,41 +107,45 @@ class Application():
         return post_data
 
     def _insert_post(self, post_data):
-        self._gen_post(post_data) # 生成文章
-        self.data.insert_post(post_data) # 插入记录
+        self._gen_post(post_data)  # 生成文章
+        self.data.insert_post(post_data)  # 插入记录
         print('[post] "{}" built.'.format(post_data['source_name']))
 
     def _update_post(self, post_data):
-        self._gen_post(post_data) # 更新文章
-        self.data.update_post(post_data) # 更新记录
+        self._gen_post(post_data)  # 更新文章
+        self.data.update_post(post_data)  # 更新记录
         print('[post] "{}" updated.'.format(post_data['source_name']))
 
     def _move_post(self, post_data):
-        self.data.move_post(post_data) # 移动记录
+        self.data.move_post(post_data)  # 移动记录
 
     def _delete_post(self):
         for row in self.data.query_old_post():
             if os.path.exists(row['post_path']):
-                os.remove(row['post_path']) # 删除文章
+                os.remove(row['post_path'])  # 删除文章
                 print('remove post {}.'.format(row['post_path']))
                 if not os.listdir(row['post_dir']):
-                    os.removedirs(row['post_dir']) # 若为空目录则删除目录
+                    os.removedirs(row['post_dir'])  # 若为空目录则删除目录
                     print('remove dir {}.'.format(row['post_dir']))
 
     def _gen_post(self, post_data):
         """生成页面 添加页面信息"""
-        category = ''
-        tag = ''
-        title = ''
+        title = '未命名'
+        category = '未分类'
+        tag = '无标签'
         with open(post_data['source_path']) as source:
-            for line in source.readline():
-                if line == '-->': break
-                if line.startswith('Title:'):
-                    title = line.strip('Title: ')
-                if line.startswith('Category:'):
-                    category = line.strip('Category: ')
-                if line.startswith('Tag:'):
-                    tag = line.strip('Tag: ')
+            for line in source:
+                if line == '-->':
+                    break
+                elif line.startswith('Title:'):
+                    _tmp = line.replace('Title: ', '').replace('\n', '')
+                    title = _tmp or title
+                elif line.startswith('Category:'):
+                    _tmp = line.replace('Category: ', '').replace('\n', '')
+                    category = _tmp or category
+                elif line.startswith('Tag:'):
+                    _tmp = line.replace('Tag: ', '').replace('\n', '')
+                    tag = _tmp or tag
             self._mkdir(post_data['post_dir'])
             html = markdown2.markdown(source.read())
             with open(post_data['post_path'], 'w') as post:
@@ -162,7 +189,8 @@ class Data():
         self.conn = sqlite3.connect(path)
         self.conn.isolation_level = None
         self.conn.row_factory = sqlite3.Row
-        self.conn.executescript('''
+        self.conn.executescript(
+            '''
             CREATE TABLE IF NOT EXISTS posts (
                 source_name TEXT NOT NULL PRIMARY KEY ON CONFLICT REPLACE,
                 post_dir TEXT NOT NULL,
@@ -199,12 +227,12 @@ class Data():
             'ALTER TABLE {} RENAME TO {}'.format(old_name, new_name))
 
     def insert_post(self, data):
-        self.conn.execute('''
-            INSERT INTO temporary
+        self.conn.execute(
+            '''INSERT INTO temporary
             (source_name, post_dir, post_path, url, date, title, category, tag)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)''',
             (data['source_name'], data['post_dir'], data['post_path'],
-             os.path.join('.', 'post', data['date'], data['title']),
+             os.path.join('.', 'post', data['date'], data['post_name']),
              data['date'], data['title'], data['category'], data['tag']))
 
     def update_post(self, data):
@@ -231,16 +259,24 @@ class Data():
             yield row
 
     def query_posts(self):
-        for row in self.conn.execute('''
-            SELECT
-                substr(date, 0, 4) AS year,
-                category,
-                tag,
-                date,
-                title,
-                url
-            FROM temporary'''):
+        for row in self.conn.execute(
+            '''SELECT
+            substr(date, 0, 5) AS year, category, tag, date, title, url
+            FROM temporary ORDER BY date(date) DESC'''):
             yield row
 
+
+def main():
+    if len(sys.argv) != 2:
+        print('usage: pieh command')
+        return
+    app = Application()
+    if sys.argv[1] in ('b', 'build'):
+        app.build()
+    elif sys.argv[1] in ('c', 'clear'):
+        app.clear()
+    else:
+        print('unknown command')
+
 if __name__ == '__main__':
-    Application().run()
+    main()

@@ -4,7 +4,7 @@
 <article id="posts">
   {% for year, posts in archive.items() %}
   <section>
-    <h2 id="{{ year }}">{{ year }}</h2>
+    <h2 class="year" id="year_{{ year }}">{{ year }}</h2>
     <ul>
       {% for post in posts %}
       <li class="post">

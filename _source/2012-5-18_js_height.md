@@ -1,3 +1,9 @@
+<!--
+Title: javascript 获取页面高度
+Category: programming
+Tag: tips javascript
+-->
+
 # js里的高度
 
 最近在写一个带iframe的静态页面，

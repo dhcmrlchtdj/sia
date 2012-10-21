@@ -4,7 +4,7 @@
 <article id="posts">
   {% for category, posts in archive.items() %}
   <section>
-    <h2 id="{{category}}">{{ category }}</h2>
+    <h2 class="category" id="category_{{ category }}">{{ category }}</h2>
     <ul>
       {% for post in posts %}
       <li class="post">

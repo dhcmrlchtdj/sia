@@ -1,10 +1,12 @@
 <!--
-Category:
+Title: python 展开嵌套列表
+Category: programming
 Tag: tips python
 -->
+
 如何把一个 `[ [a], [b], [c] ]` 转化为 `[a, b, c]`。
 
-```
+```python
 l = [[1,2,3], [4,5,6], [7], [8,9]]
 
 # method 0
