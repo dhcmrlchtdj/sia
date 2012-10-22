@@ -4,22 +4,20 @@ Category: programming
 Tag: javascript css
 -->
 
-javascript
-==========
+# javascript
 
-style & offset
---------------
+## style & offset
 
-* * * * *
+------
 
-~~~~ {.javascript}
+```javascript
 function setStyle(el, prop, val) {}
 function getStyle(el, prop) {}
 function offsetX(el) {}
 function offsetY(el) {}
-~~~~
+```
 
-* * * * *
+------
 
 ### style
 
@@ -27,11 +25,11 @@ function offsetY(el) {}
 
 将属性由连字符转换为小骆驼
 
-~~~~ {.javascript}
+```javascript
 prop = prop.replace(/-([a-z])/ig, function(all, letter) {
     return letter.toUpperCase();
 });
-~~~~
+```
 
 #### float
 
@@ -41,18 +39,18 @@ float是js的保留字，w3c使用cssFloat代替，ie使用styleFloat代替。
 检查传入的属性名是否在这个对象（PROPS）里。
 这样便于拓展，因为需要特殊处理的还真不止float一个。
 
-~~~~ {.javascript}
+```javascript
 PROPS = {
     'float': !!el.style.cssFloat ? cssFloat : styleFloat;
     //不支持cssFloat的浏览器返回的是undefined
 };
-~~~~
+```
 
 #### setStyle
 
 最简单的方法就是直接设置inline style了。
 
-~~~~ {.javascript}
+```javascript
 /**
  * @param {HTMLElement} el An HTMLElement to apply the style to.
  * @param {String} prop The style property to set.
@@ -61,12 +59,12 @@ PROPS = {
 function setStyle(el, prop, val) {
     el.style[prop] = val;
 }
-~~~~
+```
 
 为了兼容性，需要做一些拓展。
 如果要支持用数字对width，height等等赋值，要对val进行处理，我不管了。
 
-~~~~ {.javascript}
+```javascript
 function setStyle(el, prop, val) {
     // 重置样式，比如setStyle(el, prop)这样的情况
     if (val === null || val === '') val = '';
@@ -80,13 +78,13 @@ function setStyle(el, prop, val) {
 
     el.style[prop] = val;
 }
-~~~~
+```
 
 #### getStyle
 
 有一种东西叫做计算样式（computedStyle），也就是浏览器最后应用的样式。
 
-~~~~ {.javascript}
+```javascript
 /**
  * @param {HTMLElement} el An HTMLElement to apply the style to.
  * @param {String} prop The style property to set.
@@ -96,12 +94,12 @@ function getStyle(el, prop) {
         style = document.defaultView.getComputedStyle(el, null);
     return style[prop];
 }
-~~~~
+```
 
 这个就是基本的用法了。
 不支持`getComputedStyle`的ie有`el.currentStyle`这么个属性，
 用法基本一样`el.currentStyle[prop]`。
 
-* * * * *
+------
 
 先这样了，下次更新ie单位。

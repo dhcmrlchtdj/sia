@@ -31,10 +31,10 @@ class Application():
         print('clean.')
 
     def build(self):
-        self.initial()  # 创建缺失的目录，连接配置文件
-        self.generate_posts()  # 生成文章
-        self.generate_pages()  # 生成页面 index category tag link about
-        self.finish()  # 关闭打开的连接
+        self.initial() # 创建缺失的目录，连接配置文件
+        self.generate_posts() # 生成文章
+        self.generate_pages() # 生成页面 index category tag link about
+        self.finish() # 关闭打开的连接
         print('build.')
 
     def initial(self):
@@ -63,36 +63,52 @@ class Application():
             }
             post_data['post_path'] = join(post_data['post_dir'],
                                           post_data['post_name'])
+            post_data['mtime'] = os.stat(post_data['source_path']).st_mtime
             return post_data
 
+        def _check_status(post_data):
+            """检查文件是否修改过
+            0 无记录 新文件
+            1 有修改 旧文件
+            2 无修改 旧文件
+            """
+            if exists(post_data['post_path']):
+                mtime_record = self.data.query_mtime(post_data['source_name'])
+                if mtime_record == post_data['mtime']:
+                    return 2
+                else:
+                    return 1
+            else:
+                return 0
+
         self.post_t = self.template.load('post.html')
-        source_list = os.listdir(PATH['source'])  # 获取源文件列表
+        source_list = os.listdir(PATH['source']) # 获取源文件列表
         for source in source_list:
-            post_data = _parser_filename(source)  # 解析文件名
-            status = self._check_status(
-                post_data['source_path'], post_data['post_path'])  # 检查文章
-            if status == 0:  # 新文章 新建
-                self._gen_post(post_data)  # 生成文章
-                self.data.insert_post(post_data)  # 插入记录
+            post_data = _parser_filename(source) # 解析文件名
+            status = _check_status(post_data) # 检查文章
+            if status == 0: # 新文章 新建
+                self._gen_post(post_data) # 生成文章
+                self.data.insert_post(post_data) # 插入记录
                 print('[post] "{}" built.'.format(post_data['source_name']))
-            elif status == 1:  # 有修改 覆盖
-                self._gen_post(post_data)  # 更新文章
-                self.data.update_post(post_data)  # 更新记录
+            elif status == 1: # 有修改 覆盖
+                self._gen_post(post_data) # 更新文章
+                self.data.update_post(post_data) # 更新记录
                 print('[post] "{}" updated.'.format(post_data['source_name']))
-            else:  # 无修改 不变
-                self.data.move_post(post_data)  # 移动记录
-                self._move_post(post_data)
-        # 删除旧文章
-        for row in self.data.query_old_post():
+            else: # 无修改 不变
+                self.data.move_post(post_data) # 移动记录
+        for row in self.data.query_old_post(): # 删除旧文章
             if exists(row['post_path']):
-                os.remove(row['post_path'])  # 删除文章
+                os.remove(row['post_path']) # 删除文章
                 print('remove post {}.'.format(row['post_path']))
                 if not os.listdir(row['post_dir']):
-                    os.removedirs(row['post_dir'])  # 若为空目录则删除目录
+                    os.removedirs(row['post_dir']) # 若为空目录则删除目录
                     print('remove dir {}.'.format(row['post_dir']))
 
     def generate_pages(self):
-        def _get_post_data(index, category, tag):
+        def _get_post_data():
+            index = {}
+            category = {}
+            tag = {}
             for row in self.data.query_posts():
                 post = {
                     'date': row['date'],
@@ -106,11 +122,9 @@ class Application():
                 for t in row['tag'].split():
                     tlist = tag.setdefault(t, [])
                     tlist.append(post)
+            return (index, category, tag)
 
-        index = {}
-        category = {}
-        tag = {}
-        _get_post_data(index, category, tag)
+        (index, category, tag) = _get_post_data()
         self._gen_page('index.html', 'Index', index)
         self._gen_page('category.html', 'Category', category)
         self._gen_page('tag.html', 'Tag', tag)
@@ -124,25 +138,10 @@ class Application():
                 return html
 
         self._gen_page('link.html', 'Link', _gen_html('link.md'))
-        self._gen_page('about.html', 'Link', _gen_html('about.md'))
+        self._gen_page('about.html', 'About', _gen_html('about.md'))
 
     def finish(self):
         self.data.close()
-
-    def _check_status(self, old, new):
-        """检查源文件情况
-        0 需要新建
-        1 需要更新
-        2 无需修改
-        """
-        #TODO 判断函数有误 需修改
-        if exists(new):
-            if filecmp.cmp(old, new):
-                return 2  # 无修改
-            else:
-                return 1  # 覆盖
-        else:
-            return 0  # 新建
 
     def _mkdir(self, path):
         """检查目录是否存在，不存在就创建相应目录"""
@@ -202,7 +201,8 @@ class Data():
                 date TEXT NOT NULL,
                 title TEXT NOT NULL,
                 category TEXT NOT NULL,
-                tag TEXT NOT NULL
+                tag TEXT NOT NULL,
+                mtime REAL NOT NULL
             );
 
             CREATE TABLE IF NOT EXISTS temporary (
@@ -213,7 +213,8 @@ class Data():
                 date TEXT NOT NULL,
                 title TEXT NOT NULL,
                 category TEXT NOT NULL,
-                tag TEXT NOT NULL
+                tag TEXT NOT NULL,
+                mtime REAL NOT NULL
             );
             ''')
 
@@ -232,11 +233,12 @@ class Data():
     def insert_post(self, data):
         self.conn.execute(
             '''INSERT INTO temporary
-            (source_name, post_dir, post_path, url, date, title, category, tag)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)''',
+            (source_name, post_dir, post_path,
+            url, date, title, category, tag, mtime)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
             (data['source_name'], data['post_dir'], data['post_path'],
-             join('.', 'post', data['date'], data['post_name']),
-             data['date'], data['title'], data['category'], data['tag']))
+             join('.', 'post', data['date'], data['post_name']), data['date'],
+             data['title'], data['category'], data['tag'], data['mtime']))
 
     def update_post(self, data):
         self.insert_post(data)
@@ -244,7 +246,7 @@ class Data():
                           (data['source_name'],))
 
     def move_post(self, data):
-        cursor = self.conn.cursor
+        cursor = self.conn.cursor()
         cursor.execute(
             'SELECT title, category, tag FROM posts WHERE source_name=?',
             (data['source_name'],))
@@ -267,6 +269,11 @@ class Data():
             substr(date, 0, 5) AS year, category, tag, date, title, url
             FROM temporary ORDER BY date(date) DESC'''):
             yield row
+
+    def query_mtime(self, source_name):
+        cursor = self.conn.execute('SELECT mtime FROM posts WHERE source_name=?',
+                                (source_name,))
+        return cursor.fetchone()['mtime']
 
 
 def main():
