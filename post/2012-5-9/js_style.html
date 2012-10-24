@@ -5,6 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="viewport" content="width=device-width">
 <title>javascript操作样式</title>
+<link rel="stylesheet" href="https://raw.github.com/necolas/normalize.css/master/normalize.css" />
 <link rel="stylesheet" href="../../theme/static/css/common.css" />
 </head>
 <body>
@@ -24,20 +25,22 @@
 <h1>javascript</h1>
 <h2>style &amp; offset</h2>
 <hr />
-<pre><code class="javascript">function setStyle(el, prop, val) {}
-function getStyle(el, prop) {}
-function offsetX(el) {}
-function offsetY(el) {}
-</code></pre>
+<div class="codehilite"><pre><span class="kd">function</span> <span class="nx">setStyle</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">prop</span><span class="p">,</span> <span class="nx">val</span><span class="p">)</span> <span class="p">{}</span>
+<span class="kd">function</span> <span class="nx">getStyle</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">prop</span><span class="p">)</span> <span class="p">{}</span>
+<span class="kd">function</span> <span class="nx">offsetX</span><span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{}</span>
+<span class="kd">function</span> <span class="nx">offsetY</span><span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{}</span>
+</pre></div>
+
 
 <hr />
 <h3>style</h3>
 <h4>property name</h4>
 <p>将属性由连字符转换为小骆驼</p>
-<pre><code class="javascript">prop = prop.replace(/-([a-z])/ig, function(all, letter) {
-    return letter.toUpperCase();
-});
-</code></pre>
+<div class="codehilite"><pre><span class="nx">prop</span> <span class="o">=</span> <span class="nx">prop</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/-([a-z])/ig</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">all</span><span class="p">,</span> <span class="nx">letter</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">letter</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
+
 
 <h4>float</h4>
 <p>float是js的保留字，w3c使用cssFloat代替，ie使用styleFloat代替。
@@ -45,53 +48,57 @@ function offsetY(el) {}
 具体实现是使用一个对象（PROPS）保存需要特殊处理的属性名（这里是float），
 检查传入的属性名是否在这个对象（PROPS）里。
 这样便于拓展，因为需要特殊处理的还真不止float一个。</p>
-<pre><code class="javascript">PROPS = {
-    'float': !!el.style.cssFloat ? cssFloat : styleFloat;
-    //不支持cssFloat的浏览器返回的是undefined
-};
-</code></pre>
+<div class="codehilite"><pre><span class="nx">PROPS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;float&#39;</span><span class="o">:</span> <span class="o">!!</span><span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">cssFloat</span> <span class="o">?</span> <span class="nx">cssFloat</span> <span class="o">:</span> <span class="nx">styleFloat</span><span class="p">;</span>
+    <span class="c1">//不支持cssFloat的浏览器返回的是undefined</span>
+<span class="p">};</span>
+</pre></div>
+
 
 <h4>setStyle</h4>
 <p>最简单的方法就是直接设置inline style了。</p>
-<pre><code class="javascript">/**
- * @param {HTMLElement} el An HTMLElement to apply the style to.
- * @param {String} prop The style property to set.
- * @param {String} val The value.
- */
-function setStyle(el, prop, val) {
-    el.style[prop] = val;
-}
-</code></pre>
+<div class="codehilite"><pre><span class="cm">/**</span>
+<span class="cm"> * @param {HTMLElement} el An HTMLElement to apply the style to.</span>
+<span class="cm"> * @param {String} prop The style property to set.</span>
+<span class="cm"> * @param {String} val The value.</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">setStyle</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">prop</span><span class="p">,</span> <span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">prop</span><span class="p">]</span> <span class="o">=</span> <span class="nx">val</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
 
 <p>为了兼容性，需要做一些拓展。
 如果要支持用数字对width，height等等赋值，要对val进行处理，我不管了。</p>
-<pre><code class="javascript">function setStyle(el, prop, val) {
-    // 重置样式，比如setStyle(el, prop)这样的情况
-    if (val === null || val === '') val = '';
+<div class="codehilite"><pre><span class="kd">function</span> <span class="nx">setStyle</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">prop</span><span class="p">,</span> <span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 重置样式，比如setStyle(el, prop)这样的情况</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">val</span> <span class="o">===</span> <span class="kc">null</span> <span class="o">||</span> <span class="nx">val</span> <span class="o">===</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="nx">val</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
 
-    // 处理特殊样式
-    if (prop in PROPS) {
-        if (typeof PROPS[prop] === 'string') {
-            prop = PROPS[prop]; // float的处理就在这里了
-        }
-    }
+    <span class="c1">// 处理特殊样式</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">prop</span> <span class="k">in</span> <span class="nx">PROPS</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">PROPS</span><span class="p">[</span><span class="nx">prop</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">prop</span> <span class="o">=</span> <span class="nx">PROPS</span><span class="p">[</span><span class="nx">prop</span><span class="p">];</span> <span class="c1">// float的处理就在这里了</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
 
-    el.style[prop] = val;
-}
-</code></pre>
+    <span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">[</span><span class="nx">prop</span><span class="p">]</span> <span class="o">=</span> <span class="nx">val</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
 
 <h4>getStyle</h4>
 <p>有一种东西叫做计算样式（computedStyle），也就是浏览器最后应用的样式。</p>
-<pre><code class="javascript">/**
- * @param {HTMLElement} el An HTMLElement to apply the style to.
- * @param {String} prop The style property to set.
- */
-function getStyle(el, prop) {
-    if (document.defaultView &amp;&amp; document.defaultView.getComputedStyle)
-        style = document.defaultView.getComputedStyle(el, null);
-    return style[prop];
-}
-</code></pre>
+<div class="codehilite"><pre><span class="cm">/**</span>
+<span class="cm"> * @param {HTMLElement} el An HTMLElement to apply the style to.</span>
+<span class="cm"> * @param {String} prop The style property to set.</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">getStyle</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="nx">prop</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">defaultView</span> <span class="o">&amp;&amp;</span> <span class="nb">document</span><span class="p">.</span><span class="nx">defaultView</span><span class="p">.</span><span class="nx">getComputedStyle</span><span class="p">)</span>
+        <span class="nx">style</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">defaultView</span><span class="p">.</span><span class="nx">getComputedStyle</span><span class="p">(</span><span class="nx">el</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">style</span><span class="p">[</span><span class="nx">prop</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+
 
 <p>这个就是基本的用法了。
 不支持<code>getComputedStyle</code>的ie有<code>el.currentStyle</code>这么个属性，

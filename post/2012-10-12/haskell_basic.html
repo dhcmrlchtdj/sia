@@ -5,6 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="viewport" content="width=device-width">
 <title>haskell学习笔记（坑）</title>
+<link rel="stylesheet" href="https://raw.github.com/necolas/normalize.css/master/normalize.css" />
 <link rel="stylesheet" href="../../theme/static/css/common.css" />
 </head>
 <body>
@@ -21,7 +22,7 @@
 </ul>
 </nav>
 <article id="post">
-<pre><code>## 类型
+<div class="codehilite"><pre><span class="c1">## 类型</span>
 
 Int Integer Float Double Bool Char
 Num 包括Int Integer Float Double
@@ -29,189 +30,188 @@ Integral 包括 Int Integer
 Floating 包括 Float Double
 
 Num
-: 1
+: <span class="m">1</span>
 
 Fractional
-: 1.0
+: <span class="m">1.0</span>
 
 Bool
 : True
 
 Char
-: 'c'
+: <span class="s">&#39;c&#39;</span>
 
-[Char]
-: &quot;char&quot;
+<span class="p">[</span>Char<span class="p">]</span>
+: <span class="s">&quot;char&quot;</span>
 
-### 查看类型
-:t 'a'
-:t (==)
+<span class="c1">### 查看类型</span>
+:t <span class="s">&#39;a&#39;</span>
+:t <span class="p">(</span><span class="o">==</span><span class="p">)</span>
 
-### 改变类型
+<span class="c1">### 改变类型</span>
 
 改变为字符串
-show 3 == &quot;3&quot; /= '3'
+show <span class="m">3</span> <span class="o">==</span> <span class="s">&quot;3&quot;</span> <span class="o">/=</span> <span class="s">&#39;3&#39;</span>
 
 字符串变为其他类型
-read &quot;3&quot; :: Int
-read &quot;3&quot; :: Float
-read &quot;3&quot; + 2 == 5
+read <span class="s">&quot;3&quot;</span> <span class="p">::</span> Int
+read <span class="s">&quot;3&quot;</span> <span class="p">::</span> Float
+read <span class="s">&quot;3&quot;</span> <span class="o">+</span> <span class="m">2</span> <span class="o">==</span> <span class="m">5</span>
 
---------------
+<span class="o">--------------</span>
 
-## 操作符
+<span class="c1">## 操作符</span>
 
-    + - * /
-    &amp;&amp; || not
-    == /=
+    <span class="o">+</span> <span class="o">-</span> <span class="o">*</span> <span class="o">/</span>
+    <span class="o">&amp;&amp;</span> <span class="o">||</span> not
+    <span class="o">==</span> <span class="o">/=</span>
 
----------------------
+<span class="o">---------------------</span>
 
-## 常见函数
+<span class="c1">## 常见函数</span>
 
-    compare 'a' 'b' 返回LT EQ GT
-    succ pred 增减1
-    max 9 10
-    min 9 10
-    div 10 3 整除 等价于 10`div`3
-    mod 10 3 取余
-    odd 1 为奇数
-    even 1 为偶数
+    compare <span class="s">&#39;a&#39;</span> <span class="s">&#39;b&#39;</span> 返回LT EQ GT
+    succ pred 增减<span class="m">1</span>
+    max <span class="m">9</span> <span class="m">10</span>
+    min <span class="m">9</span> <span class="m">10</span>
+    div <span class="m">10</span> <span class="m">3</span> 整除 等价于 <span class="m">10</span><span class="sb">`div`</span>3
+    mod <span class="m">10</span> <span class="m">3</span> 取余
+    odd <span class="m">1</span> 为奇数
+    even <span class="m">1</span> 为偶数
 
------------------
+<span class="o">-----------------</span>
 
-## 编写函数
+<span class="c1">## 编写函数</span>
 
-函数名 参数 = 函数体
-doubleIt x = x+x
+函数名 参数 <span class="o">=</span> 函数体
+doubleIt x <span class="o">=</span> x<span class="o">+</span>x
 
-------------------
+<span class="o">------------------</span>
 
-## 在命令行载入文件
+<span class="c1">## 在命令行载入文件</span>
 
 :l filename
 
----------------------
+<span class="o">---------------------</span>
 
-## 条件语句
+<span class="c1">## 条件语句</span>
 
-if &lt;condition&gt; then &lt;command&gt; else &lt;command&gt;
+if <span class="o">&lt;</span>condition<span class="o">&gt;</span> then <span class="o">&lt;</span>command<span class="o">&gt;</span> <span class="kr">else</span> <span class="o">&lt;</span>command<span class="o">&gt;</span>
 
----------------------
+<span class="o">---------------------</span>
 
-## 赋值
+<span class="c1">## 赋值</span>
 
-在hs文件中 x=1
-在命令行里 let x=1
+在hs文件中 x<span class="o">=</span><span class="m">1</span>
+在命令行里 let x<span class="o">=</span><span class="m">1</span>
 
----------------------
+<span class="o">---------------------</span>
 
-## 列表
+<span class="c1">## 列表</span>
 
 列表只能放相同类型的值
 
 字符串即为字符列表
 
-num = [1, 2, 3, 4]
-char = ['h', 'e', 'l', 'l', 'o'] == &quot;hello&quot;
+num <span class="o">=</span> <span class="p">[</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">]</span>
+char <span class="o">=</span> <span class="p">[</span><span class="s">&#39;h&#39;</span><span class="p">,</span> <span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="s">&#39;l&#39;</span><span class="p">,</span> <span class="s">&#39;l&#39;</span><span class="p">,</span> <span class="s">&#39;o&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;hello&quot;</span>
 
-### 列表操作符
+<span class="c1">### 列表操作符</span>
 
-++ 连接前后两个列表
-[1,2,3] ++ [4,5]
-['h','e','l','l','o'] ++ &quot;world&quot;
+<span class="o">++</span> 连接前后两个列表
+<span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">]</span> <span class="o">++</span> <span class="p">[</span><span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">]</span>
+<span class="p">[</span><span class="s">&#39;h&#39;</span><span class="p">,</span><span class="s">&#39;e&#39;</span><span class="p">,</span><span class="s">&#39;l&#39;</span><span class="p">,</span><span class="s">&#39;l&#39;</span><span class="p">,</span><span class="s">&#39;o&#39;</span><span class="p">]</span> <span class="o">++</span> <span class="s">&quot;world&quot;</span>
 
 : 在表头添加元素
-1:[2,3]
-'a':&quot; cat&quot;
+<span class="m">1</span>:<span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">]</span>
+<span class="s">&#39;a&#39;</span>:<span class="s">&quot; cat&quot;</span>
 
 !! 按位置取元素
-&quot;hello&quot;!!0
-[1,2]!!1
+<span class="s">&quot;hello&quot;</span>!!<span class="m">0</span>
+<span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">]</span>!!<span class="m">1</span>
 
-### 列表操作函数
+<span class="c1">### 列表操作函数</span>
 
 列表是否为空
-null &quot;hello
+null <span class="s">&quot;hello</span>
 
-元素是否在列表中
-elem 'h' &quot;hello&quot; == 'h' `elem` &quot;hello&quot;
+<span class="s">元素是否在列表中</span>
+<span class="s">elem &#39;h&#39; &quot;</span>hello<span class="s">&quot; == &#39;h&#39; `elem` &quot;</span>hello<span class="s">&quot;</span>
 
-获取列表长度
-length &quot;hello&quot; == 5
+<span class="s">获取列表长度</span>
+<span class="s">length &quot;</span>hello<span class="s">&quot; == 5</span>
 
-反转列表
-reverse &quot;hello&quot; == &quot;olleh&quot;
+<span class="s">反转列表</span>
+<span class="s">reverse &quot;</span>hello<span class="s">&quot; == &quot;</span>olleh<span class="s">&quot;</span>
 
-截取列表开头几个元素
-接受两个参数 长度和列表
-当长度为0 返回空列表
-长度超过列表 返回整个列表
-take 5 &quot;hello world&quot; == &quot;hello&quot;
+<span class="s">截取列表开头几个元素</span>
+<span class="s">接受两个参数 长度和列表</span>
+<span class="s">当长度为0 返回空列表</span>
+<span class="s">长度超过列表 返回整个列表</span>
+<span class="s">take 5 &quot;</span>hello world<span class="s">&quot; == &quot;</span>hello<span class="s">&quot;</span>
 
-去掉列表开头几个元素
-接受两个参数 长度和列表
-当长度为0 返回整个列表
-长度超过列表 返回空列表
-drop 6 &quot;hello world&quot; == &quot;world&quot;
+<span class="s">去掉列表开头几个元素</span>
+<span class="s">接受两个参数 长度和列表</span>
+<span class="s">当长度为0 返回整个列表</span>
+<span class="s">长度超过列表 返回空列表</span>
+<span class="s">drop 6 &quot;</span>hello world<span class="s">&quot; == &quot;</span>world<span class="s">&quot;</span>
 
-head &quot;hello&quot; =='h' == &quot;hello&quot;!!0
-tail &quot;hello&quot; == &quot;ello&quot; == drop 1 &quot;hello&quot;
-init &quot;hello&quot; == &quot;hell&quot; == take ((length &quot;hello&quot; -1) &quot;hello&quot;
-last &quot;hello&quot; == &quot;o&quot; == &quot;hello&quot;!!(length &quot;hello&quot; -1)
+<span class="s">head &quot;</span>hello<span class="s">&quot; ==&#39;h&#39; == &quot;</span>hello<span class="s">&quot;!!0</span>
+<span class="s">tail &quot;</span>hello<span class="s">&quot; == &quot;</span>ello<span class="s">&quot; == drop 1 &quot;</span>hello<span class="s">&quot;</span>
+<span class="s">init &quot;</span>hello<span class="s">&quot; == &quot;</span>hell<span class="s">&quot; == take ((length &quot;</span>hello<span class="s">&quot; -1) &quot;</span>hello<span class="s">&quot;</span>
+<span class="s">last &quot;</span>hello<span class="s">&quot; == &quot;</span>o<span class="s">&quot; == &quot;</span>hello<span class="s">&quot;!!(length &quot;</span>hello<span class="s">&quot; -1)</span>
 
-获取最大/小值
-maximum &quot;hello&quot;
-minimum &quot;hello&quot;
+<span class="s">获取最大/小值</span>
+<span class="s">maximum &quot;</span>hello<span class="s">&quot;</span>
+<span class="s">minimum &quot;</span>hello<span class="s">&quot;</span>
 
-取和/乘积 只用于数值
-sum [1,2]
-product [1,2]
+<span class="s">取和/乘积 只用于数值</span>
+<span class="s">sum [1,2]</span>
+<span class="s">product [1,2]</span>
 
-### 生成列表
-等差
-[1..] 无限
-[1..20]
-['a'..'z']
-[1,3..20] == [1,3,5,7,9,11,13,15,17,19]
-[20..1] == []
-[10,8..1] == [10,8,6,4,2]
+<span class="s">### 生成列表</span>
+<span class="s">等差</span>
+<span class="s">[1..] 无限</span>
+<span class="s">[1..20]</span>
+<span class="s">[&#39;a&#39;..&#39;z&#39;]</span>
+<span class="s">[1,3..20] == [1,3,5,7,9,11,13,15,17,19]</span>
+<span class="s">[20..1] == []</span>
+<span class="s">[10,8..1] == [10,8,6,4,2]</span>
 
-重复列表
-cycle &quot;hello&quot; --无限循环
-重复元素
-repeat 5 --无限循环
-replicate 3 5 == [5,5,5] --循环3次
+<span class="s">重复列表</span>
+<span class="s">cycle &quot;</span>hello<span class="s">&quot; --无限循环</span>
+<span class="s">重复元素</span>
+<span class="s">repeat 5 --无限循环</span>
+<span class="s">replicate 3 5 == [5,5,5] --循环3次</span>
 
-列表推导
-[ express | condition1, condition2 ]
+<span class="s">列表推导</span>
+<span class="s">[ express | condition1, condition2 ]</span>
 
-[x*2 | x &lt;- [1..10]]
-[if x&lt;10 then &quot;hello&quot; else &quot;world&quot; | x&lt;-[1..20], x&gt;5, x&lt;14]
-[x*y | x&lt;-[1,2], y&lt;-[3,4,5]] == [3,4,5, 6,8,10]
-[ [x|x&lt;-xs, even x] | xs&lt;-xxs] --let xxs=[[1,2,3],[4,5,6],[7,8,9]]
+<span class="s">[x*2 | x &lt;- [1..10]]</span>
+<span class="s">[if x&lt;10 then &quot;</span>hello<span class="s">&quot; else &quot;</span>world<span class="s">&quot; | x&lt;-[1..20], x&gt;5, x&lt;14]</span>
+<span class="s">[x*y | x&lt;-[1,2], y&lt;-[3,4,5]] == [3,4,5, 6,8,10]</span>
+<span class="s">[ [x|x&lt;-xs, even x] | xs&lt;-xxs] --let xxs=[[1,2,3],[4,5,6],[7,8,9]]</span>
 
-----------------------
+<span class="s">----------------------</span>
 
-## 元组
+<span class="s">## 元组</span>
 
-可以有不同类型的元素 长度固定
-(1, &quot;hello&quot;, 'a')
+<span class="s">可以有不同类型的元素 长度固定</span>
+<span class="s">(1, &quot;</span>hello<span class="s">&quot;</span><span class="err">, &#39;a&#39;)</span>
 
-### 二元组
+<span class="c1">### 二元组</span>
 
-#### 操作函数
+<span class="c1">#### 操作函数</span>
 取第一个元素
-fst (1,2) == 1
+fst <span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">)</span> <span class="o">==</span> <span class="m">1</span>
 
 取第二个元素
-snd (1,2) == 2
+snd <span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">)</span> <span class="o">==</span> <span class="m">2</span>
 
 将两个列表合成为一个列表 元素为二元组
-zip [1,2,3] ['A','B','C']
+zip <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">]</span> <span class="p">[</span><span class="s">&#39;A&#39;</span><span class="p">,</span><span class="s">&#39;B&#39;</span><span class="p">,</span><span class="s">&#39;C&#39;</span><span class="p">]</span>
 当一个比另一个长时 取短的那个
-
-</code></pre>
+</pre></div>
 </article>
 </body>
 </html>

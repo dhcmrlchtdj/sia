@@ -134,7 +134,8 @@ class Application():
             if not exists(path):
                 return
             with open(path) as f:
-                html = markdown.markdown(f.read(), ['fenced_code'])
+                html = markdown.markdown(f.read(),
+                                         ['fenced_code', 'codehilite'])
                 return html
 
         self._gen_page('link.html', 'Link', _gen_html('link.md'))
@@ -169,7 +170,8 @@ class Application():
                     tag = _tmp or tag
             self._mkdir(post_data['post_dir'])
             with open(post_data['post_path'], 'w') as post:
-                html = markdown.markdown(source.read(), ['fenced_code'])
+                html = markdown.markdown(source.read(),
+                                         ['fenced_code', 'codehilite'])
                 b = self.post_t.generate(title=title, html_code=html)
                 post.write(b.decode())
         post_data['title'] = title

@@ -5,6 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="viewport" content="width=device-width">
 <title>python 下删除文件和目录</title>
+<link rel="stylesheet" href="https://raw.github.com/necolas/normalize.css/master/normalize.css" />
 <link rel="stylesheet" href="../../theme/static/css/common.css" />
 </head>
 <body>
@@ -28,35 +29,34 @@
 <li><a href="http://docs.python.org/library/os.html#os-file-dir">http://docs.python.org/library/os.html#os-file-dir</a></li>
 <li><a href="http://docs.python.org/library/os.path.html">http://docs.python.org/library/os.path.html</a></li>
 </ul>
-<pre><code class="python">
-# pwd
-os.getcwd()
-os.getcwdu() # unicode
+<div class="codehilite"><pre><span class="c"># pwd</span>
+<span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+<span class="n">os</span><span class="o">.</span><span class="n">getcwdu</span><span class="p">()</span> <span class="c"># unicode</span>
 
-# cd
-os.chdir(path)
+<span class="c"># cd</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
-# ls
-os.listdir(path)
+<span class="c"># ls</span>
+<span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
-# mkdir
-os.mkdir(path)
-os.makedirs(path) # 递归地创建目录，更实用些
+<span class="c"># mkdir</span>
+<span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="c"># 递归地创建目录，更实用些</span>
 
-# rm
-os.remove(path) # 只能删除文件
-os.rmdir(path) # 只能删除空目录
-shutil.rmtree(path) # 删除目录
+<span class="c"># rm</span>
+<span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="c"># 只能删除文件</span>
+<span class="n">os</span><span class="o">.</span><span class="n">rmdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="c"># 只能删除空目录</span>
+<span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="c"># 删除目录</span>
 
-# rename
-os.rename(src, dst) # 重命名文件
+<span class="c"># rename</span>
+<span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span> <span class="c"># 重命名文件</span>
 
-# path
-os.path.abspath(file)
-os.path.basename(path)
-os.path.dirname(path)
-os.path.join(path, path, ...)
-</code></pre>
+<span class="c"># path</span>
+<span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</pre></div>
 </article>
 </body>
 </html>

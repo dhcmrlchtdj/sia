@@ -5,6 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="viewport" content="width=device-width">
 <title>python 展开嵌套列表</title>
+<link rel="stylesheet" href="https://raw.github.com/necolas/normalize.css/master/normalize.css" />
 <link rel="stylesheet" href="../../theme/static/css/common.css" />
 </head>
 <body>
@@ -22,31 +23,31 @@
 </nav>
 <article id="post">
 <p>如何把一个 <code>[ [a], [b], [c] ]</code> 转化为 <code>[a, b, c]</code>。</p>
-<pre><code class="python">l = [[1,2,3], [4,5,6], [7], [8,9]]
+<div class="codehilite"><pre><span class="n">l</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">]]</span>
 
-# method 0
-[item for sublist in list for item in sublist]
+<span class="c"># method 0</span>
+<span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="nb">list</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span>
 
-# method 1
-sum(l, [])
+<span class="c"># method 1</span>
+<span class="nb">sum</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="p">[])</span>
 
-# method 2.11
-reduce(lambda x,y: x+y, l)
-# method 2.12
-reduce(lambda x,y: x.extend(y) or x, l)
+<span class="c"># method 2.11</span>
+<span class="nb">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">:</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+<span class="c"># method 2.12</span>
+<span class="nb">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="ow">or</span> <span class="n">x</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
 
-# method 2.2
-import operator
-reduce(operator.add, l)
+<span class="c"># method 2.2</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="nb">reduce</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">add</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
 
-# method 3.1
-import itertools
-list(itertools.chain(*l))
+<span class="c"># method 3.1</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">l</span><span class="p">))</span>
 
-# method 3.2
-import itertools
-list(itertools.chain.from_iterable(l))
-</code></pre>
+<span class="c"># method 3.2</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+</pre></div>
 </article>
 </body>
 </html>

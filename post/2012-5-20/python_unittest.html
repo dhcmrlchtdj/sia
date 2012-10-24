@@ -5,6 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="viewport" content="width=device-width">
 <title>python 单元测试笔记（坑）</title>
+<link rel="stylesheet" href="https://raw.github.com/necolas/normalize.css/master/normalize.css" />
 <link rel="stylesheet" href="../../theme/static/css/common.css" />
 </head>
 <body>
@@ -37,44 +38,47 @@
 <hr />
 <p>下面进入正题，先开始项目再说。</p>
 <p>整个项目就2个文件，<code>markdown.py</code>和<code>markdown_test.py</code>。</p>
-<pre><code class="python"># markdown_test.py
+<div class="codehilite"><pre><span class="c"># markdown_test.py</span>
 
-import unittest
-from markdown import Markdown
+<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">from</span> <span class="nn">markdown</span> <span class="kn">import</span> <span class="n">Markdown</span>
 
-# 测试的类要继承unittest.TestCase
-class MarkdownTest(unittest.TestCase):
-    # 测试 是以'test_'开头的方法
-    def test_h1(self):
-        text = '# h1'
-        html = Markdown.convert(text)
-        # 这个很好理解吧，比较结果是否相等
-        self.assertEqual(html, '&lt;h1&gt;h1&lt;/h1&gt;\n')
+<span class="c"># 测试的类要继承unittest.TestCase</span>
+<span class="k">class</span> <span class="nc">MarkdownTest</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="c"># 测试 是以&#39;test_&#39;开头的方法</span>
+    <span class="k">def</span> <span class="nf">test_h1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s">&#39;# h1&#39;</span>
+        <span class="n">html</span> <span class="o">=</span> <span class="n">Markdown</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="c"># 这个很好理解吧，比较结果是否相等</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="s">&#39;&lt;h1&gt;h1&lt;/h1&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
 
-if __name__ == '__main__':
-    # 执行上面的测试
-    unittest.main()
-</code></pre>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c"># 执行上面的测试</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+
 
 <p>执行<code>python markdown_test.py</code>就会输出测试结果。</p>
 <p>顺便把<code>markdown.py</code>也贴出来看一下。</p>
-<pre><code class="python"># markdown.py
+<div class="codehilite"><pre><span class="c"># markdown.py</span>
 
-class Markdown(object):
-    @staticmethod
-    def convert(text):
-        html = '&lt;h1&gt;h1&lt;/h1&gt;\n'
-        return html
-</code></pre>
+<span class="k">class</span> <span class="nc">Markdown</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="n">html</span> <span class="o">=</span> <span class="s">&#39;&lt;h1&gt;h1&lt;/h1&gt;</span><span class="se">\n</span><span class="s">&#39;</span>
+        <span class="k">return</span> <span class="n">html</span>
+</pre></div>
+
 
 <p>细节就不要在意了。总之，整个项目开始起步了。
 <code>assertEqual()</code>应该是最常用的测试了吧。</p>
 <p>然后可以开始下个测试了（毫无疑问，失败了）。</p>
-<pre><code class="python">def test_h2(self):
-    text = '## h2'
-    html = Markdown.convert(text)
-    self.assertEqual(html, '&lt;h2&gt;h2&lt;/h2&gt;\n')
-</code></pre>
+<div class="codehilite"><pre><span class="k">def</span> <span class="nf">test_h2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s">&#39;## h2&#39;</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="n">Markdown</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="s">&#39;&lt;h2&gt;h2&lt;/h2&gt;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+</pre></div>
+
 
 <p>最后说两句， 刚开始，我也想按照markdown的语法把测试先写好，具体实现慢慢来。
 可是想一想，在完成所有功能前，每次测试都是失败的，也太打击人了。

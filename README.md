@@ -15,4 +15,6 @@
 
 ------
 
-Thanks to `markdown` && `tornado.template`.
+Thanks to [markdown](http://pypi.python.org/pypi/Markdown) &&
+[tornado](http://www.tornadoweb.org/) &&
+[normalize.css](http://necolas.github.com/normalize.css/)
