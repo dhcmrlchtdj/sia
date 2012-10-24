@@ -1,8 +1,9 @@
-# sia tsei
+# sia
 
-<http://dhcmrlchtdj.github.com/sia_tsei>
+<http://dhcmrlchtdj.github.com/sia>
 
-'sia tsei' means 'write' in Fuzhou dialect.
+'sia' means 'write' in Fuzhou dialect.
+
 'pieh' means 'pen'.
 
 ------
