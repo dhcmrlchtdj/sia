@@ -1,12 +1,4 @@
 /*
- * reset
- */
-a {
-	color: inherit;
-	text-decoration: none;
-}
-
-/*
  * common
  */
 body {
@@ -14,6 +6,7 @@ body {
 	color: rgba(222, 222, 222, .8);
 	width: 100%;
 }
+
 /*header*/
 header {
 	width: 100%;
@@ -45,6 +38,8 @@ nav li:first-child {
 	border: none !important;
 }
 nav li a {
+	color: inherit;
+	text-decoration: none;
 	display: block;
 }
 nav li a:hover {
@@ -82,6 +77,8 @@ nav li a:hover {
 	color: rgba(255, 255, 255, .7);
 }
 #posts li.post a {
+	color: inherit;
+	text-decoration: none;
 	float: left;
 	width: 70%;
 	color: rgba(255, 255, 255, 1);
@@ -89,8 +86,11 @@ nav li a:hover {
 #posts li.post a:hover {
 	color: rgba(255, 0, 0, 1);
 }
+
+/* post */
 #post {
 	background-color: rgba(255, 255, 255, .1);
+	color: rgba(255, 255, 255, .9);
 	border-radius: 4px;
 	padding: 1%;
 }
@@ -102,11 +102,104 @@ nav li a:hover {
 	padding-left: 9%;
 	margin-bottom: 20px;
 }
+#post p {
+	text-indent: 2em;
+}
+#post a {
+	text-decoration: none;
+	color: rgba(255, 0, 0, .8);
+}
+#post a:hover {
+	color: red;
+}
+
+/*
+ * highlight
+ */
+code {
+	background-color: rgba(248, 248, 248, .9);
+	color: #333;
+	padding: 0 3px;
+	margin: 0 2px;
+	border-radius: 2px;
+	/*display: inline-block;*/
+}
+
+.codehilite {
+	background-color: rgba(248, 248, 248, .9);
+	padding: 4px;
+	border-radius: 2px;
+}
+.bp {color: #999999;}
+.c {color: #999988;font-style: italic;}
+.c1 {color: #999988;font-style: italic;}
+.cm {color: #999988;font-style: italic;}
+.cp {color: #999999;font-weight: bold;}
+.cs {color: #999999;font-weight: bold;font-style: italic;}
+.err {color: #a61717;background-color: #e3d2d2;}
+.gc {color: #999;background-color: #EAF2F5;}
+.gd .x {color: #000000;background-color: #ffaaaa;}
+.gd {color: #000000;background-color: #ffdddd;}
+.ge {color: #333333;font-style: italic;}
+.gh {color: #999999;}
+.gi .x {color: #000000;background-color: #aaffaa;}
+.gi {color: #000000;background-color: #ddffdd;}
+.go {color: #888888;}
+.gp {color: #555555;}
+.gr {color: #aa0000;}
+.gs {color: #333333;font-weight: bold;}
+.gt {color: #aa0000;}
+.gu {color: #800080;font-weight: bold;}
+.il {color: #009999;}
+.k {color: #333333;font-weight: bold;}
+.kc {color: #333333;font-weight: bold;}
+.kd {color: #333333;font-weight: bold;}
+.kn {color: #333333;font-weight: bold;}
+.kp {color: #333333;font-weight: bold;}
+.kr {color: #333333;font-weight: bold;}
+.kt {color: #445588;font-weight: bold;}
+.m {color: #009999;}
+.mf {color: #009999;}
+.mh {color: #009999;}
+.mi {color: #009999;}
+.mo {color: #009999;}
+.n {color: #333333;}
+.na {color: #008080;}
+.nb {color: #0086B3;}
+.nc {color: #445588;font-weight: bold;}
+.ne {color: #990000;font-weight: bold;}
+.nf {color: #990000;font-weight: bold;}
+.ni {color: #800080;}
+.nn {color: #555555;}
+.no {color: #008080;}
+.nt {color: #000080;}
+.nv {color: #008080;}
+.nx {color: #333333;}
+.o {color: #333333;font-weight: bold;}
+.ow {color: #333333;font-weight: bold;}
+.p {color: #333333;}
+.s {color: #d14;}
+.s1 {color: #d14;}
+.s2 {color: #d14;}
+.sb {color: #d14;}
+.sc {color: #d14;}
+.sd {color: #d14;}
+.se {color: #d14;}
+.sh {color: #d14;}
+.si {color: #d14;}
+.sr {color: #009926;}
+.ss {color: #990073;}
+.sx {color: #d14;}
+.vc {color: #008080;}
+.vg {color: #008080;}
+.vi {color: #008080;}
+.w {color: #bbbbbb;}
 
 /*
  * media query
  */
-@media(min-width: 960px) {
+@media
+(min-width: 960px) {
 	header h1 {
 		margin-left: 30%;
 		width: 45%;
@@ -135,7 +228,10 @@ nav li a:hover {
 		width: 48%;
 	}
 }
-@media(max-width: 960px), (orientation: landscape) and(min-device-pixel-ratio: 1.5) {
+
+@media
+(max-width: 960px),
+(orientation: landscape) and (min-device-pixel-ratio: 1.5) {
 	nav {
 		width: 80%;
 		margin: 0 auto;
@@ -155,7 +251,10 @@ nav li a:hover {
 		margin: 40px auto;
 	}
 }
-@media(max-width: 540px), (orientation: portrait) and(min-device-pixel-ratio: 1.5) {
+
+@media
+(max-width: 540px),
+(orientation: portrait) and (min-device-pixel-ratio: 1.5) {
 	body {
 		min-width: 320px;
 	}
@@ -181,284 +280,4 @@ nav li a:hover {
 		display: block;
 		width: 100%;
 	}
-}
-
-/*
- * highlight
- */
-.codehilite {
-	background-color: rgb(248, 248, 248);
-	padding: 4px;
-	border-radius: 2px;
-}
-
-.c {
-	color: rgb(153, 153, 136);
-	font-style: italic;
-}
-
-.p {
-	color: rgb(51, 51, 51);
-}
-
-.err {
-	color: #a61717;
-	background-color: #e3d2d2
-}
-
-.k {
-	color: rgb(51, 51, 51);
-	font-weight: bold;
-}
-
-.o {
-	color: rgb(51, 51, 51);
-}
-
-.cm {
-	color: #999988;
-	font-style: italic
-}
-
-.cp {
-	color: #999999;
-	font-weight: bold;
-	font-style: italic
-}
-
-.c1 {
-	color: #999988;
-	font-style: italic
-}
-
-.cs {
-	color: #999999;
-	font-weight: bold;
-	font-style: italic
-}
-
-.gd {
-	color: #000000;
-	background-color: #ffdddd
-}
-
-.ge {
-	color: #000000;
-	font-style: italic
-}
-
-.gr {
-	color: #aa0000
-}
-
-.gh {
-	color: #999999
-}
-
-.gi {
-	color: #000000;
-	background-color: #ddffdd
-}
-
-.go {
-	color: #888888
-}
-
-.gp {
-	color: #555555
-}
-
-.gs {
-	font-weight: bold
-}
-
-.gu {
-	color: #aaaaaa
-}
-
-.gt {
-	color: #aa0000
-}
-
-.kc {
-	color: #000000;
-	font-weight: bold
-}
-
-.kd {
-	color: #000000;
-	font-weight: bold
-}
-
-.kn {
-	color: #000000;
-	font-weight: bold
-}
-
-.kp {
-	color: #000000;
-	font-weight: bold
-}
-
-.kr {
-	color: #000000;
-	font-weight: bold
-}
-
-.kt {
-	color: #445588;
-	font-weight: bold
-}
-
-.m {
-	color: #009999
-}
-
-.s {
-	color: rgb(221, 17, 68);
-}
-
-.n {
-	color: rgb(51, 51, 51);
-}
-.na {
-	color: #008080
-}
-
-.nb {
-	color: #0086B3
-}
-
-.nc {
-	color: #445588;
-	font-weight: bold
-}
-
-.no {
-	color: #008080
-}
-
-.nd {
-	color: #3c5d5d;
-	font-weight: bold
-}
-
-.ni {
-	color: #800080
-}
-
-.ne {
-	color: #990000;
-	font-weight: bold
-}
-
-.nf {
-	color: #990000;
-	font-weight: bold
-}
-
-.nl {
-	color: #990000;
-	font-weight: bold
-}
-
-.nn {
-	color: #555555
-}
-
-.nt {
-	color: #000080
-}
-
-.nv {
-	color: #008080
-}
-
-.ow {
-	color: #000000;
-	font-weight: bold
-}
-
-.w {
-	color: #bbbbbb
-}
-
-.mf {
-	color: #009999
-}
-
-.mh {
-	color: #009999
-}
-
-.mi {
-	color: #009999
-}
-
-.mo {
-	color: #009999
-}
-
-.sb {
-	color: #d01040
-}
-
-.sc {
-	color: #d01040
-}
-
-.sd {
-	color: #d01040
-}
-
-.s2 {
-	color: #d01040
-}
-
-.se {
-	color: #d01040
-}
-
-.sh {
-	color: #d01040
-}
-
-.si {
-	color: #d01040
-}
-
-.sx {
-	color: #d01040
-}
-
-.sr {
-	color: #009926
-}
-
-.s1 {
-	color: #d01040
-}
-
-.ss {
-	color: #990073
-}
-
-.bp {
-	color: #999999
-}
-
-.vc {
-	color: #008080
-}
-
-.vg {
-	color: #008080
-}
-
-.vi {
-	color: #008080
-}
-
-.il {
-	color: #009999
 }
