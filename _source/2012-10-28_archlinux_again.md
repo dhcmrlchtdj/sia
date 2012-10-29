@@ -45,8 +45,10 @@ xorg，xf86-video，alsa 看着装就可以了。
 看网页用 opera + flashplugin 和 chrome，firefox 基本上就是摆设。
 看视频用 smplayer。
 写代码用 gvim，再加上 git 和 openssh。
-字体我是用 monaco 和 Yahei，其他字体个人感觉都不能打。
-输入法用 fcitx，把相关的包都装上，比如 kimtoy 和 kcm-fcitx。
+字体我是用雅黑，等宽是 monaco 加上雅黑，其他字体个人感觉都不能打。
+关于 opera 的字体，可以自己动手改 .Xresources，
+我是直接用了 ubuntu 的 fontconfig 补丁。
+输入法用 fcitx，补上 kimtoy。
 
 下面就只是我自己偶尔用的到的。
 
@@ -55,10 +57,10 @@ xorg，xf86-video，alsa 看着装就可以了。
 + kid3 编辑音乐标签。
 + mp3splt 分割音频文件。
 + aafm、android-udev、android-sdk-platform-tools  连接 android 机器。
-+ bpython 带补全的解释器。
 + mentohust 万恶的锐捷。
 + ntp 更新时间，没什么存在感。
 + lftp、tmux 装了没怎么用到。
++ ctags、v8、bpython……
 
 如果遗漏了什么，发现了再补全吧。
 
