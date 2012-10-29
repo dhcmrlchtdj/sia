@@ -1,10 +1,10 @@
 <!--
-Title: 再一次，改变系统
+Title: 再一次，重装系统
 Category: linux
 Tag: archlinux software
 -->
 
-# 再一次，改变系统
+# 再一次，重装系统
 
 写篇主要是是记录下自己常用的软件，免得每次重装总觉得好像漏了什么。
 
@@ -59,7 +59,6 @@ xorg，xf86-video，alsa 看着装就可以了。
 + mentohust 万恶的锐捷。
 + ntp 更新时间，没什么存在感。
 + lftp、tmux 装了没怎么用到。
-+ pandoc 转换格式。
 
 如果遗漏了什么，发现了再补全吧。
 
