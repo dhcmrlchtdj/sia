@@ -93,7 +93,7 @@ nav li a:hover {
 	color: rgba(255, 255, 255, .9);
 	border-radius: 4px;
 	padding: 1%;
-	min-height: 500px;
+	margin-bottom: 20px;
 }
 #post h1 {
 	border-bottom: 1px solid rgba(255, 255, 255, .5);
