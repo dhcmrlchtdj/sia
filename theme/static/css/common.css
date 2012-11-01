@@ -93,7 +93,6 @@ nav li a:hover {
 	color: rgba(255, 255, 255, .9);
 	border-radius: 4px;
 	padding: 1%;
-	margin-bottom: 20px;
 }
 #post h1 {
 	border-bottom: 1px solid rgba(255, 255, 255, .5);
@@ -131,6 +130,7 @@ code {
 	padding: 4px;
 	border-radius: 2px;
 }
+.codehilite pre {color: #999988;}
 .bp {color: #999999;}
 .c {color: #999988;font-style: italic;}
 .c1 {color: #999988;font-style: italic;}
@@ -231,15 +231,14 @@ code {
 }
 
 @media
-(max-width: 960px),
-(orientation: landscape) and (min-device-pixel-ratio: 1.5) {
+(max-width: 960px) {
 	nav {
 		width: 80%;
 		margin: 0 auto;
 		overflow: hidden;
 	}
 	nav li {
-		width: 20%;
+		width: 25%;
 		float: left;
 		text-align: center;
 	}
@@ -254,8 +253,7 @@ code {
 }
 
 @media
-(max-width: 540px),
-(orientation: portrait) and (min-device-pixel-ratio: 1.5) {
+(max-width: 540px) {
 	body {
 		min-width: 320px;
 	}

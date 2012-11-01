@@ -1,6 +1,5 @@
 <!--
-Title: python 展开嵌套列表
-Category: programming
+Title: python 中展开嵌套列表
 Tag: tips python
 -->
 

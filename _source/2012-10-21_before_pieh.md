@@ -1,6 +1,5 @@
 <!--
 Title: 半完工感想
-Category: thought
 Tag: gh-pages
 -->
 

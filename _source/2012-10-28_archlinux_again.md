@@ -1,6 +1,5 @@
 <!--
 Title: 再一次，重装系统
-Category: linux
 Tag: archlinux software
 -->
 
@@ -63,4 +62,3 @@ xorg，xf86-video，alsa 看着装就可以了。
 + ctags、v8、bpython……
 
 如果遗漏了什么，发现了再补全吧。
-

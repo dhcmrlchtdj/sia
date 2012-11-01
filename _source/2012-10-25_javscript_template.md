@@ -1,6 +1,5 @@
 <!--
 Title: 看着那满地的轮子
-Category: programming
 Tag: template
 -->
 
@@ -20,4 +19,3 @@ Tag: template
 
 之后是准备继续学习 tornado 的代码。另外还准备看看设计模式，GoF 实在谈不上易懂，
 可能和我代码写的少也有关系吧。
-

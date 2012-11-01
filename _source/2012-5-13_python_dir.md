@@ -1,6 +1,5 @@
 <!--
 Title: python 下删除文件和目录
-Category: programming
 Tag: tips python
 -->
 

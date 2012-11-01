@@ -1,6 +1,5 @@
 <!--
 Title: javascript操作样式
-Category: programming
 Tag: javascript css
 -->
 

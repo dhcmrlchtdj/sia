@@ -1,6 +1,5 @@
 <!--
 Title: javascript 获取页面高度
-Category: programming
 Tag: tips javascript
 -->
 
@@ -174,4 +173,3 @@ if (typeof _height !== 'number')
 所以说埋头看书根本写不出优秀的js代码，写js必须了解浏览器差异。
 我感觉一个方法就是去看jquery，yui的实现，看他们是怎么处理浏览器差异的。
 一开始先看yui吧，整体的结构更加清晰，不至于一下子就昏了头。
-

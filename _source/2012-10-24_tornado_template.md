@@ -1,6 +1,5 @@
 <!--
 Title: 开始造轮子吧
-Category: programming
 Tag: python tornado template
 -->
 
@@ -167,4 +166,3 @@ python 使用缩进，所以`_CodeWriter`的一项任务就是保证输出的代
 之后应该还会看一下 js 的模板怎么实现。所以应该还会写点相关的文章。
 
 关于重复造轮子的问题，不管怎么样，先看懂别人怎么造轮子再说吧。
-

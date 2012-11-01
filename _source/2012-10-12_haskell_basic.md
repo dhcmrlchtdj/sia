@@ -1,6 +1,5 @@
 <!--
 Title: haskell学习笔记（坑）
-Category: programming
 Tag: haskell
 -->
 

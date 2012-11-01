@@ -2,18 +2,18 @@
 
 {% block article %}
 <article id="posts">
-  {% for tag, posts in sorted(archive.items()) %}
-  <section>
-    <h2 class="tag" id="tag_{{ tag }}">{{ tag }}</h2>
-    <ul>
-      {% for post in posts %}
-      <li class="post">
-        <time>{{ post['date'] }}</time>
-        <a href="{{ post['url'] }}" title="{{ post['title'] }}">{{ post['title'] }}</a>
-      </li>
-      {% end %}
-    </ul>
-  </section>
-  {% end %}
+	{% for tag, posts in sorted(archive.items()) %}
+	<section>
+		<h2 class="tag" id="tag_{{ tag }}">{{ tag }}</h2>
+		<ul>
+			{% for post in posts %}
+			<li class="post">
+				<time>{{ post['date'] }}</time>
+				<a href="{{ post['url'] }}" title="{{ post['title'] }}">{{ post['title'] }}</a>
+			</li>
+			{% end %}
+		</ul>
+	</section>
+	{% end %}
 </article>
 {% end %}
