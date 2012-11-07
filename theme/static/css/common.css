@@ -47,6 +47,11 @@ nav li a:hover {
 	border-radius: 4px;
 	color: rgba(8, 8, 8, .8);
 }
+/*footer*/
+footer {
+	margin-bottom: 30px;
+	clear: both;
+}
 
 /*article*/
 #posts section {

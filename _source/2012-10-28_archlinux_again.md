@@ -19,7 +19,7 @@ Tag: archlinux software
 
 装好系统之后先装个 sudo 再添加权限，就可以切换到用户账户继续干了。
 
-关于联网，安装好 networkmanager，再装个kdeplasma-applets-networkmanagement
+关于联网，安装好 networkmanager，再装个 kdeplasma-applets-networkmanagement
 就好了。有几个补丁，有用到就打上把。
 
 xorg，xf86-video，alsa 看着装就可以了。
@@ -38,7 +38,7 @@ xorg，xf86-video，alsa 看着装就可以了。
 + k3b 刻录。
 + amarok 听歌。
 + calligra-krita + calligra-sheets + calligra-words 
-    不得不说linux 下面办公画图战斗力都只有 5。
+    不得不说 linux 下面办公画图战斗力都只有 5。
 
 基本的系统就装好了。然后把 shell 换成 zsh。
 看网页用 opera + flashplugin 和 chrome，firefox 基本上就是摆设。
