@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<id>http://dhcmrlchtdj.github.com/sia</id>
+	<title>涂鸦</title>
+	<author><name>niris</name></author>
+	<updated>{{ updated }}</updated>
+	<link rel="alternate" href="http://dhcmrlchtdj.github.com/sia"/>
+	{% for entry in entries %}
+	<entry>
+		<id>{{ entry['url'] }}</id>
+		<title>{{ entry['title'] }}</title>
+		<updated>{{ entry['updated'] }}</updated>
+		<link rel="alternate" href="{{ entry['url'] }}"/>
+		<content>{{ entry['content'] }}</content>
+	</entry>
+	{% end %}
+</feed>
