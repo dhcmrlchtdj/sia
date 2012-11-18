@@ -35,11 +35,11 @@
 <li>其一，为<code>serif</code>、<code>sans-serif</code>、<code>monospace</code>指定字体。</li>
 </ul>
 <p>像下面这样。</p>
-<div class="codehilite"><pre><span class="nt">&lt;match</span> <span class="na">target=</span><span class="s">&quot;pattern&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;test</span> <span class="na">qual=</span><span class="s">&quot;any&quot;</span> <span class="na">name=</span><span class="s">&quot;family&quot;</span> <span class="na">target=</span><span class="s">&quot;default&quot;</span> <span class="na">compare=</span><span class="s">&quot;eq&quot;</span><span class="nt">&gt;</span>
+<div class="codehilite"><pre><span class="nt">&lt;match&gt;</span>
+    <span class="nt">&lt;test</span> <span class="na">name=</span><span class="s">&quot;family&quot;</span><span class="nt">&gt;</span>
         <span class="nt">&lt;string&gt;</span>monospace<span class="nt">&lt;/string&gt;</span>
     <span class="nt">&lt;/test&gt;</span>
-    <span class="nt">&lt;edit</span> <span class="na">name=</span><span class="s">&quot;family&quot;</span> <span class="na">mode=</span><span class="s">&quot;prepend_first&quot;</span> <span class="na">binding=</span><span class="s">&quot;strong&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;edit</span> <span class="na">name=</span><span class="s">&quot;family&quot;</span> <span class="na">mode=</span><span class="s">&quot;prepend&quot;</span> <span class="na">binding=</span><span class="s">&quot;strong&quot;</span><span class="nt">&gt;</span>
         <span class="nt">&lt;string&gt;</span>Monaco<span class="nt">&lt;/string&gt;</span>
         <span class="nt">&lt;string&gt;</span>Microsoft Yahei<span class="nt">&lt;/string&gt;</span>
     <span class="nt">&lt;/edit&gt;</span>
