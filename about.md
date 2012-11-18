@@ -6,7 +6,7 @@
 
 联系方式
 
-+ email: smresc@gmail.com
++ email: nirisix@gmail.com
 + github: <https://github.com/dhcmrlchtdj>
 
 ------
