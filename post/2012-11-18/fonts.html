@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width">
+<title>网页字体</title>
+<link rel="stylesheet" href="https://raw.github.com/necolas/normalize.css/master/normalize.css" />
+<link rel="stylesheet" href="../../theme/static/css/common.css" />
+<link rel="alternate" type="application/rss+xml" href="../../feed" title="Feed">
+</head>
+<body>
+<header>
+<h1>涂鸦</h1>
+</header>
+<nav>
+<ul>
+<li><a href="../../index.html" title="index">INDEX</a></li>
+<li><a href="../../tag.html" title="tag">TAG</a></li>
+<li><a href="../../link.html" title="link">LINK</a></li>
+<li><a href="../../about.html" title="about">ABOUT</a></li>
+</ul>
+</nav>
+<article id="post">
+<h1>网页字体</h1>
+<p>opera 的字体调整是件麻烦事，尤其在 linux 下。
+我之前都是靠 css 强制页面使用雅黑，大部分情况下效果还可以，
+但随着 icon font 的出现，这种做法的缺点就让人难以忍受了。</p>
+<p>github 使用 icon font 已经很久了，我一直忍受着没有图标的日子……
+昨天终于受不了去改了下配置。</p>
+<p>首先是修改 fonts.conf，archlinux 应该是在<code>~/.config/fontconfig/fonts.conf</code>。
+主要干两件事，下面会给出例子，
+要具体资料可以参考<a href="http://www.freedesktop.org/software/fontconfig/fontconfig-user.html">fonts-conf</a>和<a href="http://cle.linux.org.tw/~edt1023/fontconfig/fontconfig-user.html">有点旧（？）的中译</a>。</p>
+<ol>
+<li>
+<p>为<code>serif</code>、<code>sans-serif</code>、<code>monospace</code>指定字体。
+    像下面这样。
+    <code>xml
+    &lt;match target="pattern"&gt;
+        &lt;test qual="any" name="family" target="default" compare="eq"&gt;
+            &lt;string&gt;monospace&lt;/string&gt;
+        &lt;/test&gt;
+        &lt;edit name="family" mode="prepend_first" binding="strong"&gt;
+            &lt;string&gt;Monaco&lt;/string&gt;
+            &lt;string&gt;Microsoft Yahei&lt;/string&gt;
+        &lt;/edit&gt;
+    &lt;/match&gt;</code>
+    喜欢什么字体自己替换就是了，以后设定字体直接使用这三种虚拟字体即可。</p>
+</li>
+<li>
+<p>为<code>arial</code>、<code>tahoma</code>等缺失的字体指定字体。
+    不少网站是接指定了网页字体，但电脑上又没有相应字体，
+    然后显示出来的字体经常是系统指定的替代字体，网页就显得很不协调。
+    可以像下面这样指定个别名。
+    <code>xml
+    &lt;alias&gt;
+        &lt;family&gt;arial&lt;/family&gt;
+        &lt;prefer&gt;&lt;family&gt;sans-serif&lt;/family&gt;&lt;/prefer&gt;
+    &lt;/alias&gt;</code></p>
+</li>
+</ol>
+<p>能做的就这些了，github 的 icon font 可以正常显示了。
+如果什么网站还有问题，基本上都是网站指定了电脑上缺失的字体，
+在 fontconfig 里加个别名应该能搞定。</p>
+<hr />
+<p>我最初写网页时，没有设置字体的习惯，后来有这习惯了，
+发现设置字体还会碰上用户电脑没相应字体的情况。
+@font-face 也正是为这种情况而设计的应对方案。
+但中文由于字体的关系，@font-face 也是很麻烦的一件事。</p>
+<p>总而言之，网页字体设置成 sans-serif、serif 或者 monospace，
+具体字体让用户自己指定。有特别需求的，使用 @font-face 解决。
+这应该是比较好的一个方案了。</p>
+</article>
+<footer></footer>
+</body>
+</html>
