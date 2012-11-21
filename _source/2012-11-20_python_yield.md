@@ -141,12 +141,14 @@ g.send("what the fuck!!")
 不过我之前就提示了一点，要理解 yield，就必须了解 python 的生成器。
 
 生成器有[这么几个方法][gen_method]：
+
 + `__next__` 不用说了，每次 for 还有 next 都是调用这个方法。
 + `send(value)` 用 value 对 yield 语句赋值，再执行接下来的代码直到下个 yield。
-+ `throw(type[, value[, traceback]])` 抛出错误，其实就是 raise？
++ `throw(type[, value[, traceback]])` 抛出错误，类似于 raise 吧。
 + `close()` 告诉生成器，你已经死了。再调用会抛出 StopIteration。
 
 其实还有这么几个属性没列出来：
+
 + `gi_code` 不知道啥用，生成器的代码？
 + `gi_frame` 不知道啥用，环境变量？
 + `gi_running` 总算知道了，查看生成器是否再运行。

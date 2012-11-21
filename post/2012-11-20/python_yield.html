@@ -143,15 +143,19 @@
 
 <p>第一次看到这种代码肯定不知道发生了什么……至少我不知道。
 不过我之前就提示了一点，要理解 yield，就必须了解 python 的生成器。</p>
-<p>生成器有<a href="http://docs.python.org/3/reference/expressions.html#generator-iterator-methods">这么几个方法</a>：
-+ <code>__next__</code> 不用说了，每次 for 还有 next 都是调用这个方法。
-+ <code>send(value)</code> 用 value 对 yield 语句赋值，再执行接下来的代码直到下个 yield。
-+ <code>throw(type[, value[, traceback]])</code> 抛出错误，其实就是 raise？
-+ <code>close()</code> 告诉生成器，你已经死了。再调用会抛出 StopIteration。</p>
-<p>其实还有这么几个属性没列出来：
-+ <code>gi_code</code> 不知道啥用，生成器的代码？
-+ <code>gi_frame</code> 不知道啥用，环境变量？
-+ <code>gi_running</code> 总算知道了，查看生成器是否再运行。</p>
+<p>生成器有<a href="http://docs.python.org/3/reference/expressions.html#generator-iterator-methods">这么几个方法</a>：</p>
+<ul>
+<li><code>__next__</code> 不用说了，每次 for 还有 next 都是调用这个方法。</li>
+<li><code>send(value)</code> 用 value 对 yield 语句赋值，再执行接下来的代码直到下个 yield。</li>
+<li><code>throw(type[, value[, traceback]])</code> 抛出错误，类似于 raise 吧。</li>
+<li><code>close()</code> 告诉生成器，你已经死了。再调用会抛出 StopIteration。</li>
+</ul>
+<p>其实还有这么几个属性没列出来：</p>
+<ul>
+<li><code>gi_code</code> 不知道啥用，生成器的代码？</li>
+<li><code>gi_frame</code> 不知道啥用，环境变量？</li>
+<li><code>gi_running</code> 总算知道了，查看生成器是否再运行。</li>
+</ul>
 <p>知道了上面这些，就可以理解例 4.1 的代码了。
 其实就是用<code>send</code>方法对<code>hello_world</code>进行了赋值……</p>
 <p>python 的代码还是很清晰的，但这里还是解释下那个 next 调用和 while。
