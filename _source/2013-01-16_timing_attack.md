@@ -47,13 +47,18 @@ Tag: security hash
 
 最后的一个链接是来自 bcrypt-ruby 的讨论。
 我们有没有必要使用专门的比较函数来规避计时攻击？
-结论是对于某些加密算法（比如 bcrypt）来说，不需要（具体自己看链接吧）。
+结论是对于某些加密算法（比如 bcrypt）来说，
+<strike>不需要（具体自己看链接吧）。</strike>
+why risk it if I can easily avoid it。
+还是乖乖用`hmac.compare_digest`来比较吧。（2013/01/17）
 
 ------
 
 这应该是对博客动刀前的最后一篇了吧……
 
 移植 python-pbkdf2 去。
+
+
 
 [python-pbkdf2]: https://github.com/mitsuhiko/python-pbkdf2
 [TimingAttacks]: http://codahale.com/a-lesson-in-timing-attacks/
