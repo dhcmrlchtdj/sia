@@ -76,9 +76,9 @@ recipe是要执行的shell命令。
 每次prerequisites变化了，make都会重新执行recipe来生成新target。
 recipe前面是<code>tab</code>不是空格，可以有多个recipe，换行或者;间隔。</p>
 <p>像clean这样的是伪目标（phony target）是这样申明的</p>
-<div class="codehilite"><pre><span class="nl">.PHONY:</span> <span class="nf">clean</span>
+<div class="codehilite"><pre><span class="p">.</span><span class="n">PHONY</span><span class="o">:</span> <span class="n">clean</span>
 <span class="nl">clean:</span>
-    <span class="nf">recipe</span>
+    <span class="n">recipe</span>
 </pre></div>
 
 

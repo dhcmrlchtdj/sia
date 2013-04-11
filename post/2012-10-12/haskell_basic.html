@@ -30,23 +30,23 @@ Integral 包括 Int Integer
 Floating 包括 Float Double
 
 Num
-: <span class="m">1</span>
+<span class="o">:</span> <span class="m">1</span>
 
 Fractional
-: <span class="m">1.0</span>
+<span class="o">:</span> <span class="m">1.0</span>
 
 Bool
-: True
+<span class="o">:</span> True
 
 Char
-: <span class="s">&#39;c&#39;</span>
+<span class="o">:</span> <span class="s">&#39;c&#39;</span>
 
 <span class="p">[</span>Char<span class="p">]</span>
-: <span class="s">&quot;char&quot;</span>
+<span class="o">:</span> <span class="s">&quot;char&quot;</span>
 
 <span class="c1">### 查看类型</span>
-:t <span class="s">&#39;a&#39;</span>
-:t <span class="p">(</span><span class="o">==</span><span class="p">)</span>
+<span class="o">:</span>t <span class="s">&#39;a&#39;</span>
+<span class="o">:</span>t <span class="p">(</span><span class="o">==</span><span class="p">)</span>
 
 <span class="c1">### 改变类型</span>
 
@@ -54,8 +54,8 @@ Char
 show <span class="m">3</span> <span class="o">==</span> <span class="s">&quot;3&quot;</span> <span class="o">/=</span> <span class="s">&#39;3&#39;</span>
 
 字符串变为其他类型
-read <span class="s">&quot;3&quot;</span> <span class="p">::</span> Int
-read <span class="s">&quot;3&quot;</span> <span class="p">::</span> Float
+read <span class="s">&quot;3&quot;</span> <span class="o">::</span> Int
+read <span class="s">&quot;3&quot;</span> <span class="o">::</span> Float
 read <span class="s">&quot;3&quot;</span> <span class="o">+</span> <span class="m">2</span> <span class="o">==</span> <span class="m">5</span>
 
 <span class="o">--------------</span>
@@ -74,7 +74,7 @@ read <span class="s">&quot;3&quot;</span> <span class="o">+</span> <span class="
     succ pred 增减<span class="m">1</span>
     max <span class="m">9</span> <span class="m">10</span>
     min <span class="m">9</span> <span class="m">10</span>
-    div <span class="m">10</span> <span class="m">3</span> 整除 等价于 <span class="m">10</span><span class="sb">`div`</span>3
+    div <span class="m">10</span> <span class="m">3</span> 整除 等价于 <span class="m">10</span><span class="sb">`div`</span><span class="m">3</span>
     mod <span class="m">10</span> <span class="m">3</span> 取余
     odd <span class="m">1</span> 为奇数
     even <span class="m">1</span> 为偶数
@@ -90,13 +90,13 @@ doubleIt x <span class="o">=</span> x<span class="o">+</span>x
 
 <span class="c1">## 在命令行载入文件</span>
 
-:l filename
+<span class="o">:</span>l filename
 
 <span class="o">---------------------</span>
 
 <span class="c1">## 条件语句</span>
 
-if <span class="o">&lt;</span>condition<span class="o">&gt;</span> then <span class="o">&lt;</span>command<span class="o">&gt;</span> <span class="kr">else</span> <span class="o">&lt;</span>command<span class="o">&gt;</span>
+<span class="kr">if</span> <span class="o">&lt;</span>condition<span class="o">&gt;</span> then <span class="o">&lt;</span>command<span class="o">&gt;</span> <span class="kr">else</span> <span class="o">&lt;</span>command<span class="o">&gt;</span>
 
 <span class="o">---------------------</span>
 
@@ -122,13 +122,13 @@ char <span class="o">=</span> <span class="p">[</span><span class="s">&#39;h&#39
 <span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">]</span> <span class="o">++</span> <span class="p">[</span><span class="m">4</span><span class="p">,</span><span class="m">5</span><span class="p">]</span>
 <span class="p">[</span><span class="s">&#39;h&#39;</span><span class="p">,</span><span class="s">&#39;e&#39;</span><span class="p">,</span><span class="s">&#39;l&#39;</span><span class="p">,</span><span class="s">&#39;l&#39;</span><span class="p">,</span><span class="s">&#39;o&#39;</span><span class="p">]</span> <span class="o">++</span> <span class="s">&quot;world&quot;</span>
 
-: 在表头添加元素
-<span class="m">1</span>:<span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">]</span>
-<span class="s">&#39;a&#39;</span>:<span class="s">&quot; cat&quot;</span>
+<span class="o">:</span> 在表头添加元素
+<span class="m">1</span><span class="o">:</span><span class="p">[</span><span class="m">2</span><span class="p">,</span><span class="m">3</span><span class="p">]</span>
+<span class="s">&#39;a&#39;</span><span class="o">:</span><span class="s">&quot; cat&quot;</span>
 
-!! 按位置取元素
-<span class="s">&quot;hello&quot;</span>!!<span class="m">0</span>
-<span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">]</span>!!<span class="m">1</span>
+<span class="o">!!</span> 按位置取元素
+<span class="s">&quot;hello&quot;</span><span class="o">!!</span><span class="m">0</span>
+<span class="p">[</span><span class="m">1</span><span class="p">,</span><span class="m">2</span><span class="p">]</span><span class="o">!!</span><span class="m">1</span>
 
 <span class="c1">### 列表操作函数</span>
 
