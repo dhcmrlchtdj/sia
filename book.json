@@ -1,0 +1,18 @@
+{
+    "root": "./weblog",
+    "plugins": [
+        "ga",
+        "disqus",
+        "anchors",
+        "prism",
+        "-highlight"
+    ],
+    "pluginsConfig": {
+        "ga": {
+            "token": "UA-78944716-1"
+        },
+        "disqus": {
+            "shortName": "nirisix"
+        }
+    }
+}
