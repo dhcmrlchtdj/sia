@@ -4,7 +4,10 @@
   "version": "1.0.0",
   "description": "blog.",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+      "serve": "gitbook serve",
+      "build": "gitbook build"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dhcmrlchtdj/sia.git"
@@ -17,7 +20,6 @@
   "homepage": "https://github.com/dhcmrlchtdj/sia#readme",
   "dependencies": {
     "gitbook-cli": "2.2.0",
-    "gitbook-plugin-anchors": "0.6.0",
     "gitbook-plugin-disqus": "0.1.0",
     "gitbook-plugin-ga": "1.0.1",
     "gitbook-plugin-prism": "1.0.0"

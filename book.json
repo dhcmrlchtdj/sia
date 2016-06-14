@@ -3,9 +3,11 @@
     "plugins": [
         "ga",
         "disqus",
-        "anchors",
         "prism",
-        "-highlight"
+        "-highlight",
+        "-sharing",
+        "-search",
+        "-lunr"
     ],
     "pluginsConfig": {
         "ga": {
