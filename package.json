@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "name": "sia",
+  "version": "1.0.0",
+  "description": "blog.",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhcmrlchtdj/sia.git"
+  },
+  "author": "nirisix",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dhcmrlchtdj/sia/issues"
+  },
+  "homepage": "https://github.com/dhcmrlchtdj/sia#readme"
+}
