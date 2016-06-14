@@ -1,5 +1,7 @@
 {
-    "root": "./weblog",
+    "bookname": "weblog",
+    "ignores": ["node_modules"],
+
     "plugins": [
         "ga",
         "disqus",

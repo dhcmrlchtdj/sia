@@ -5,6 +5,7 @@
   "description": "blog.",
   "main": "index.js",
   "scripts": {
+    "summary": "book sm",
     "serve": "gitbook serve",
     "build": "gitbook build"
   },
