@@ -1,8 +1,8 @@
 module.exports = {
     siteMetadata: {
         title: `H11`,
-        author: `h11`,
-        description: `blog of h11`,
+        author: `H11`,
+        description: `H11's blog`,
         siteUrl: `https://blog.h11.io/`,
     },
     plugins: [
