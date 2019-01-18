@@ -1,12 +1,5 @@
 {
     "private": true,
-    "name": "gatsby-starter-blog",
-    "description": "A starter for a blog powered by Gatsby and Markdown",
-    "version": "0.1.0",
-    "author": "Kyle Mathews <mathews.kyle@gmail.com>",
-    "bugs": {
-        "url": "https://github.com/gatsbyjs/gatsby/issues"
-    },
     "dependencies": {
         "gatsby": "^2.0.76",
         "gatsby-image": "^2.0.22",
@@ -36,22 +29,8 @@
     "devDependencies": {
         "prettier": "^1.14.2"
     },
-    "homepage": "https://github.com/gatsbyjs/gatsby-starter-blog#readme",
-    "keywords": ["gatsby"],
-    "license": "MIT",
-    "main": "n/a",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/gatsbyjs/gatsby-starter-blog.git"
-    },
     "scripts": {
         "dev": "gatsby develop",
-        "lint": "eslint --ext .js,.jsx --ignore-pattern public .",
-        "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\"",
-        "format": "prettier --trailing-comma es5 --no-semi --single-quote --write 'src/**/*.js' 'src/**/*.md'",
-        "develop": "gatsby develop",
-        "start": "npm run develop",
-        "build": "gatsby build",
-        "fix-semi": "eslint --quiet --ignore-pattern node_modules --ignore-pattern public --parser babel-eslint --no-eslintrc --rule '{\"semi\": [2, \"never\"], \"no-extra-semi\": [2]}' --fix gatsby-node.js"
+        "build": "gatsby build"
     }
 }
