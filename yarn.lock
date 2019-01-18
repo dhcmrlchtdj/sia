@@ -10042,16 +10042,6 @@ typedarray@^0.0.6:
   resolved "http://registry.npm.taobao.org/typedarray/download/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typeface-merriweather@0.0.54:
-  version "0.0.54"
-  resolved "http://registry.npm.taobao.org/typeface-merriweather/download/typeface-merriweather-0.0.54.tgz#a6b694d93c7ac432e26e8d7797a19afe83844186"
-  integrity sha1-praU2Tx6xDLibo13l6Ga/oOEQYY=
-
-typeface-montserrat@0.0.54:
-  version "0.0.54"
-  resolved "http://registry.npm.taobao.org/typeface-montserrat/download/typeface-montserrat-0.0.54.tgz#3fc338db6428d73485b75aa7bd2af8c9a55b9ab3"
-  integrity sha1-P8M422Qo1zSFt1qnvSr4yaVbmrM=
-
 typography-breakpoint-constants@^0.16.18:
   version "0.16.18"
   resolved "http://registry.npm.taobao.org/typography-breakpoint-constants/download/typography-breakpoint-constants-0.16.18.tgz#5b1e24a31879662ca0456828b8f8f8158cd2b436"

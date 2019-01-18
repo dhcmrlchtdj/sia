@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, graphql } from "gatsby";
 
-import Bio from "../components/Bio";
 import Layout from "../components/Layout";
 import { rhythm } from "../utils/typography";
 
@@ -13,7 +12,6 @@ class BlogIndex extends React.Component {
 
         return (
             <Layout location={this.props.location} title={siteTitle}>
-                <Bio />
                 {posts.map(({ node }) => {
                     const title = node.frontmatter.title || node.fields.slug;
                     return (
@@ -31,11 +29,6 @@ class BlogIndex extends React.Component {
                                 </Link>
                             </h3>
                             <small>{node.frontmatter.date}</small>
-                            <p
-                                dangerouslySetInnerHTML={{
-                                    __html: node.excerpt,
-                                }}
-                            />
                         </div>
                     );
                 })}
@@ -56,12 +49,11 @@ export const pageQuery = graphql`
         allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
             edges {
                 node {
-                    excerpt
                     fields {
                         slug
                     }
                     frontmatter {
-                        date(formatString: "MMMM DD, YYYY")
+                        date(formatString: "YYYY-MM-DD")
                         title
                     }
                 }

@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, graphql } from "gatsby";
 
-import Bio from "../components/Bio";
 import Layout from "../components/Layout";
 import { rhythm, scale } from "../utils/typography";
 
@@ -30,7 +29,6 @@ class BlogPostTemplate extends React.Component {
                         marginBottom: rhythm(1),
                     }}
                 />
-                <Bio />
 
                 <ul
                     style={{
@@ -77,7 +75,7 @@ export const pageQuery = graphql`
             html
             frontmatter {
                 title
-                date(formatString: "MMMM DD, YYYY")
+                date(formatString: "YYYY-MM-DD")
             }
         }
     }
