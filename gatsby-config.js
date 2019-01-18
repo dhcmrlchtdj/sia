@@ -17,9 +17,9 @@ module.exports = {
             resolve: `gatsby-transformer-remark`,
             options: {
                 plugins: [
+                    `gatsby-remark-breaks`,
                     `gatsby-remark-prismjs`,
                     `gatsby-remark-copy-linked-files`,
-                    `gatsby-remark-smartypants`,
                 ],
             },
         },

@@ -4577,6 +4577,15 @@ gatsby-react-router-scroll@^2.0.2:
     scroll-behavior "^0.9.9"
     warning "^3.0.0"
 
+gatsby-remark-breaks@1.0.0:
+  version "1.0.0"
+  resolved "http://registry.npm.taobao.org/gatsby-remark-breaks/download/gatsby-remark-breaks-1.0.0.tgz#7bebcb277e637b795af7b71c97e7cdb39ec5bcc6"
+  integrity sha1-e+vLJ35je3la97ccl+fNs57FvMY=
+  dependencies:
+    babel-runtime "^6.26.0"
+    remark-breaks "^1.0.0"
+    unist-util-visit "^1.3.0"
+
 gatsby-remark-copy-linked-files@2.0.8:
   version "2.0.8"
   resolved "http://registry.npm.taobao.org/gatsby-remark-copy-linked-files/download/gatsby-remark-copy-linked-files-2.0.8.tgz#4c5547ec9803e73c926699a6247f4056934a3916"
@@ -4598,16 +4607,6 @@ gatsby-remark-prismjs@3.2.0:
   dependencies:
     "@babel/runtime" "^7.0.0"
     parse-numeric-range "^0.0.2"
-    unist-util-visit "^1.3.0"
-
-gatsby-remark-smartypants@2.0.7:
-  version "2.0.7"
-  resolved "http://registry.npm.taobao.org/gatsby-remark-smartypants/download/gatsby-remark-smartypants-2.0.7.tgz#2218a7c00461d025db228a9a8108af2dd9987c8c"
-  integrity sha1-IhinwARh0CXbIoqagQivLdmYfIw=
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    retext "^5.0.0"
-    retext-smartypants "^3.0.0"
     unist-util-visit "^1.3.0"
 
 gatsby-source-filesystem@2.0.16:
@@ -8180,11 +8179,6 @@ preserve@^0.2.0:
   resolved "http://registry.npm.taobao.org/preserve/download/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
   integrity sha1-gV7R9uvGWSb4ZbMQwHE7yzMVzks=
 
-prettier@1.15.3:
-  version "1.15.3"
-  resolved "http://registry.npm.taobao.org/prettier/download/prettier-1.15.3.tgz#1feaac5bdd181237b54dbe65d874e02a1472786a"
-  integrity sha1-H+qsW90YEje1Tb5l2HTgKhRyeGo=
-
 pretty-bytes@^4.0.2:
   version "4.0.2"
   resolved "http://registry.npm.taobao.org/pretty-bytes/download/pretty-bytes-4.0.2.tgz#b2bf82e7350d65c6c33aa95aaa5a4f6327f61cd9"
@@ -8734,6 +8728,11 @@ relay-runtime@1.5.0:
     babel-runtime "^6.23.0"
     fbjs "^0.8.14"
 
+remark-breaks@^1.0.0:
+  version "1.0.2"
+  resolved "http://registry.npm.taobao.org/remark-breaks/download/remark-breaks-1.0.2.tgz#ad7bac95a30214ab44d7dd5ab3fe0bab97f0bc63"
+  integrity sha1-rXuslaMCFKtE191as/4Lq5fwvGM=
+
 remark-parse@^5.0.0:
   version "5.0.0"
   resolved "http://registry.npm.taobao.org/remark-parse/download/remark-parse-5.0.0.tgz#4c077f9e499044d1d5c13f80d7a98cf7b9285d95"
@@ -8932,38 +8931,6 @@ retext-english@^3.0.0:
   dependencies:
     parse-english "^4.0.0"
     unherit "^1.0.4"
-
-retext-latin@^2.0.0:
-  version "2.0.2"
-  resolved "http://registry.npm.taobao.org/retext-latin/download/retext-latin-2.0.2.tgz#7b548937397ecdc47f7e242c77460c053f5b2555"
-  integrity sha1-e1SJNzl+zcR/fiQsd0YMBT9bJVU=
-  dependencies:
-    parse-latin "^4.0.0"
-    unherit "^1.0.4"
-
-retext-smartypants@^3.0.0:
-  version "3.0.2"
-  resolved "http://registry.npm.taobao.org/retext-smartypants/download/retext-smartypants-3.0.2.tgz#7e499ae914883e0d117ee9e983ee396621e0cb2a"
-  integrity sha1-fkma6RSIPg0Rfunpg+45ZiHgyyo=
-  dependencies:
-    nlcst-to-string "^2.0.0"
-    unist-util-visit "^1.0.0"
-
-retext-stringify@^2.0.0:
-  version "2.0.2"
-  resolved "http://registry.npm.taobao.org/retext-stringify/download/retext-stringify-2.0.2.tgz#f3885c5fccaa31998b53862acbb9058994eed27d"
-  integrity sha1-84hcX8yqMZmLU4Yqy7kFiZTu0n0=
-  dependencies:
-    nlcst-to-string "^2.0.0"
-
-retext@^5.0.0:
-  version "5.0.0"
-  resolved "http://registry.npm.taobao.org/retext/download/retext-5.0.0.tgz#5d9018c4a677d6103c142362d76f50eb1d398bf6"
-  integrity sha1-XZAYxKZ31hA8FCNi129Q6x05i/Y=
-  dependencies:
-    retext-latin "^2.0.0"
-    retext-stringify "^2.0.0"
-    unified "^6.0.0"
 
 rgb-regex@^1.0.1:
   version "1.0.1"
