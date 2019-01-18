@@ -4539,6 +4539,13 @@ gatsby-plugin-feed@2.0.11:
     pify "^3.0.0"
     rss "^1.2.2"
 
+gatsby-plugin-google-analytics@2.0.9:
+  version "2.0.9"
+  resolved "http://registry.npm.taobao.org/gatsby-plugin-google-analytics/download/gatsby-plugin-google-analytics-2.0.9.tgz#c273b5660a304feced097a724ce71e8a26695b31"
+  integrity sha1-wnO1ZgowT+ztCXpyTOceiiZpWzE=
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+
 gatsby-plugin-page-creator@^2.0.5:
   version "2.0.5"
   resolved "http://registry.npm.taobao.org/gatsby-plugin-page-creator/download/gatsby-plugin-page-creator-2.0.5.tgz#16b268142aa3515b5856bf802d8eec5a6320dc1c"

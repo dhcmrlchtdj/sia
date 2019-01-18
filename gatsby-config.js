@@ -23,6 +23,12 @@ module.exports = {
                 ],
             },
         },
+        {
+            resolve: `gatsby-plugin-google-analytics`,
+            options: {
+                trackingId: "UA-78944716-1",
+            },
+        },
         `gatsby-plugin-feed`,
         {
             resolve: `gatsby-plugin-typography`,
