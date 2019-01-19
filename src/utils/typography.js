@@ -1,12 +1,13 @@
 import Typography from "typography";
-import Wordpress2016 from "typography-theme-wordpress-2016";
+import Github from "typography-theme-github";
 
-delete Wordpress2016.googleFonts;
-Wordpress2016.headerFontFamily = ["serif"];
-Wordpress2016.bodyFontFamily = ["serif"];
-Wordpress2016.overrideThemeStyles = () => ({ h1: { fontFamily: "serif" } });
+Github.overrideThemeStyles = () => ({
+    h1: { borderBottom: `none` },
+    h2: { borderBottom: `none` },
+    "a:hover,a:active": { textDecoration: "none" },
+});
 
-const typography = new Typography(Wordpress2016);
+const typography = new Typography(Github);
 
 // Hot reload typography in development.
 if (process.env.NODE_ENV !== `production`) {
