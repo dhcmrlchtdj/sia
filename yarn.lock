@@ -786,9 +786,9 @@
   integrity sha1-SP2YwVYf5xi2FzPa7Ub/EVtJbhg=
 
 "@types/reach__router@^1.0.0":
-  version "1.2.2"
-  resolved "http://registry.npm.taobao.org/@types/reach__router/download/@types/reach__router-1.2.2.tgz#1bd96626c2866a61937758ef6be2f06309124805"
-  integrity sha1-G9lmJsKGamGTd1jva+LwYwkSSAU=
+  version "1.2.3"
+  resolved "http://registry.npm.taobao.org/@types/reach__router/download/@types/reach__router-1.2.3.tgz#679fa6968aab0314dc4b967808a23fd11af2ccce"
+  integrity sha1-Z5+mloqrAxTcS5Z4CKI/0RryzM4=
   dependencies:
     "@types/history" "*"
     "@types/react" "*"
@@ -1108,11 +1108,12 @@ apollo-link@^1.2.2:
     zen-observable-ts "^0.8.13"
 
 apollo-utilities@^1.0.0, apollo-utilities@^1.0.1:
-  version "1.1.1"
-  resolved "http://registry.npm.taobao.org/apollo-utilities/download/apollo-utilities-1.1.1.tgz#7175a07384d8e1f273ec1cf049a0d77c723b9ce3"
-  integrity sha1-cXWgc4TY4fJz7BzwSaDXfHI7nOM=
+  version "1.1.2"
+  resolved "http://registry.npm.taobao.org/apollo-utilities/download/apollo-utilities-1.1.2.tgz#aa5eca9d1f1eb721c381a22e0dde03559d856db3"
+  integrity sha1-ql7KnR8etyHDgaIuDd4DVZ2FbbM=
   dependencies:
     fast-json-stable-stringify "^2.0.0"
+    tslib "^1.9.3"
 
 aproba@^1.0.3, aproba@^1.1.1:
   version "1.2.0"
@@ -3836,9 +3837,9 @@ eslint-visitor-keys@^1.0.0:
   integrity sha1-PzGA+y4pEBdxastMnW1bXDSmqB0=
 
 eslint@^5.6.0:
-  version "5.12.0"
-  resolved "http://registry.npm.taobao.org/eslint/download/eslint-5.12.0.tgz#fab3b908f60c52671fb14e996a450b96c743c859"
-  integrity sha1-+rO5CPYMUmcfsU6ZakULlsdDyFk=
+  version "5.12.1"
+  resolved "http://registry.npm.taobao.org/eslint/download/eslint-5.12.1.tgz#5ca9931fb9029d04e7be92b03ce3b58edfac7e3b"
+  integrity sha1-XKmTH7kCnQTnvpKwPOO1jt+sfjs=
   dependencies:
     "@babel/code-frame" "^7.0.0"
     ajv "^6.5.3"
@@ -4572,11 +4573,6 @@ gatsby-plugin-react-helmet@3.0.5:
   integrity sha1-6uynyDxsJz0xRUWYlJ3Q07T/XzE=
   dependencies:
     "@babel/runtime" "^7.0.0"
-
-gatsby-plugin-remove-serviceworker@1.0.0:
-  version "1.0.0"
-  resolved "http://registry.npm.taobao.org/gatsby-plugin-remove-serviceworker/download/gatsby-plugin-remove-serviceworker-1.0.0.tgz#9fb433bc8bd766e14e1d3711c4ac6f051e1dff7c"
-  integrity sha1-n7QzvIvXZuFOHTcRxKxvBR4d/3w=
 
 gatsby-plugin-typography@2.2.5:
   version "2.2.5"
@@ -10004,7 +10000,7 @@ trough@^1.0.0:
   resolved "http://registry.npm.taobao.org/trough/download/trough-1.0.3.tgz#e29bd1614c6458d44869fc28b255ab7857ef7c24"
   integrity sha1-4pvRYUxkWNRIafwoslWreFfvfCQ=
 
-tslib@^1.6.0, tslib@^1.9.0:
+tslib@^1.6.0, tslib@^1.9.0, tslib@^1.9.3:
   version "1.9.3"
   resolved "http://registry.npm.taobao.org/tslib/download/tslib-1.9.3.tgz#d7e4dd79245d85428c4d7e4822a79917954ca286"
   integrity sha1-1+TdeSRdhUKMTX5IIqeZF5VMooY=
