@@ -4,7 +4,6 @@ import Github from "typography-theme-github";
 Github.overrideThemeStyles = () => ({
     h1: { borderBottom: `none` },
     h2: { borderBottom: `none` },
-    "a:hover,a:active": { textDecoration: "none" },
 });
 
 const typography = new Typography(Github);

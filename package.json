@@ -23,6 +23,7 @@
     },
     "scripts": {
         "dev": "gatsby develop",
-        "build": "rm -rf ./public && gatsby build"
+        "build": "rm -rf ./public && gatsby build",
+        "fmt": "prettier --write src/**/* *.js"
     }
 }

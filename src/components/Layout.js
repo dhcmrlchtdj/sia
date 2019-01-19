@@ -18,11 +18,7 @@ class Layout extends React.Component {
                     }}
                 >
                     <Link
-                        style={{
-                            boxShadow: `none`,
-                            textDecoration: `none`,
-                            color: `inherit`,
-                        }}
+                        style={{ textDecoration: "none", color: `inherit` }}
                         to={`/`}
                     >
                         {title}
@@ -31,17 +27,9 @@ class Layout extends React.Component {
             );
         } else {
             header = (
-                <h3
-                    style={{
-                        marginTop: 0,
-                    }}
-                >
+                <h3 style={{ marginTop: 0 }}>
                     <Link
-                        style={{
-                            boxShadow: `none`,
-                            textDecoration: `none`,
-                            color: `inherit`,
-                        }}
+                        style={{ textDecoration: "none", color: `inherit` }}
                         to={`/`}
                     >
                         {title}

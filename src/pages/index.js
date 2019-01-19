@@ -2,7 +2,7 @@ import React from "react";
 import { Link, graphql } from "gatsby";
 import Layout from "../components/Layout";
 import SEO from "../components/seo";
-import { rhythm } from "../utils/typography";
+import CC from "../components/cc";
 
 class BlogIndex extends React.Component {
     render() {
@@ -17,22 +17,14 @@ class BlogIndex extends React.Component {
                     const title = node.frontmatter.title || node.fields.slug;
                     return (
                         <div key={node.fields.slug}>
-                            <h3
-                                style={{
-                                    marginBottom: rhythm(1 / 4),
-                                }}
-                            >
-                                <Link
-                                    style={{ boxShadow: `none` }}
-                                    to={node.fields.slug}
-                                >
-                                    {title}
-                                </Link>
+                            <h3 style={{ marginBottom: 0 }}>
+                                <Link to={node.fields.slug}>{title}</Link>
                             </h3>
                             <small>{node.frontmatter.date}</small>
                         </div>
                     );
                 })}
+                <CC />
             </Layout>
         );
     }
