@@ -1,3 +1,20 @@
-baseURL = "http://example.org/"
-languageCode = "en-us"
-title = "My New Hugo Site"
+baseURL = "https://blog.h11.io/"
+languageCode = "zh-Hans"
+title = "H11"
+theme = "hugo-xmin"
+googleAnalytics = "UA-78944716-1"
+
+[params]
+    description = "A website built through Hugo and blogdown."
+    footer = "&copy; H11 | [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)"
+
+[[menu.main]]
+    name = "Home"
+    url = "/"
+    weight = 1
+[[menu.main]]
+    name = "Subscribe"
+    url = "/index.xml"
+
+[blackfriday]
+extensions = ["hardLineBreak"]
