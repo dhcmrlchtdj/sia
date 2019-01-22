@@ -5,13 +5,17 @@ theme = "hugo-xmin"
 googleAnalytics = "UA-78944716-1"
 
 [params]
-    description = "A website built through Hugo and blogdown."
+    description = "H11's blog"
     footer = "&copy; H11 | [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)"
 
 [[menu.main]]
     name = "Home"
     url = "/"
     weight = 1
+[[menu.main]]
+    name = "About"
+    url = "/about"
+    weight = 2
 [[menu.main]]
     name = "Subscribe"
     url = "/index.xml"
