@@ -5,6 +5,6 @@
             {{ . | markdownify }}
             {{ end }}
         </footer>
-        {{ template "_internal/google_analytics_async.html" . }}
+        {{ partial "gtag.html" . }}
     </body>
 </html>
