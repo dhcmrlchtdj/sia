@@ -14,7 +14,7 @@ googleAnalytics = "UA-78944716-1"
     weight = 1
 [[menu.main]]
     name = "关于"
-    url = "/about"
+    url = "/about/"
     weight = 2
 [[menu.main]]
     name = "订阅"
