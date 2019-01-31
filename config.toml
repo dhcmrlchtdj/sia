@@ -25,7 +25,5 @@ googleAnalytics = "UA-78944716-1"
 extensions = ["hardLineBreak"]
 
 [privacy.googleAnalytics]
-    disable = false
     anonymizeIP = true
     respectDoNotTrack = true
-    useSessionStorage = true
