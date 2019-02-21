@@ -3,6 +3,7 @@ languageCode = "zh-Hans"
 title = "H11"
 theme = "hugo-xmin"
 googleAnalytics = "UA-78944716-1"
+rssLimit = 10
 
 [params]
 description = "H11's blog"
