@@ -2,7 +2,6 @@ baseURL = "https://blog.h11.io/"
 languageCode = "zh-Hans"
 title = "H11"
 theme = "hugo-xmin"
-googleAnalytics = "UA-78944716-1"
 rssLimit = 10
 
 [params]
@@ -14,16 +13,9 @@ footer = "&copy; H11 | [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by
     url = "/"
     weight = 1
 [[menu.main]]
-    name = "关于"
-    url = "/about/"
-    weight = 2
-[[menu.main]]
     name = "订阅"
     url = "/index.xml"
-    weight = 3
+    weight = 2
 
 [blackfriday]
 extensions = ["hardLineBreak"]
-
-[privacy.googleAnalytics]
-respectDoNotTrack = true

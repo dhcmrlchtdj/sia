@@ -3,7 +3,6 @@
             {{ with .Site.Params.footer }}
             {{ . | markdownify }}
             {{ end }}
-            {{ template "_internal/google_analytics_async.html" . }}
         </footer>
     </body>
 </html>
