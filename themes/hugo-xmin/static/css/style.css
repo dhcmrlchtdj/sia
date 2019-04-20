@@ -8,7 +8,7 @@ body {
     color: #24292e;
     font-family: sans-serif;
     font-size: 1rem;
-    line-height: 1.5;
+    line-height: 1.6rem;
     word-wrap: break-word;
     min-width: 20rem;
     max-width: 50rem;
@@ -139,10 +139,6 @@ ul ul {
     margin-bottom: 0;
 }
 
-li {
-    word-wrap: break-all;
-}
-
 li > p {
     margin-top: 1rem;
 }
@@ -159,7 +155,8 @@ pre {
 code {
     padding: 0.2rem 0.4rem;
     margin: 0;
-    font-size: 0.85rem;
+    font-size: 1rem;
+    line-height: 1.2rem;
     background-color: rgba(27, 31, 35, 0.05);
     border-radius: 0.1rem;
 }
@@ -170,8 +167,6 @@ pre {
     padding: 1rem;
     word-wrap: normal;
     overflow: auto;
-    font-size: 85%;
-    line-height: 1.45;
     background-color: #f6f8fa;
     border-radius: 0.25rem;
 }
@@ -182,8 +177,7 @@ pre code {
     margin: 0;
     border: 0;
     overflow: visible;
-    font-size: 1rem;
-    line-height: inherit;
+    font-size: 0.85rem;
     word-wrap: normal;
     word-break: normal;
     white-space: pre;
