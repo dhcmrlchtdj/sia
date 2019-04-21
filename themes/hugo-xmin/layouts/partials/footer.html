@@ -4,5 +4,14 @@
             {{ . | markdownify }}
             {{ end }}
         </footer>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/components/prism-core.min.js" data-manual></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/plugins/autoloader/prism-autoloader.min.js"></script>
+        <script>
+            window.addEventListener('load', () => {
+                Prism.plugins.autoloader.languages_path =
+                    'https://cdnjs.cloudflare.com/ajax/libs/prism/1.16.0/components/';
+                 Prism.highlightAll();
+            });
+        </script>
     </body>
 </html>
