@@ -5,7 +5,7 @@ theme = "hugo-xmin"
 rssLimit = 10
 
 [params]
-description = "H11's blog"
+description = "H11"
 footer = "&copy; H11 | [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)"
 
 [[menu.main]]
