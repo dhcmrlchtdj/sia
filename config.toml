@@ -1,6 +1,6 @@
-baseURL = "https://blog.h11.io/"
+baseURL = "https://log.h11.io/"
 languageCode = "zh-Hans"
-title = "H11"
+title = "log.h11.io"
 theme = "hugo-xmin"
 rssLimit = 10
 
