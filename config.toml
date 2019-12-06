@@ -13,9 +13,38 @@ footer = "&copy; H11 | [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by
     url = "/"
     weight = 1
 [[menu.main]]
+    name = "标签"
+    url = "/tags"
+    weight = 2
+[[menu.main]]
+    name = "关于"
+    url = "https://h11.io"
+    weight = 3
+[[menu.main]]
     name = "订阅"
     url = "/index.xml"
-    weight = 2
+    weight = 4
 
-[blackfriday]
-extensions = ["hardLineBreak"]
+[markup]
+    [markup.goldmark]
+        [markup.goldmark.extensions]
+            table = true
+            strikethrough = true
+            linkify = true
+            taskList = true
+            typographer = true
+        [markup.goldmark.parser]
+            attribute = true
+            autoHeadingID = true
+        [markup.goldmark.renderer]
+            hardWraps = true
+            unsafe = false
+    [markup.highlight]
+        codeFences = true
+        hl_Lines = ""
+        lineNoStart = 1
+        lineNos = false
+        lineNumbersInTable = true
+        noClasses = true
+        style = "solarized-light"
+        tabWidth = 4
