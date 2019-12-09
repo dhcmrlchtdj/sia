@@ -14,7 +14,7 @@ footer = "&copy; H11 | [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by
     weight = 1
 [[menu.main]]
     name = "标签"
-    url = "/tags"
+    url = "/tags/"
     weight = 2
 [[menu.main]]
     name = "关于"
