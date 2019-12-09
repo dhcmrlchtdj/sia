@@ -2,6 +2,8 @@
     /* reset */
     * {
         box-sizing: border-box;
+        margin: 0;
+        padding: 0;
     }
 
     body {
@@ -53,7 +55,7 @@
     hr {
         overflow: hidden;
         background: 0 0;
-        height: 0.2rem;
+        height: 0.15rem;
         padding: 0;
         margin: 0 0 1rem 0;
         background-color: #e1e4e8;
@@ -145,7 +147,7 @@
     }
 
     li + li {
-        margin-top: 0.25rem;
+        margin-top: 0.4rem;
     }
 
     code,
@@ -188,7 +190,7 @@
     /* customize */
 
     .menu {
-        text-align: center;
+        padding: 0;
     }
     .menu li {
         display: inline-block;
@@ -201,17 +203,32 @@
         font-size: 0.85rem;
     }
 
+    .list {
+        list-style: none;
+        padding: 0;
+    }
+    .list span {
+        font-family: monospace;
+        font-size: 0.8rem;
+        display: inline-block;
+        height: 1.6rem;
+    }
+    .list small {
+        display: inline-block;
+        height: 1.6rem;
+    }
+    .list a {
+        display: inline-block;
+        height: 1.6rem;
+    }
+
     .sep {
         border-bottom: 0.2rem dashed #eee;
         background-color: transparent;
     }
 
     footer {
-        text-align: center;
+        text-align: right;
         font-size: 0.75rem;
-    }
-
-    .date {
-        font-family: monospace;
     }
 </style>

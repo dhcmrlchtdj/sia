@@ -1,8 +1,6 @@
         <footer>
             <hr class="sep">
-            {{ with .Site.Params.footer }}
-            {{ . | markdownify }}
-            {{ end }}
+            <span>&copy; {{ with .Site.Author.name }}{{ . }}{{ end }}</span>
         </footer>
     </body>
 </html>

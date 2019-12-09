@@ -1,12 +1,13 @@
 baseURL = "https://log.h11.io/"
-languageCode = "zh-Hans"
 title = "log.h11.io"
 theme = "hugo-xmin"
+copyright = "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+languageCode = "zh-Hans"
 rssLimit = 10
 
-[params]
-description = "H11"
-footer = "&copy; H11 | [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)"
+[author]
+    name = "H11"
+    email = "nirisix@gmail.com"
 
 [[menu.main]]
     name = "主页"
