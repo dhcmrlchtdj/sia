@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode }}">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{{ .Title }}</title>
-        <link rel="stylesheet" href="{{ "/style.css" | relURL }}">
-        <link rel="icon" href="{{ "/favicon.png" | relURL }}">
-        <link rel="alternate" type="application/rss+xml" href="/index.xml" title="{{ .Title }}">
+        <link
+            rel="alternate"
+            type="application/rss+xml"
+            href="/index.xml"
+            title="{{ .Title }}"
+        />
+        {{ partial "style.html" . }}
+        {{ partial "icon.html" . }}
     </head>
     <body>
         <nav>
@@ -15,5 +20,7 @@
                 <li><a href="{{ .URL | relURL }}">{{ .Name }}</a></li>
                 {{ end }}
             </ul>
-            <hr class="sep">
+            <hr class="sep" />
         </nav>
+    </body>
+</html>
