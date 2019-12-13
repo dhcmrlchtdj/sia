@@ -2,17 +2,18 @@ name: github pages
 
 on:
     push:
-        branches: master
+        branches:
+            - master
 
 jobs:
     build-deploy:
+        if: "!contains(github.event.head_commit.message, '[skip]')"
         runs-on: ubuntu-18.04
         steps:
             - uses: actions/checkout@v1
             - uses: peaceiris/actions-hugo@v2
               with:
-                  hugo-version: '0.60.1'
-                  extended: true
+                  hugo-version: 'latest'
             - run: hugo --minify
             - uses: peaceiris/actions-gh-pages@v2
               env:

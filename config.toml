@@ -5,10 +5,6 @@ copyright = "https://creativecommons.org/licenses/by-nc-sa/4.0/"
 languageCode = "zh-Hans"
 rssLimit = 10
 
-[author]
-    name = "H11"
-    email = "nirisix@gmail.com"
-
 [[menu.main]]
     name = "主页"
     url = "/"
