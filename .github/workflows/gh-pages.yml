@@ -7,13 +7,13 @@ on:
 
 jobs:
     build-deploy:
-        if: "!contains(github.event.head_commit.message, '[skip]')"
+        if: "!contains(github.event.head_commit.message, '[skip ci]')"
         runs-on: ubuntu-18.04
         steps:
             - uses: actions/checkout@v1
             - uses: peaceiris/actions-hugo@v2
               with:
-                  hugo-version: 'latest'
+                  hugo-version: '0.61.0'
             - run: hugo --minify
             - uses: peaceiris/actions-gh-pages@v2
               env:
